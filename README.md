@@ -1,0 +1,54 @@
+# Grade Tracker
+<!-- TODO: Write description -->
+
+## Group 8 Members
+- Huy Tran
+<!-- TODO: Input member names -->
+
+## Features
+
+### Main features
+- User can create grade tracker sheet for each subject with default grade components (total 100%)
+- User can customize / add grade components to the sheet 
+- User can input and see the grades for each grade component
+
+### Terminology
+- Grade components: Could be quizzes, exams, assignments, presentations
+- Grade tracker sheet: A sheet which shows all grading components of a subject, along with
+a grade (can be empty) and a weight (percentage)
+
+## Development guide
+- Clone the project and install dependencies
+```js static
+$ npm install
+```
+
+- Start expo development server
+```js static
+$ npx expo start
+```
+
+- Start expo development server
+```js static
+$ npm run start
+```
+
+- Or you can also run iOS and Android simulator with the following commands. For more information,
+refer to the Expo documentation and list of available commands on `package.json` file
+```js static
+$ npm run ios
+$ npm run android
+```
+
+- Check errors with `eslint`:
+```js static
+$ npm run lint
+```
+
+- Fix code style errors with `prettier`
+```js static
+$ npm run format
+```
+
+- This project also comes with a pre-commit to auto-fix eslint errors on staged file and will
+prevent you from committing if there are errors that have not been fixed.

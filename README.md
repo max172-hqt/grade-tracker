@@ -12,30 +12,30 @@
 
 ## Development guide
 - Clone the project and install dependencies
-```js static
-$ npm install
+```sh
+npm install
 ```
 
 - Start expo development server
-```js static
-$ npx expo start
+```sh
+npx expo start
 ```
 
 - Or you can also run iOS and Android simulator with the following commands. For more information,
 refer to the Expo documentation and list of available commands on `package.json` file
-```js static
-$ npm run ios
-$ npm run android
+```sh
+npm run ios
+npm run android
 ```
 
 - Check errors with `eslint`
-```js static
-$ npm run lint
+```sh
+npm run lint
 ```
 
 - Fix code style errors with `prettier`
-```js static
-$ npm run format
+```sh
+npm run format
 ```
 
 - This project also comes with a pre-commit to auto-fix eslint errors on staged file and will

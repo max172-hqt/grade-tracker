@@ -3,6 +3,7 @@ import { StyleSheet, Text, View } from 'react-native';
 import { registerRootComponent } from 'expo';
 
 function App() {
+  console.log('hello world');
   return (
     <View style={styles.container}>
       <Text>Grade Tracker - Group 8</Text>

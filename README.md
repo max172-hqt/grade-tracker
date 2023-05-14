@@ -28,11 +28,6 @@ $ npm install
 $ npx expo start
 ```
 
-- Start expo development server
-```js static
-$ npm run start
-```
-
 - Or you can also run iOS and Android simulator with the following commands. For more information,
 refer to the Expo documentation and list of available commands on `package.json` file
 ```js static
@@ -40,7 +35,7 @@ $ npm run ios
 $ npm run android
 ```
 
-- Check errors with `eslint`:
+- Check errors with `eslint`
 ```js static
 $ npm run lint
 ```

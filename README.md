@@ -1,25 +1,31 @@
 # Grade Tracker
 A mobile application that displays a student grade status  in the middle and at the end of the semester. With this utility, the student may be prompted if there is a need to study hard towards the end of the semester, or be notified of it’s current good standing. 
-<!-- TODO: Write description -->
 
 ## Group 8 Members
 - Huy Tran
 - Jefferson Verzosa
 - Peiwen Zhou
-<!-- TODO: Input member names -->
 
 ## Features
-- User can create grade tracker sheet for each subject with default grade components (total 100%)
-- User can customize / add grade components to the sheet 
-- User can input and see the grades for each grade component
-- Displaying a student’s weighted mark on every evaluation item.
-- Displaying a course letter mark  at the end of the semester.
-- Displaying the grade point equivalent of  every course.
-- Displaying a student’s over-all performance based on the marks of all courses taken.
-- Users can sort the results for each subject
-- Users can update their results at any time
-- Users will receive notifications when their quiz scores fall below 50% to remind them to study hard
-- Users will receive praise notifications when their quiz scores are above 90%
+- User can create and set up different grade components for a subject (example: 3 quizzes, 2 assignments, 2 exams)
+- User can setup their semester courses and grade components and dates
+- User can see the list of courses and overall performance (GPA, Letter Grade) for the semester
+- User can update and see the grades for each grade component for each course
+- User can see the weighted grade on every evaluation item.
+- User can sort the list of subjects by the GPA or the subject name
+- User can be notified based on the recently added grade
+- User can see the remaining marks to achieve to pass the course or achieve a letter grade
+- User can see different colours based on the current letter grade (A is green, B is brown...)
+- User can put a due dates for grade components to remind themselves
+- User can update application preferences such as theme
+- Users can export data as CSV/JSON
+- Users can import data as CSV/JSON
+- Users can delete all their data on the app
+
+## Terminology
+- Grade components: Could be quizzes, exams, assignments, presentations
+- Grade tracker sheet: A sheet which shows all grading components of a subject, along with
+a grade (can be empty) and a weight (percentage)
 
 ## Development guide
 - Clone the project and install dependencies
@@ -51,8 +57,3 @@ npm run format
 
 - This project also comes with a pre-commit to auto-fix eslint errors on staged file and will
 prevent you from committing if there are errors that have not been fixed.
-
-## Terminology
-- Grade components: Could be quizzes, exams, assignments, presentations
-- Grade tracker sheet: A sheet which shows all grading components of a subject, along with
-a grade (can be empty) and a weight (percentage)

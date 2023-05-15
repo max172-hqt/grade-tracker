@@ -3,7 +3,7 @@
 
 ## Group 8 Members
 - Huy Tran
-- Jefferson Verzosa
+- Jefferson C. Verzosa
 <!-- TODO: Input member names -->
 
 ## Features

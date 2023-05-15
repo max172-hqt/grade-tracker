@@ -11,6 +11,10 @@ A mobile application that displays a student grade status  in the middle and at 
 - User can create grade tracker sheet for each subject with default grade components (total 100%)
 - User can customize / add grade components to the sheet 
 - User can input and see the grades for each grade component
+- Displaying a student’s weighted mark on every evaluation item.
+- Displaying a course letter mark  at the end of the semester.
+- Displaying the grade point equivalent of  every course.
+- Displaying a student’s over-all performance based on the marks of all courses taken.
 
 ## Development guide
 - Clone the project and install dependencies

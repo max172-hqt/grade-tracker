@@ -1,9 +1,10 @@
 # Grade Tracker
+A mobile application that displays a student grade status  in the middle and at the end of the semester. With this utility, the student may be prompted if there is a need to study hard towards the end of the semester, or be notified of it’s current good standing. 
 <!-- TODO: Write description -->
 
 ## Group 8 Members
 - Huy Tran
-- Jefferson C. Verzosa
+- Jefferson Verzosa
 <!-- TODO: Input member names -->
 
 ## Features

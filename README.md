@@ -5,6 +5,7 @@ A mobile application that displays a student grade status  in the middle and at 
 ## Group 8 Members
 - Huy Tran
 - Jefferson Verzosa
+- Peiwen Zhou
 <!-- TODO: Input member names -->
 
 ## Features
@@ -15,6 +16,10 @@ A mobile application that displays a student grade status  in the middle and at 
 - Displaying a course letter mark  at the end of the semester.
 - Displaying the grade point equivalent of  every course.
 - Displaying a student’s over-all performance based on the marks of all courses taken.
+- Users can sort the results for each subject
+- Users can update their results at any time
+- Users will receive notifications when their quiz scores fall below 50% to remind them to study hard
+- Users will receive praise notifications when their quiz scores are above 90%
 
 ## Development guide
 - Clone the project and install dependencies

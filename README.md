@@ -11,8 +11,8 @@ To cater to a wider range of users using Android and iOS, this cross-platform ap
 - Peiwen Zhou
 
 ## Features
-- User can create and set up different grade components for a subject (example: 3 quizzes, 2 assignments, 2 exams)
-- User can setup their semester courses and grade components and dates
+- User can setup their semester courses
+- User can create and set up different grade components for a subject and dates (example: 3 quizzes, 2 assignments, 2 exams)
 - User can see the list of courses and overall performance (GPA, Letter Grade) for the semester
 - User can update and see the grades for each grade component for each course
 - User can see the weighted grade on every evaluation item.

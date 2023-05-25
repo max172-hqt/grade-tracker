@@ -1,9 +1,5 @@
-import { Text, View } from 'react-native';
+import { Box } from 'native-base';
 
 export default function SettingsScreen() {
-  return (
-    <View>
-      <Text>Settings</Text>
-    </View>
-  );
+  return <Box>Settings</Box>;
 }

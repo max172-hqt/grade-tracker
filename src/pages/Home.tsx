@@ -1,9 +1,5 @@
-import { Text, View } from 'react-native';
+import { Box } from 'native-base';
 
 export default function HomeScreen() {
-  return (
-    <View>
-      <Text>Home</Text>
-    </View>
-  );
+  return <Box>Home</Box>;
 }

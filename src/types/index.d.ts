@@ -1,0 +1,24 @@
+// ========== ENTITIES ==========
+export interface CourseData {
+  name: string;
+  courseCode: string;
+}
+
+export interface Course {
+  id: number;
+  data: CourseData;
+}
+
+export interface GradeData {
+  name: string;
+  description: string;
+  weight: number;
+  maxScore: number;
+  actualScore: number;
+}
+
+export interface Grade {
+  id: number;
+  courseId: number;
+  data: GradeData;
+}

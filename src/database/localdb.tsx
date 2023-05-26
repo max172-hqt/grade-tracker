@@ -1,5 +1,6 @@
 import * as SQLite from 'expo-sqlite';
 import { CREATE_COURSES_TABLE_QUERY, CREATE_GRADES_TABLE_QUERY } from './constants';
+import type { Course, Grade } from '../types';
 
 const VERSION = '1.0';
 
@@ -21,6 +22,18 @@ export async function initDatabase() {
 }
 
 /**
+ * @param name Course name
+ * @param code Course code
+ * @returns Newly created course
+ */
+export async function createCourse(name: string, code: string): Promise<Course | null> {
+  return null;
+}
+
+// TODO: Create grade rows in Grades table
+export async function createGrades(grades: Grade[]) {}
+
+/**
  * Debug functions
  */
 export async function debugTableSchema() {
@@ -38,5 +51,3 @@ export async function debugTableSchema() {
     );
   });
 }
-
-export async function createCourse(name: string, code: string) {}

@@ -6,6 +6,8 @@ import SettingsScreen from './pages/Setting';
 import { NativeBaseProvider } from 'native-base';
 import { useEffect } from 'react';
 import { initDatabase, debugTableSchema } from './database/localdb';
+import { Provider } from 'react-redux';
+import { store } from './redux/store';
 
 const Tab = createBottomTabNavigator();
 
@@ -27,4 +29,12 @@ function App() {
   );
 }
 
-registerRootComponent(App);
+const RootComponent = () => {
+  return (
+    <Provider store={store}>
+      <App />
+    </Provider>
+  );
+};
+
+registerRootComponent(RootComponent);

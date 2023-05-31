@@ -25,6 +25,20 @@ const sampleState: CourseState = {
         courseCode: 'INFO-100',
       },
     },
+    {
+      id: 2,
+      data: {
+        name: 'IOS',
+        courseCode: 'INFO-101',
+      },
+    },
+    {
+      id: 3,
+      data: {
+        name: 'Mobile Security',
+        courseCode: 'INFO-102',
+      },
+    },
   ],
   grades: [
     {

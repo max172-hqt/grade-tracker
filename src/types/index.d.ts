@@ -22,3 +22,8 @@ export interface Grade {
   courseId: number;
   data: GradeData;
 }
+
+// ========== PROPS ==========
+export interface CourseItemProps {
+  course: Course | null;
+}

@@ -9,7 +9,12 @@ export interface CourseState {
   grades: Grade[];
 }
 
-// TODO: Delete when creating databases
+export interface CoursePayloadData {
+  course: Course;
+  grades: Grade[];
+}
+
+// - TODO: Delete when creating databases
 const sampleState: CourseState = {
   currentCourse: null,
   courses: [
@@ -21,7 +26,41 @@ const sampleState: CourseState = {
       },
     },
   ],
-  grades: [],
+  grades: [
+    {
+      id: 1,
+      courseId: 1,
+      data: {
+        name: 'Quiz 1',
+        description: '',
+        weight: 10,
+        maxScore: 10,
+        actualScore: null,
+      },
+    },
+    {
+      id: 2,
+      courseId: 1,
+      data: {
+        name: 'Quiz 2',
+        description: '',
+        weight: 10,
+        maxScore: 10,
+        actualScore: null,
+      },
+    },
+    {
+      id: 3,
+      courseId: 1,
+      data: {
+        name: 'Exam',
+        description: '',
+        weight: 70,
+        maxScore: 10,
+        actualScore: null,
+      },
+    },
+  ],
 };
 
 const initialState = sampleState;
@@ -43,6 +82,21 @@ export const courseSlice = createSlice({
       const course = state.courses.find((course) => course.id === action.payload);
       state.currentCourse = course;
     },
+
+    /**
+     * Add a new course and its grades to the store
+     */
+    addCourse: (state, action: PayloadAction<CoursePayloadData>) => {
+      state.courses.push(action.payload.course);
+      state.grades.push(...action.payload.grades);
+    },
+
+    /**
+     * TODO: Need to add actions for
+     * - Create grade components
+     * - Update actual grade
+     * - Update weight and max for a grade
+     */
   },
 });
 

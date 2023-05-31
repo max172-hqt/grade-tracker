@@ -14,7 +14,7 @@ export interface GradeData {
   description: string;
   weight: number;
   maxScore: number;
-  actualScore: number;
+  actualScore: number | null;
 }
 
 export interface Grade {

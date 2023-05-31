@@ -115,7 +115,7 @@ export const courseSlice = createSlice({
 });
 
 // Action creators are generated for each case reducer function
-export const { setCurrentCourse } = courseSlice.actions;
+export const { setCurrentCourse, addCourse } = courseSlice.actions;
 export default courseSlice.reducer;
 
 export const selectGradesForCourseWithId = (state: RootState, courseId: number) =>

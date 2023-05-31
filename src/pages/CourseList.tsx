@@ -4,8 +4,12 @@ import { RootState } from '../redux/store';
 import CourseItem from '../components/CourseItem';
 import { useMemo } from 'react';
 
-export default function CourseList() {
+export default function CourseList({ navigation }) {
   const courses = useSelector((state: RootState) => state.course.courses);
+
+  const handleGoToCourseDetail = () => {
+    navigation.navigate('Course Detail');
+  };
 
   // Add a dummy course if the number of courses is odd
   const formattedCourses = useMemo(() => {
@@ -26,7 +30,9 @@ export default function CourseList() {
         }}
         numColumns={2}
         data={formattedCourses}
-        renderItem={({ item }) => <CourseItem course={item} />}
+        renderItem={({ item }) => (
+          <CourseItem course={item} handleGoToCourseDetail={handleGoToCourseDetail} />
+        )}
         keyExtractor={(item) => (item ? `${item.id}` : 'visual-item')}
       />
     </Box>

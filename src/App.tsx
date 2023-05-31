@@ -12,11 +12,20 @@ import Ionicons from '@expo/vector-icons/Ionicons';
 
 const Tab = createBottomTabNavigator();
 
+/**
+ * Entry-point component using Bottom Tab navigation
+ * Home:
+ * - Show list of courses
+ * - Add course using the Add button on top of the menu
+ *
+ * Setting: TODO
+ */
 function App() {
-  useEffect(() => {
-    initDatabase();
-    debugTableSchema();
-  }, []);
+  // TODO: Initialize database
+  // useEffect(() => {
+  //   initDatabase();
+  //   debugTableSchema();
+  // }, []);
 
   return (
     <NavigationContainer>

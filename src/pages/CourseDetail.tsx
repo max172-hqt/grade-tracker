@@ -1,8 +1,8 @@
-import { Box, Heading, FlatList, HStack, VStack, Text } from 'native-base';
+import { Box, HStack, VStack, Text } from 'native-base';
 import { useSelector } from 'react-redux';
 import { selectGradesForCourseWithId } from '../redux/courseSlice';
-import { CourseState } from '../redux/courseSlice';
 import { RouteProp } from '@react-navigation/native';
+import { RootState } from '../redux/store';
 
 type CourseDetailRouteProp = RouteProp<Record<string, { courseId: number }>, 'Course Detail'>;
 
@@ -12,7 +12,7 @@ type Props = {
 
 export default function CourseDetail({ route }: Props) {
   const { courseId } = route.params;
-  const course = useSelector((state) => selectGradesForCourseWithId(state, courseId));
+  const course = useSelector((state: RootState) => selectGradesForCourseWithId(state, courseId));
   console.log(course);
   return (
     <Box p="4">

@@ -5,6 +5,7 @@ import {
   CREATE_GRADE,
   CREATE_GRADES_TABLE_QUERY,
   SELECT_COURSES,
+  SELECT_GRADES,
 } from './constants';
 import type { Course, CourseData, Grade, GradeData } from '../types';
 
@@ -55,6 +56,39 @@ export async function getAllCourses(): Promise<Course[]> {
   });
 }
 
+export async function getAllGrades(): Promise<Grade[]> {
+  return new Promise((resolve, reject) => {
+    db.transaction((tx) => {
+      tx.executeSql(
+        SELECT_GRADES,
+        [],
+        (_, resultSet) => {
+          const grades: Grade[] = [];
+          console.log(resultSet.rows._array);
+          resultSet.rows._array.forEach((data) => {
+            grades.push({
+              id: data.id,
+              data: {
+                name: data.name,
+                description: data.description,
+                weight: data.weight,
+                maxScore: data.max_score,
+                actualScore: data.actual_score,
+              },
+              courseId: data.course_id,
+            });
+          });
+          resolve(grades);
+        },
+        (_, error) => {
+          reject(error);
+          return false;
+        },
+      );
+    });
+  });
+}
+
 export async function createGradesForCourse(
   courseData: CourseData,
   gradesData: GradeData[],
@@ -65,20 +99,16 @@ export async function createGradesForCourse(
   }
   const gradePromises: Promise<Grade>[] = [];
 
+  console.log('DSFADASD', courseId);
+
   for (const data of gradesData) {
+    console.log(data);
     gradePromises.push(
       new Promise((resolve, reject) => {
         db.transaction((tx) => {
           tx.executeSql(
             CREATE_GRADE,
-            [
-              data.name,
-              data.description ? data.description : '',
-              data.weight,
-              data.maxScore,
-              data.actualScore,
-              courseId,
-            ],
+            [data.name, data.weight, data.maxScore, data.actualScore, courseId],
             (_, resultSet) => {
               if (resultSet.insertId) {
                 resolve({ id: resultSet.insertId, courseId, data });

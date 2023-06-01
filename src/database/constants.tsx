@@ -32,5 +32,5 @@ export const CREATE_COURSE = `
 `;
 
 export const CREATE_GRADE = `
-  INSERT INTO GRADES (name, description, weight, max_score, actual_score, course_id) values (?, "", ?, ?, ?, ?)
+  INSERT INTO GRADES (name, weight, max_score, actual_score, course_id) values (?, ?, ?, ?, ?)
 `;

@@ -3,12 +3,13 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import HomeScreen from './pages/Home';
 import SettingsScreen from './pages/Setting';
-import { NativeBaseProvider } from 'native-base';
+import { NativeBaseProvider, useDisclose } from 'native-base';
 import { useEffect } from 'react';
-import { initDatabase, debugTableSchema } from './database/localdb';
-import { Provider } from 'react-redux';
+import { initDatabase, debugTableSchema, getAllCourses, getAllGrades } from './database/localdb';
+import { Provider, useDispatch } from 'react-redux';
 import { store } from './redux/store';
 import Ionicons from '@expo/vector-icons/Ionicons';
+import { setCourses, setGrades } from './redux/courseSlice';
 
 const Tab = createBottomTabNavigator();
 
@@ -21,11 +22,21 @@ const Tab = createBottomTabNavigator();
  * Setting: TODO
  */
 function App() {
-  // TODO: Initialize database
-  // useEffect(() => {
-  //   initDatabase();
-  //   debugTableSchema();
-  // }, []);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    (async () => {
+      await initDatabase();
+
+      // Init courses
+      const courses = await getAllCourses();
+      dispatch(setCourses(courses));
+
+      // Init grades
+      const grades = await getAllGrades();
+      dispatch(setGrades(grades));
+    })();
+  }, []);
 
   return (
     <NavigationContainer>

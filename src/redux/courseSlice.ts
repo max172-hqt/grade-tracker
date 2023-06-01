@@ -15,75 +15,75 @@ export interface CoursePayloadData {
 }
 
 // - TODO: Delete when creating databases
-const sampleState: CourseState = {
-  currentCourse: null,
-  courses: [
-    {
-      id: 1,
-      data: {
-        name: 'Android',
-        courseCode: 'INFO-100',
-      },
-    },
-    {
-      id: 2,
-      data: {
-        name: 'IOS',
-        courseCode: 'INFO-101',
-      },
-    },
-    {
-      id: 3,
-      data: {
-        name: 'Mobile Security',
-        courseCode: 'INFO-102',
-      },
-    },
-  ],
-  grades: [
-    {
-      id: 1,
-      courseId: 1,
-      data: {
-        name: 'Quiz 1',
-        description: '',
-        weight: 10,
-        maxScore: 10,
-        actualScore: null,
-      },
-    },
-    {
-      id: 2,
-      courseId: 1,
-      data: {
-        name: 'Quiz 2',
-        description: '',
-        weight: 10,
-        maxScore: 10,
-        actualScore: null,
-      },
-    },
-    {
-      id: 3,
-      courseId: 1,
-      data: {
-        name: 'Exam',
-        description: '',
-        weight: 70,
-        maxScore: 10,
-        actualScore: null,
-      },
-    },
-  ],
-};
-
-const initialState = sampleState;
-
-// const initialState: CourseState = {
+// const sampleState: CourseState = {
 //   currentCourse: null,
-//   courses: [],
-//   grades: [],
+//   courses: [
+//     {
+//       id: 1,
+//       data: {
+//         name: 'Android',
+//         courseCode: 'INFO-100',
+//       },
+//     },
+//     {
+//       id: 2,
+//       data: {
+//         name: 'IOS',
+//         courseCode: 'INFO-101',
+//       },
+//     },
+//     {
+//       id: 3,
+//       data: {
+//         name: 'Mobile Security',
+//         courseCode: 'INFO-102',
+//       },
+//     },
+//   ],
+//   grades: [
+//     {
+//       id: 1,
+//       courseId: 1,
+//       data: {
+//         name: 'Quiz 1',
+//         description: '',
+//         weight: 10,
+//         maxScore: 10,
+//         actualScore: null,
+//       },
+//     },
+//     {
+//       id: 2,
+//       courseId: 1,
+//       data: {
+//         name: 'Quiz 2',
+//         description: '',
+//         weight: 10,
+//         maxScore: 10,
+//         actualScore: null,
+//       },
+//     },
+//     {
+//       id: 3,
+//       courseId: 1,
+//       data: {
+//         name: 'Exam',
+//         description: '',
+//         weight: 70,
+//         maxScore: 10,
+//         actualScore: null,
+//       },
+//     },
+//   ],
 // };
+
+// const initialState = sampleState;
+
+const initialState: CourseState = {
+  currentCourse: null,
+  courses: [],
+  grades: [],
+};
 
 export const courseSlice = createSlice({
   name: 'course',

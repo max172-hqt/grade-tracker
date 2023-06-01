@@ -19,7 +19,15 @@ export default function CourseItem({ course, handleGoToCourseDetail }: CourseIte
   }
 
   return (
-    <Box background="white" p="4" flex="1" m={1} borderRadius="8">
+    <Box
+      background="white"
+      p="4"
+      flex="1"
+      m={1}
+      borderRadius="8"
+      borderWidth="1"
+      borderColor="gray.300"
+    >
       <Pressable onPress={handleOnPressCourse}>
         <HStack space={[2, 3]} justifyContent="space-between">
           <VStack>

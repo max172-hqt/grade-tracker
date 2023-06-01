@@ -20,7 +20,7 @@ export default function CourseList({ navigation }) {
   }, [courses]);
 
   return (
-    <Box p="4" flex="1">
+    <Box p="4" flex="1" bg="white">
       <Heading fontSize="xl" pb="3">
         Current Courses
       </Heading>

@@ -3,7 +3,7 @@ import CourseList from './CourseList';
 import CourseDetail from './CourseDetail';
 import AddCourse from './AddCourse';
 import Ionicons from '@expo/vector-icons/Ionicons';
-import { IconButton, Button } from 'native-base';
+import { IconButton } from 'native-base';
 
 const Stack = createStackNavigator();
 
@@ -31,15 +31,10 @@ export default function HomeScreen() {
       <Stack.Screen
         name="Add Course"
         component={AddCourse}
-        options={({ navigation }) => ({
+        options={{
           gestureDirection: 'vertical',
           presentation: 'modal',
-          headerLeft: () => (
-            <Button onPress={navigation.goBack} variant="unstyled">
-              Cancel
-            </Button>
-          ),
-        })}
+        }}
       />
     </Stack.Navigator>
   );

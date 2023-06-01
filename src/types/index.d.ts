@@ -13,10 +13,10 @@ export interface GradeData {
   name: string;
   weight: number;
   maxScore: number;
+  actualScore: number | null;
 
   tempId?: number;
   description?: string;
-  actualScore?: number;
 }
 
 export interface Grade {

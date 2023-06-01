@@ -9,31 +9,37 @@ const sampleGradeData: GradeData[] = [
     name: 'Quiz 1',
     weight: 10,
     maxScore: 10,
+    actualScore: null,
   },
   {
     name: 'Quiz 2',
     weight: 10,
     maxScore: 10,
+    actualScore: null,
   },
   {
     name: 'Assignment 1',
     weight: 10,
     maxScore: 10,
+    actualScore: null,
   },
   {
     name: 'Assignment 2',
     weight: 10,
     maxScore: 10,
+    actualScore: null,
   },
   {
     name: 'Midterm Exam',
     weight: 30,
     maxScore: 100,
+    actualScore: null,
   },
   {
     name: 'Final Exam',
     weight: 30,
     maxScore: 100,
+    actualScore: null,
   },
 ];
 

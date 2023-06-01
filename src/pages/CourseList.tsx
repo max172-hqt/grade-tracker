@@ -7,8 +7,9 @@ import { useMemo } from 'react';
 export default function CourseList({ navigation }) {
   const courses = useSelector((state: RootState) => state.course.courses);
 
-  const handleGoToCourseDetail = () => {
-    navigation.navigate('Course Detail');
+  const handleGoToCourseDetail = (id: number) => {
+    navigation.navigate('Course Detail', { courseId: id });
+    console.log('ID:', id);
   };
 
   // Add a dummy course if the number of courses is odd
@@ -31,7 +32,10 @@ export default function CourseList({ navigation }) {
         numColumns={2}
         data={formattedCourses}
         renderItem={({ item }) => (
-          <CourseItem course={item} handleGoToCourseDetail={handleGoToCourseDetail} />
+          <CourseItem
+            course={item}
+            handleGoToCourseDetail={() => handleGoToCourseDetail(item?.id)}
+          />
         )}
         keyExtractor={(item) => (item ? `${item.id}` : 'visual-item')}
       />

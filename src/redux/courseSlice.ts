@@ -97,6 +97,14 @@ export const courseSlice = createSlice({
       state.currentCourse = course;
     },
 
+    setCourses: (state, action: PayloadAction<Course[]>) => {
+      state.courses = action.payload;
+    },
+
+    setGrades: (state, action: PayloadAction<Grade[]>) => {
+      state.grades = action.payload;
+    },
+
     /**
      * Add a new course and its grades to the store
      */
@@ -115,7 +123,7 @@ export const courseSlice = createSlice({
 });
 
 // Action creators are generated for each case reducer function
-export const { setCurrentCourse, addCourse } = courseSlice.actions;
+export const { setCurrentCourse, addCourse, setCourses, setGrades } = courseSlice.actions;
 export default courseSlice.reducer;
 
 export const selectGradesForCourseWithId = (state: RootState, courseId: number) =>

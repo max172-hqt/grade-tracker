@@ -1,8 +1,11 @@
-import { useEffect, useState, useRef } from 'react';
+import { useEffect, useState, useRef, useCallback } from 'react';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { AlertDialog, Box, Button, FlatList, HStack, Heading, Input, VStack } from 'native-base';
-import type { GradeData } from '../types';
+import type { CourseData, GradeData } from '../types';
 import GradeItem from '../components/GradeItem';
+import { createGradesForCourse } from '../database/localdb';
+import { useDispatch } from 'react-redux';
+import { addCourse } from '../redux/courseSlice';
 
 const sampleGradeData: GradeData[] = [
   {
@@ -49,19 +52,19 @@ const CANCEL_DIALOG = 'CANCEL';
 export default function AddCourse({ navigation }) {
   const [name, setName] = useState('');
   const [code, setCode] = useState('');
-  const [grades, setGrades] = useState<GradeData[]>(sampleGradeData);
+  const [gradeData, setGradeData] = useState<GradeData[]>(sampleGradeData);
   const [dialog, setDialog] = useState<'SAVE' | 'CANCEL' | null>();
   const cancelRef = useRef(null);
+  const dispatch = useDispatch();
 
-  const handleOpenSaveDialog = () => {
+  const handleOpenSaveDialog = useCallback(() => {
     // TODO: validate error
-    if (name.length === 0 || code.length === 0 || grades.length === 0) {
-      console.log('TODO: Error');
+    if (name.length === 0 || code.length === 0 || gradeData.length === 0) {
       return;
     }
 
     setDialog(SAVE_DIALOG);
-  };
+  }, [name, code, gradeData]);
 
   const handleOpenCancelDialog = () => {
     setDialog(CANCEL_DIALOG);
@@ -71,7 +74,7 @@ export default function AddCourse({ navigation }) {
    * Update new grade for the grade component
    */
   const handleUpdateGrade = (id: number, newGrade: GradeData) => {
-    setGrades((prev) =>
+    setGradeData((prev) =>
       prev.map((grade, index) => {
         if (index === id) {
           return newGrade;
@@ -82,22 +85,47 @@ export default function AddCourse({ navigation }) {
   };
 
   const handleDeleteGrade = (id: number) => {
-    setGrades((prev) => prev.filter((_, index) => index !== id));
+    setGradeData((prev) => prev.filter((_, index) => index !== id));
   };
 
   const handleAddGrade = (grade: GradeData) => {
-    setGrades((prev) => [...prev, grade]);
+    setGradeData((prev) => [...prev, grade]);
   };
 
-  const handleNameChange = (text: string) => setName(text);
-  const handleCodeChange = (text: string) => setCode(text);
+  const handleNameChange = (text: string) => {
+    setName(text);
+  };
+
+  const handleCodeChange = (text: string) => {
+    setCode(text);
+  };
+
   const handleDialogClose = () => setDialog(null);
+
   const handleGoBack = () => {
     handleDialogClose();
     navigation.goBack();
   };
-  const handleCreateCourse = () => {
-    console.log('create course');
+
+  const handleCreateCourse = async () => {
+    const courseData: CourseData = {
+      name,
+      courseCode: code,
+    };
+    const data = await createGradesForCourse(courseData, gradeData);
+    if (!data) {
+      console.log('Error creating course');
+    } else {
+      const { course, grades } = data;
+      dispatch(
+        addCourse({
+          course,
+          grades,
+        }),
+      );
+      handleDialogClose();
+      navigation.goBack();
+    }
   };
 
   const SaveAlertDialog = () => (
@@ -180,7 +208,7 @@ export default function AddCourse({ navigation }) {
         </Button>
       ),
     });
-  }, []);
+  }, [navigation, handleOpenSaveDialog]);
 
   return (
     <Box p="4" flex="1" bg="white">
@@ -204,7 +232,7 @@ export default function AddCourse({ navigation }) {
             <Button variant="unstyled">Add rows</Button>
           </HStack>
           <FlatList
-            data={grades}
+            data={gradeData}
             renderItem={({ item, index }) => (
               <GradeItem
                 grade={item}

@@ -5,20 +5,64 @@ import HomeScreen from './pages/Home';
 import SettingsScreen from './pages/Setting';
 import { NativeBaseProvider } from 'native-base';
 import { useEffect } from 'react';
-import { initDatabase, debugTableSchema } from './database/localdb';
+import { initDatabase, getAllCourses, getAllGrades } from './database/localdb';
+import { Provider, useDispatch } from 'react-redux';
+import { store } from './redux/store';
+import Ionicons from '@expo/vector-icons/Ionicons';
+import { setCourses, setGrades } from './redux/courseSlice';
 
 const Tab = createBottomTabNavigator();
 
+/**
+ * Entry-point component using Bottom Tab navigation
+ * Home:
+ * - Show list of courses
+ * - Add course using the Add button on top of the menu
+ *
+ * Setting: TODO
+ */
 function App() {
+  const dispatch = useDispatch();
+
   useEffect(() => {
-    initDatabase();
-    debugTableSchema();
+    (async () => {
+      await initDatabase();
+
+      // Init courses
+      const courses = await getAllCourses();
+      dispatch(setCourses(courses));
+
+      // Init grades
+      const grades = await getAllGrades();
+      dispatch(setGrades(grades));
+    })();
   }, []);
 
   return (
     <NavigationContainer>
       <NativeBaseProvider>
-        <Tab.Navigator>
+        <Tab.Navigator
+          screenOptions={({ route }) => ({
+            headerShown: route.name === 'Settings',
+            // tabBarStyle: {
+            //   backgroundColor: lightGray,
+            // },
+            // tabBarActiveTintColor: themeColor,
+            tabBarIcon: ({ focused, color, size }) => {
+              let iconName: keyof typeof Ionicons.glyphMap;
+
+              if (route.name === 'Home') {
+                iconName = focused ? 'home' : 'home-outline';
+              } else if (route.name === 'Settings') {
+                iconName = focused ? 'settings' : 'settings-outline';
+              } else {
+                throw new Error('Unknown tab: ' + route.name);
+              }
+
+              return <Ionicons name={iconName} size={size} color={color} />;
+            },
+          })}
+        >
           <Tab.Screen name="Home" component={HomeScreen} />
           <Tab.Screen name="Settings" component={SettingsScreen} />
         </Tab.Navigator>
@@ -27,4 +71,12 @@ function App() {
   );
 }
 
-registerRootComponent(App);
+const RootComponent = () => {
+  return (
+    <Provider store={store}>
+      <App />
+    </Provider>
+  );
+};
+
+registerRootComponent(RootComponent);

@@ -11,30 +11,14 @@ export interface Course {
 
 export interface GradeData {
   name: string;
+  description: string;
   weight: number;
   maxScore: number;
-  actualScore: number | null;
-
-  tempId?: number;
-  description?: string;
+  actualScore: number;
 }
 
 export interface Grade {
   id: number;
   courseId: number;
   data: GradeData;
-}
-
-// ========== PROPS ==========
-export interface CourseItemProps {
-  course: Course | null;
-  handleGoToCourseDetail: () => void;
-}
-
-export interface GradeItemProps {
-  tempId: number;
-  grade: GradeData;
-  handleAddGrade: (grade: GradeData) => void;
-  handleUpdateGrade: (id: number, grade: GradeData) => void;
-  handleDeleteGrade: (id: number) => void;
 }

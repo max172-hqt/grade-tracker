@@ -71,4 +71,12 @@ function App() {
   );
 }
 
-registerRootComponent(App);
+const RootComponent = () => {
+  return (
+    <Provider store={store}>
+      <App />
+    </Provider>
+  );
+};
+
+registerRootComponent(RootComponent);

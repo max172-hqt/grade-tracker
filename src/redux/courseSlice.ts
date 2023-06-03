@@ -62,7 +62,7 @@ export const courseSlice = createSlice({
     /**
      * Update max grade
      */
-    updateMaxGrade: (state, action: PayloadAction<{ gradeId: number, maxScore: number }>) => {
+    updateMaxGrade: (state, action: PayloadAction<{ gradeId: number; maxScore: number }>) => {
       const { gradeId, maxScore } = action.payload;
       const gradeIndex = state.grades.findIndex((grade) => grade.id === gradeId);
       if (gradeIndex !== -1) {
@@ -73,13 +73,13 @@ export const courseSlice = createSlice({
     /**
      * Update grade weight
      */
-    updateGradeWeight: (state, action: PayloadAction<{ gradeId: Number, weight: number }>) => {
+    updateGradeWeight: (state, action: PayloadAction<{ gradeId: number; weight: number }>) => {
       const { gradeId, weight } = action.payload;
       const gradeIndex = state.grades.findIndex((grade) => grade.id === gradeId);
       if (gradeIndex !== -1) {
         state.grades[gradeIndex].data.weight = weight;
       }
-    }
+    },
 
     /**
      * TODO: Need to add actions for
@@ -87,12 +87,19 @@ export const courseSlice = createSlice({
      * - Update actual grade
      * - Update weight and max for a grade
      */
-
   },
 });
 
 // Action creators are generated for each case reducer function
-export const { setCurrentCourse, addCourse, setCourses, setGrades, updateActualGrade, updateMaxGrade, updateGradeWeight } = courseSlice.actions;
+export const {
+  setCurrentCourse,
+  addCourse,
+  setCourses,
+  setGrades,
+  updateActualGrade,
+  updateMaxGrade,
+  updateGradeWeight,
+} = courseSlice.actions;
 export default courseSlice.reducer;
 
 export const selectGradesForCourseWithId = (state: RootState, courseId: number) =>

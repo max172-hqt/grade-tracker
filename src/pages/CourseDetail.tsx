@@ -1,6 +1,6 @@
 import { Box, VStack, Text, ScrollView } from 'native-base';
 import { useSelector } from 'react-redux';
-import { selectGradesForCourseWithId } from '../redux/courseSlice';
+import { selectCourseWithId, selectGradesForCourseWithId } from '../redux/courseSlice';
 import { RouteProp } from '@react-navigation/native';
 import { RootState } from '../redux/store';
 import CourseGradeItem from '../components/CourseGradeItem';
@@ -13,16 +13,21 @@ type Props = {
 
 export default function CourseDetail({ route }: Props) {
   const { courseId } = route.params;
-  const course = useSelector((state: RootState) => selectGradesForCourseWithId(state, courseId));
+  const course = useSelector((state: RootState) => selectCourseWithId(state, courseId));
+  const grades = useSelector((state: RootState) => selectGradesForCourseWithId(state, courseId));
+
+  if (!course) {
+    return null;
+  }
 
   return (
     <Box p={2} mb={10}>
       <Text fontSize="lg" fontWeight="bold" mb={4}>
-        {course.length > 0 ? `Course #${course[courseId].courseId}` : ''}
+        {course?.data.name}
       </Text>
       <ScrollView>
         <VStack space={4}>
-          {course.map((grade) => (
+          {grades.map((grade) => (
             <CourseGradeItem key={grade.id} grade={grade} />
           ))}
         </VStack>

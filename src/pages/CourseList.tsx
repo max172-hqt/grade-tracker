@@ -45,10 +45,7 @@ export default function CourseList({ navigation }) {
         numColumns={2}
         data={formattedCourses}
         renderItem={({ item }) => (
-          <CourseItem
-            course={item}
-            handleGoToCourseDetail={() => handleGoToCourseDetail(item?.id)}
-          />
+          <CourseItem course={item} handleGoToCourseDetail={handleGoToCourseDetail} />
         )}
         keyExtractor={(item) => (item ? `${item.id}` : 'visual-item')}
       />

@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { TouchableOpacity } from 'react-native';
 import { useDispatch } from 'react-redux';
 import { updateActualGrade } from '../redux/courseSlice';
+import * as SQLite from 'expo-sqlite';
 type CourseGradeItemProps = {
   grade: {
     id: number;
@@ -20,6 +21,7 @@ const CourseGradeItem: React.FC<CourseGradeItemProps> = ({ grade }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [updatedActualGrade, setUpdatedActualGrade] = useState(grade.data.actualScore);
   const dispatch = useDispatch();
+  const db = SQLite.openDatabase('db.gradetracker', '1.0');
   const handleOpenModal = () => {
     setIsModalOpen(true);
   };
@@ -30,8 +32,22 @@ const CourseGradeItem: React.FC<CourseGradeItemProps> = ({ grade }) => {
 
   const handleSaveChanges = () => {
     if (updatedActualGrade !== null) {
-      dispatch(updateActualGrade({ gradeId: grade.id, actualScore: updatedActualGrade }));
-      setIsModalOpen(false);
+      db.transaction((tx) => {
+        tx.executeSql(
+          'UPDATE grades SET actual_score = ? WHERE id = ?',
+          [updatedActualGrade, grade.id],
+          (_, resultSet) => {
+            if (resultSet.rowsAffected > 0) {
+              dispatch(updateActualGrade({ gradeId: grade.id, actualScore: updatedActualGrade }));
+              setIsModalOpen(false);
+            }
+          },
+          (_, error) => {
+            console.error(error);
+            return true;
+          },
+        );
+      });
     }
   };
   return (

@@ -21,7 +21,7 @@ export default function CourseDetail({ route }: Props) {
   }
 
   return (
-    <Box p={2} mb={10}>
+    <Box p={4}>
       <Text fontSize="lg" fontWeight="bold" mb={4}>
         {course?.data.name}
       </Text>

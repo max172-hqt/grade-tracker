@@ -1,6 +1,17 @@
 import { useEffect, useState, useRef, useCallback } from 'react';
 import Ionicons from '@expo/vector-icons/Ionicons';
-import { AlertDialog, Box, Button, FlatList, HStack, Heading, Input, VStack } from 'native-base';
+import {
+  AlertDialog,
+  Box,
+  Button,
+  FlatList,
+  FormControl,
+  HStack,
+  Heading,
+  Input,
+  VStack,
+  WarningOutlineIcon,
+} from 'native-base';
 import type { CourseData, GradeData } from '../types';
 import GradeItem from '../components/GradeItem';
 import { createGradesForCourse } from '../database/localdb';
@@ -54,10 +65,15 @@ export default function AddCourse({ navigation }) {
   const [code, setCode] = useState('');
   const [gradeData, setGradeData] = useState<GradeData[]>(sampleGradeData);
   const [dialog, setDialog] = useState<'SAVE' | 'CANCEL' | null>();
+  const [clickedSave, setClickedSave] = useState(false);
+
   const cancelRef = useRef(null);
+
   const dispatch = useDispatch();
 
   const handleOpenSaveDialog = useCallback(() => {
+    setClickedSave(true);
+
     // TODO: validate error
     if (name.length === 0 || code.length === 0 || gradeData.length === 0) {
       return;
@@ -214,18 +230,29 @@ export default function AddCourse({ navigation }) {
     <Box p="4" flex="1" bg="white">
       <VStack space="4" flex="1">
         <Heading fontSize="xl">Course Information</Heading>
-        <Input
-          placeholder="Enter the course name"
-          w="100%"
-          value={name}
-          onChangeText={handleNameChange}
-        />
-        <Input
-          placeholder="Enter the course code"
-          w="100%"
-          value={code}
-          onChangeText={handleCodeChange}
-        />
+        <FormControl isInvalid={clickedSave && name.length === 0}>
+          <Input
+            placeholder="Enter the course name"
+            w="100%"
+            value={name}
+            onChangeText={handleNameChange}
+          />
+          <FormControl.ErrorMessage leftIcon={<WarningOutlineIcon size="xs" />}>
+            Course name cannot be empty
+          </FormControl.ErrorMessage>
+        </FormControl>
+        <FormControl isInvalid={clickedSave && code.length === 0}>
+          <Input
+            placeholder="Enter the course code"
+            w="100%"
+            value={code}
+            onChangeText={handleCodeChange}
+          />
+          <FormControl.ErrorMessage leftIcon={<WarningOutlineIcon size="xs" />}>
+            Course code cannot be empty
+          </FormControl.ErrorMessage>
+        </FormControl>
+
         <VStack flex="1">
           <HStack justifyContent="space-between" alignItems="center">
             <Heading fontSize="xl">Grade Components</Heading>

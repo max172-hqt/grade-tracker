@@ -5,8 +5,8 @@ import { useState } from 'react';
 import { TouchableOpacity } from 'react-native';
 import { useDispatch } from 'react-redux';
 import { updateActualGrade } from '../redux/courseSlice';
-import * as SQLite from 'expo-sqlite';
 import { Grade } from '../types/index';
+import { updateGradeActualScore } from '../database/localdb';
 
 interface CourseGradeItemProps {
   grade: Grade;
@@ -16,7 +16,6 @@ const CourseGradeItem: React.FC<CourseGradeItemProps> = ({ grade }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [updatedActualGrade, setUpdatedActualGrade] = useState(grade.data.actualScore);
   const dispatch = useDispatch();
-  const db = SQLite.openDatabase('db.gradetracker', '1.0');
 
   const handleOpenModal = () => {
     setIsModalOpen(true);
@@ -26,25 +25,16 @@ const CourseGradeItem: React.FC<CourseGradeItemProps> = ({ grade }) => {
     setIsModalOpen(false);
   };
 
-  const handleSaveChanges = () => {
+  const handleSaveChanges = async () => {
     if (updatedActualGrade !== null) {
       if (updatedActualGrade <= grade.data.maxScore) {
-        db.transaction((tx) => {
-          tx.executeSql(
-            'UPDATE grades SET actual_score = ? WHERE id = ?',
-            [updatedActualGrade, grade.id],
-            (_, resultSet) => {
-              if (resultSet.rowsAffected > 0) {
-                dispatch(updateActualGrade({ gradeId: grade.id, actualScore: updatedActualGrade }));
-                setIsModalOpen(false);
-              }
-            },
-            (_, error) => {
-              console.error(error);
-              return true;
-            },
-          );
-        });
+        try {
+          await updateGradeActualScore(grade.id, updatedActualGrade);
+          dispatch(updateActualGrade({ gradeId: grade.id, actualScore: updatedActualGrade }));
+          setIsModalOpen(false);
+        } catch (error) {
+          console.log('Failed to update grade', error);
+        }
       } else {
         Alert.alert('Error', 'The entered grade exceeds the maximum score!');
       }

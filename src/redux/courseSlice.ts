@@ -43,9 +43,9 @@ export const courseSlice = createSlice({
      */
     updateActualGrade: (state, action: PayloadAction<{ gradeId: number; actualScore: number }>) => {
       const { gradeId, actualScore } = action.payload;
-      const gradeIndex = state.grades.findIndex((grade) => grade.id === gradeId);
-      if (gradeIndex !== -1) {
-        state.grades[gradeIndex].data.actualScore = actualScore;
+      const gradeToUpdate = state.grades.find((grade) => grade.id === gradeId);
+      if (gradeToUpdate) {
+        gradeToUpdate.data.actualScore = actualScore;
       }
     },
 

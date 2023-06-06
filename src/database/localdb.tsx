@@ -99,8 +99,6 @@ export async function createGradesForCourse(
   }
   const gradePromises: Promise<Grade>[] = [];
 
-  console.log('DSFADASD', courseId);
-
   for (const data of gradesData) {
     console.log(data);
     gradePromises.push(
@@ -180,3 +178,24 @@ function createCourse(name: string, code: string): Promise<number | undefined> {
     });
   });
 }
+
+export const updateGradeActualScore = (gradeId: number, actualScore: number) => {
+  return new Promise<void>((resolve, reject) => {
+    db.transaction((tx) => {
+      tx.executeSql(
+        'UPDATE grades SET actual_score = ? WHERE id = ?',
+        [actualScore, gradeId],
+        (_, resultSet) => {
+          if (resultSet.rowsAffected > 0) {
+            resolve();
+          }
+        },
+        (_, error) => {
+          console.error(error);
+          reject(error);
+          return true;
+        },
+      );
+    });
+  });
+};

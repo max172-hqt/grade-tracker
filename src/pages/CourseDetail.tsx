@@ -22,9 +22,12 @@ export default function CourseDetail({ route }: Props) {
 
   return (
     <Box p={4}>
-      <Text fontSize="lg" fontWeight="bold" mb={4}>
-        {course?.data.name}
-      </Text>
+      <VStack space="2" mb="4">
+        <Text fontSize="lg" fontWeight="bold">
+          {course.data.name}
+        </Text>
+        <Text color="coolGray.600">Course Code: {course.data.courseCode}</Text>
+      </VStack>
       <ScrollView>
         <VStack space={4}>
           {grades.map((grade) => (

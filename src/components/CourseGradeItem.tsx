@@ -14,7 +14,7 @@ interface CourseGradeItemProps {
 
 const CourseGradeItem: React.FC<CourseGradeItemProps> = ({ grade }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [updatedActualGrade, setUpdatedActualGrade] = useState(grade.data.actualScore);
+  const [updatedActualGrade, setUpdatedActualGrade] = useState(grade.data.actualScore?.toString());
   const dispatch = useDispatch();
 
   const handleOpenModal = () => {
@@ -26,18 +26,28 @@ const CourseGradeItem: React.FC<CourseGradeItemProps> = ({ grade }) => {
   };
 
   const handleSaveChanges = async () => {
-    if (updatedActualGrade !== null) {
-      if (updatedActualGrade <= grade.data.maxScore) {
-        try {
-          await updateGradeActualScore(grade.id, updatedActualGrade);
-          dispatch(updateActualGrade({ gradeId: grade.id, actualScore: updatedActualGrade }));
-          setIsModalOpen(false);
-        } catch (error) {
-          console.log('Failed to update grade', error);
-        }
-      } else {
-        Alert.alert('Error', 'The entered grade exceeds the maximum score!');
-      }
+    if (!updatedActualGrade) return;
+
+    const inputGrade = parseFloat(updatedActualGrade);
+
+    if (inputGrade > grade.data.maxScore) {
+      Alert.alert('Error', 'The entered grade exceeds the maximum score!');
+      return;
+    }
+
+    if (isNaN(inputGrade)) {
+      Alert.alert('Error', 'Input grade is not valid. Please try again.');
+      return;
+    }
+
+    try {
+      const inputGradeString = inputGrade.toFixed(2);
+      setUpdatedActualGrade(inputGradeString);
+      await updateGradeActualScore(grade.id, +inputGradeString);
+      dispatch(updateActualGrade({ gradeId: grade.id, actualScore: +inputGradeString }));
+      setIsModalOpen(false);
+    } catch (error) {
+      console.log('Failed to update grade', error);
     }
   };
 
@@ -49,13 +59,13 @@ const CourseGradeItem: React.FC<CourseGradeItemProps> = ({ grade }) => {
             <HStack justifyContent="space-between" alignItems="center">
               <Text fontWeight="bold">{grade.data.name}:</Text>
               <HStack space={2} alignItems="center">
-                <Text>{grade.data.actualScore?.toString()}</Text>
+                <Text fontWeight="bold">{grade.data.actualScore?.toString()}</Text>
                 <Text color="coolGray.600">/</Text>
                 <Text>{grade.data.maxScore.toString()}</Text>
               </HStack>
             </HStack>
             <HStack>
-              <Text color="coolGray.600">{grade.data.weight.toString()}</Text>
+              <Text color="coolGray.600">Weight: {grade.data.weight.toString()}</Text>
               <Text color="coolGray.600">%</Text>
             </HStack>
           </VStack>
@@ -69,7 +79,7 @@ const CourseGradeItem: React.FC<CourseGradeItemProps> = ({ grade }) => {
             <Input
               placeholder="Input Grade"
               value={updatedActualGrade?.toString() ?? ''}
-              onChangeText={(text) => setUpdatedActualGrade(Number(text))}
+              onChangeText={(text) => setUpdatedActualGrade(text)}
             />
           </Modal.Body>
           <Modal.Footer>

@@ -9,7 +9,6 @@ export default function CourseList({ navigation }) {
 
   const handleGoToCourseDetail = (id: number) => {
     navigation.navigate('Course Detail', { courseId: id });
-    console.log('ID:', id);
   };
 
   // Add a dummy course if the number of courses is odd

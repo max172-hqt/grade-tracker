@@ -99,8 +99,6 @@ export async function createGradesForCourse(
   }
   const gradePromises: Promise<Grade>[] = [];
 
-  console.log('DSFADASD', courseId);
-
   for (const data of gradesData) {
     console.log(data);
     gradePromises.push(

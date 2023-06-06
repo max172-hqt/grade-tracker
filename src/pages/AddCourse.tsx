@@ -1,6 +1,17 @@
 import { useEffect, useState, useRef, useCallback } from 'react';
 import Ionicons from '@expo/vector-icons/Ionicons';
-import { AlertDialog, Box, Button, FlatList, HStack, Heading, Input, VStack } from 'native-base';
+import {
+  Modal,
+  Text,
+  AlertDialog,
+  Box,
+  Button,
+  FlatList,
+  HStack,
+  Heading,
+  Input,
+  VStack,
+} from 'native-base';
 import type { CourseData, GradeData } from '../types';
 import GradeItem from '../components/GradeItem';
 import { createGradesForCourse } from '../database/localdb';
@@ -56,6 +67,11 @@ export default function AddCourse({ navigation }) {
   const [dialog, setDialog] = useState<'SAVE' | 'CANCEL' | null>();
   const cancelRef = useRef(null);
   const dispatch = useDispatch();
+  // const [showModal, setShowModal] = useState(false);
+  // const [currIndex, setCurrIndex] = useState(0);
+  // const [iName, setIName] = useState('');
+  // const [iMaxScore, setIMaxScore] = useState(0);
+  // const [iWeight, setIWeight] = useState(0);
 
   const handleOpenSaveDialog = useCallback(() => {
     // TODO: validate error
@@ -83,6 +99,24 @@ export default function AddCourse({ navigation }) {
       }),
     );
   };
+
+  // const handleEditGradeItem = (id: number) => {
+
+  //   console.log('Edit Add Course');
+  //   console.log(gradeData[id].name);
+
+  //   setCurrIndex(id);
+  //   // setIName(gradeData[id].name);
+  //   // setIMaxScore(gradeData[id].maxScore);
+  //   // setIWeight(gradeData[id].weight);
+
+  //   setShowModal(!showModal);
+  // };
+
+  const handleOnCloseModal = () => {};
+  const handleUpdateItemMaxScore = () => {};
+  const handleUpdateItemWeight = () => {};
+  const handleUpdateItemName = () => {};
 
   const handleDeleteGrade = (id: number) => {
     setGradeData((prev) => prev.filter((_, index) => index !== id));
@@ -229,7 +263,9 @@ export default function AddCourse({ navigation }) {
         <VStack flex="1">
           <HStack justifyContent="space-between" alignItems="center">
             <Heading fontSize="xl">Grade Components</Heading>
-            <Button variant="unstyled">Add rows</Button>
+            <Button variant="unstyled" onPress={() => {}}>
+              Add Item
+            </Button>
           </HStack>
           <FlatList
             data={gradeData}
@@ -240,6 +276,8 @@ export default function AddCourse({ navigation }) {
                 handleUpdateGrade={handleUpdateGrade}
                 handleDeleteGrade={handleDeleteGrade}
                 handleAddGrade={handleAddGrade}
+                // handleEditGradeItem={handleEditGradeItem}
+                // handleAddGradeItem={handleAddGradeItem}
                 tempId={index}
               />
             )}
@@ -247,6 +285,7 @@ export default function AddCourse({ navigation }) {
           />
         </VStack>
       </VStack>
+
       <SaveAlertDialog />
       <CancelAlertDialog />
     </Box>

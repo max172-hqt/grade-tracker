@@ -37,4 +37,6 @@ export interface GradeItemProps {
   handleAddGrade: (grade: GradeData) => void;
   handleUpdateGrade: (id: number, grade: GradeData) => void;
   handleDeleteGrade: (id: number) => void;
+  // handleEditGradeItem: (id: number, name: string, weight: number, maxScore: number) => void;
+  // handledAddGradeItem: (id: number) => void;
 }

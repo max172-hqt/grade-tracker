@@ -1,16 +1,11 @@
 import { Box, HStack, VStack, Text } from 'native-base';
 import type { CourseItemProps } from '../types';
 import { Pressable } from 'react-native';
-import { useDispatch } from 'react-redux';
-import { setCurrentCourse } from '../redux/courseSlice';
 
 export default function CourseItem({ course, handleGoToCourseDetail }: CourseItemProps) {
-  const dispatch = useDispatch();
-
   const handleOnPressCourse = () => {
     if (course) {
-      dispatch(setCurrentCourse(course.id));
-      handleGoToCourseDetail();
+      handleGoToCourseDetail(course.id);
     }
   };
 

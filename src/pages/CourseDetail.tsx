@@ -1,8 +1,9 @@
-import { Box, HStack, VStack, Text } from 'native-base';
+import { Box, VStack, Text, ScrollView } from 'native-base';
 import { useSelector } from 'react-redux';
-import { selectGradesForCourseWithId } from '../redux/courseSlice';
+import { selectCourseWithId, selectGradesForCourseWithId } from '../redux/courseSlice';
 import { RouteProp } from '@react-navigation/native';
 import { RootState } from '../redux/store';
+import CourseGradeItem from '../components/CourseGradeItem';
 
 type CourseDetailRouteProp = RouteProp<Record<string, { courseId: number }>, 'Course Detail'>;
 
@@ -12,26 +13,28 @@ type Props = {
 
 export default function CourseDetail({ route }: Props) {
   const { courseId } = route.params;
-  const course = useSelector((state: RootState) => selectGradesForCourseWithId(state, courseId));
-  console.log(course);
+  const course = useSelector((state: RootState) => selectCourseWithId(state, courseId));
+  const grades = useSelector((state: RootState) => selectGradesForCourseWithId(state, courseId));
+
+  if (!course) {
+    return null;
+  }
+
   return (
-    <Box p="4">
-      <VStack space="4">
-        {course.map((grade) => (
-          <Box key={grade.id} bg="white" p="4" borderRadius="md" shadow={2}>
-            <HStack justifyContent="space-between">
-              <HStack>
-                <Box fontWeight="bold">{grade.data.name}</Box>
-                <Text> : </Text>
-                <Box>{grade.data.actualScore}</Box>
-              </HStack>
-            </HStack>
-            <Text fontSize="sm" color="gray.600">
-              Weight: {grade.data.weight}%
-            </Text>
-          </Box>
-        ))}
+    <Box p={4}>
+      <VStack space="2" mb="4">
+        <Text fontSize="lg" fontWeight="bold">
+          {course.data.name}
+        </Text>
+        <Text color="coolGray.600">Course Code: {course.data.courseCode}</Text>
       </VStack>
+      <ScrollView>
+        <VStack space={4}>
+          {grades.map((grade) => (
+            <CourseGradeItem key={grade.id} grade={grade} />
+          ))}
+        </VStack>
+      </ScrollView>
     </Box>
   );
 }

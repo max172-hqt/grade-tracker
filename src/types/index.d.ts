@@ -28,7 +28,7 @@ export interface Grade {
 // ========== PROPS ==========
 export interface CourseItemProps {
   course: Course | null;
-  handleGoToCourseDetail: () => void;
+  handleGoToCourseDetail: (courseId: number) => void;
 }
 
 export interface GradeItemProps {

@@ -30,6 +30,11 @@ function DetailGradeItem({ grade }: DetailGradeItemProps) {
       return;
     }
 
+    if (inputGrade < 0) {
+      Alert.alert('Error', 'The entered grade must be greater than or equal to 0');
+      return;
+    }
+
     if (isNaN(inputGrade)) {
       Alert.alert('Error', 'Input grade is not valid. Please try again.');
       return;

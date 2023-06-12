@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux';
 import { selectCourseWithId, selectGradesForCourseWithId } from '../redux/courseSlice';
 import { RouteProp } from '@react-navigation/native';
 import { RootState } from '../redux/store';
-import CourseGradeItem from '../components/CourseGradeItem';
+import DetailGradeItem from '../components/DetailGradeItem';
 
 type CourseDetailRouteProp = RouteProp<Record<string, { courseId: number }>, 'Course Detail'>;
 
@@ -31,7 +31,7 @@ export default function CourseDetail({ route }: Props) {
       <ScrollView>
         <VStack space={4}>
           {grades.map((grade) => (
-            <CourseGradeItem key={grade.id} grade={grade} />
+            <DetailGradeItem key={grade.id} grade={grade} />
           ))}
         </VStack>
       </ScrollView>

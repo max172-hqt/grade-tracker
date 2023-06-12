@@ -2,7 +2,7 @@ import { Box, HStack, Text, IconButton, VStack } from 'native-base';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import type { GradeItemProps } from '../types';
 
-export default function GradeItem({
+export default function SetupGradeItem({
   tempId,
   grade,
   handleUpdateGrade,

@@ -8,11 +8,11 @@ import { updateActualGrade } from '../redux/courseSlice';
 import { Grade } from '../types/index';
 import { updateGradeActualScore } from '../database/localdb';
 
-interface CourseGradeItemProps {
+interface DetailGradeItemProps {
   grade: Grade;
 }
 
-const CourseGradeItem: React.FC<CourseGradeItemProps> = ({ grade }) => {
+const DetailGradeItem: React.FC<DetailGradeItemProps> = ({ grade }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [updatedActualGrade, setUpdatedActualGrade] = useState(grade.data.actualScore?.toString());
   const dispatch = useDispatch();
@@ -94,4 +94,4 @@ const CourseGradeItem: React.FC<CourseGradeItemProps> = ({ grade }) => {
   );
 };
 
-export default CourseGradeItem;
+export default DetailGradeItem;

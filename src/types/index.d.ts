@@ -31,10 +31,14 @@ export interface CourseItemProps {
   handleGoToCourseDetail: (courseId: number) => void;
 }
 
-export interface GradeItemProps {
+export interface SetupGradeItemProps {
   tempId: number;
   grade: GradeData;
   handleAddGrade: (grade: GradeData) => void;
   handleUpdateGrade: (id: number, grade: GradeData) => void;
   handleDeleteGrade: (id: number) => void;
+}
+
+export interface DetailGradeItemProps {
+  grade: Grade;
 }

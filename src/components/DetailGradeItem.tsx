@@ -1,18 +1,13 @@
-import React from 'react';
 import { Box, VStack, HStack, Text, Modal, Button, Input } from 'native-base';
 import { Alert } from 'react-native';
 import { useState } from 'react';
 import { TouchableOpacity } from 'react-native';
 import { useDispatch } from 'react-redux';
 import { updateActualGrade } from '../redux/courseSlice';
-import { Grade } from '../types/index';
+import { DetailGradeItemProps } from '../types/index';
 import { updateGradeActualScore } from '../database/localdb';
 
-interface DetailGradeItemProps {
-  grade: Grade;
-}
-
-const DetailGradeItem: React.FC<DetailGradeItemProps> = ({ grade }) => {
+function DetailGradeItem({ grade }: DetailGradeItemProps) {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [updatedActualGrade, setUpdatedActualGrade] = useState(grade.data.actualScore?.toString());
   const dispatch = useDispatch();
@@ -92,6 +87,6 @@ const DetailGradeItem: React.FC<DetailGradeItemProps> = ({ grade }) => {
       </Modal>
     </>
   );
-};
+}
 
 export default DetailGradeItem;

@@ -1,4 +1,4 @@
-import { Box, VStack, Text, ScrollView } from 'native-base';
+import { Box, VStack, Text, ScrollView, HStack, Switch, Heading } from 'native-base';
 import { useSelector } from 'react-redux';
 import { selectCourseWithId, selectGradesForCourseWithId } from '../redux/courseSlice';
 import { RouteProp } from '@react-navigation/native';
@@ -21,20 +21,44 @@ export default function CourseDetail({ route }: Props) {
   }
 
   return (
-    <Box p={4}>
-      <VStack space="2" mb="4">
-        <Text fontSize="lg" fontWeight="bold">
+    <VStack flex="1">
+      <VStack
+        space="2"
+        p="4"
+        bg={{
+          linearGradient: {
+            colors: ['violet.800', 'lightBlue.300'],
+            start: [0, 0],
+            end: [1, 0],
+          },
+        }}
+      >
+        {/* TODO: Customize color based on the current grade */}
+        <Heading size="md" fontWeight="bold" color="white">
           {course.data.name}
+        </Heading>
+        <Text color="coolGray.200" fontSize="md" fontWeight="bold">
+          Course Code: {course.data.courseCode}
         </Text>
-        <Text color="coolGray.600">Course Code: {course.data.courseCode}</Text>
       </VStack>
-      <ScrollView>
-        <VStack space={4}>
-          {grades.map((grade) => (
-            <DetailGradeItem key={grade.id} grade={grade} />
-          ))}
-        </VStack>
-      </ScrollView>
-    </Box>
+      <VStack p={4} space={4} flex="1">
+        <HStack>
+          <Text fontSize="xl" fontWeight="bold" flex="1">
+            Grades
+          </Text>
+          <HStack alignItems="center">
+            <Text>Show Weighted</Text>
+            <Switch size="sm" />
+          </HStack>
+        </HStack>
+        <ScrollView>
+          <VStack space={4} flex="1">
+            {grades.map((grade) => (
+              <DetailGradeItem key={grade.id} grade={grade} />
+            ))}
+          </VStack>
+        </ScrollView>
+      </VStack>
+    </VStack>
   );
 }

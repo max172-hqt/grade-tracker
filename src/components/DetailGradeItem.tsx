@@ -54,21 +54,22 @@ function DetailGradeItem({ grade }: DetailGradeItemProps) {
   return (
     <>
       <TouchableOpacity onPress={handleOpenModal}>
-        <Box key={grade.id} bg="white" p={4} borderRadius="md" shadow={2}>
-          <VStack space={2}>
-            <HStack justifyContent="space-between" alignItems="center">
-              <Text fontWeight="bold">{grade.data.name}:</Text>
-              <HStack space={2} alignItems="center">
-                <Text fontWeight="bold">{grade.data.actualScore?.toString()}</Text>
-                <Text color="coolGray.600">/</Text>
-                <Text>{grade.data.maxScore.toString()}</Text>
-              </HStack>
+        <Box key={grade.id} bg="white" p={4} borderRadius="md">
+          <HStack>
+            <VStack flex="1" space="2">
+              <Text fontWeight="bold" fontSize="md">
+                {grade.data.name}:
+              </Text>
+              <Text color="coolGray.600" fontWeight="bold">
+                Weight: {grade.data.weight.toString()}%
+              </Text>
+            </VStack>
+            <HStack space={2} alignItems="center">
+              <Text fontWeight="bold">{grade.data.actualScore?.toString()}</Text>
+              <Text color="coolGray.600">/</Text>
+              <Text>{grade.data.maxScore.toString()}</Text>
             </HStack>
-            <HStack>
-              <Text color="coolGray.600">Weight: {grade.data.weight.toString()}</Text>
-              <Text color="coolGray.600">%</Text>
-            </HStack>
-          </VStack>
+          </HStack>
         </Box>
       </TouchableOpacity>
       <Modal isOpen={isModalOpen} onClose={handleCloseModal}>

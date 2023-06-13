@@ -6,6 +6,8 @@ import { useDispatch } from 'react-redux';
 import { updateActualGrade } from '../redux/courseSlice';
 import { DetailGradeItemProps } from '../types/index';
 import { updateGradeActualScore } from '../database/localdb';
+import { getWeightedPercentage } from '../utils/gradesCalculation';
+import { getLetterGrade } from '../utils/gradesCalculation';
 
 function DetailGradeItem({ grade, showWeighted }: DetailGradeItemProps) {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -59,11 +61,18 @@ function DetailGradeItem({ grade, showWeighted }: DetailGradeItemProps) {
     return '';
   }, [grade]);
 
+  const letterGrade = useMemo(() => {
+    if (grade.data.actualScore !== null) {
+      return 'Grade: ' + getLetterGrade((grade.data.actualScore / grade.data.maxScore) * 100);
+    }
+    return '';
+  }, [grade]);
+
   return (
     <>
       <TouchableOpacity onPress={handleOpenModal}>
         <Box key={grade.id} bg="white" p={4} borderRadius="md">
-          <HStack>
+          <HStack alignItems="center">
             <VStack flex="1" space="2">
               <Text fontWeight="bold" fontSize="md">
                 {grade.data.name}:
@@ -72,13 +81,22 @@ function DetailGradeItem({ grade, showWeighted }: DetailGradeItemProps) {
                 Weight: {grade.data.weight.toString()}%
               </Text>
             </VStack>
-            <HStack space={2} alignItems="center">
-              <Text fontWeight="bold">
-                {showWeighted ? weightedGrade : grade.data.actualScore?.toString()}
-              </Text>
-              <Text color="coolGray.600">/</Text>
-              <Text>{showWeighted ? `${grade.data.weight}%` : grade.data.maxScore.toString()}</Text>
-            </HStack>
+            <VStack space="2">
+              <HStack space={2}>
+                <Text fontWeight="bold">
+                  {showWeighted ? weightedGrade : grade.data.actualScore?.toString()}
+                </Text>
+                <Text color="coolGray.600">/</Text>
+                <Text>
+                  {showWeighted ? `${grade.data.weight}%` : grade.data.maxScore.toString()}
+                </Text>
+              </HStack>
+              {showWeighted && (
+                <Text alignSelf="flex-end" fontWeight="bold" color="coolGray.600">
+                  {letterGrade}
+                </Text>
+              )}
+            </VStack>
           </HStack>
         </Box>
       </TouchableOpacity>

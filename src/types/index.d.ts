@@ -41,4 +41,5 @@ export interface SetupGradeItemProps {
 
 export interface DetailGradeItemProps {
   grade: Grade;
+  showWeighted: boolean;
 }

@@ -1,9 +1,11 @@
-import { Box, VStack, Text, ScrollView, HStack, Switch, Heading } from 'native-base';
+import { VStack, Text, ScrollView, HStack, Heading } from 'native-base';
 import { useSelector } from 'react-redux';
 import { selectCourseWithId, selectGradesForCourseWithId } from '../redux/courseSlice';
 import { RouteProp } from '@react-navigation/native';
 import { RootState } from '../redux/store';
 import DetailGradeItem from '../components/DetailGradeItem';
+import { useState } from 'react';
+import { Switch } from 'react-native';
 
 type CourseDetailRouteProp = RouteProp<Record<string, { courseId: number }>, 'Course Detail'>;
 
@@ -15,6 +17,11 @@ export default function CourseDetail({ route }: Props) {
   const { courseId } = route.params;
   const course = useSelector((state: RootState) => selectCourseWithId(state, courseId));
   const grades = useSelector((state: RootState) => selectGradesForCourseWithId(state, courseId));
+  const [showWeighted, setShowWeighted] = useState(false);
+
+  const handleToggleShowWeighted = () => {
+    setShowWeighted(!showWeighted);
+  };
 
   if (!course) {
     return null;
@@ -46,15 +53,17 @@ export default function CourseDetail({ route }: Props) {
           <Text fontSize="xl" fontWeight="bold" flex="1">
             Grades
           </Text>
-          <HStack alignItems="center">
-            <Text>Show Weighted</Text>
-            <Switch size="sm" />
+          <HStack alignItems="center" space="2">
+            <Text fontWeight="bold" color="gray.500">
+              Show Weighted
+            </Text>
+            <Switch value={showWeighted} onValueChange={handleToggleShowWeighted} />
           </HStack>
         </HStack>
         <ScrollView>
           <VStack space={4} flex="1">
             {grades.map((grade) => (
-              <DetailGradeItem key={grade.id} grade={grade} />
+              <DetailGradeItem key={grade.id} grade={grade} showWeighted={showWeighted} />
             ))}
           </VStack>
         </ScrollView>

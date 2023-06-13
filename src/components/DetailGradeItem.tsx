@@ -1,13 +1,13 @@
 import { Box, VStack, HStack, Text, Modal, Button, Input } from 'native-base';
 import { Alert } from 'react-native';
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import { TouchableOpacity } from 'react-native';
 import { useDispatch } from 'react-redux';
 import { updateActualGrade } from '../redux/courseSlice';
 import { DetailGradeItemProps } from '../types/index';
 import { updateGradeActualScore } from '../database/localdb';
 
-function DetailGradeItem({ grade }: DetailGradeItemProps) {
+function DetailGradeItem({ grade, showWeighted }: DetailGradeItemProps) {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [updatedActualGrade, setUpdatedActualGrade] = useState(grade.data.actualScore?.toString());
   const dispatch = useDispatch();
@@ -51,6 +51,14 @@ function DetailGradeItem({ grade }: DetailGradeItemProps) {
     }
   };
 
+  const weightedGrade = useMemo(() => {
+    if (grade.data.actualScore !== null) {
+      const ans = ((grade.data.actualScore ?? 0) / grade.data.maxScore) * grade.data.weight;
+      return ans.toFixed(2);
+    }
+    return '';
+  }, [grade]);
+
   return (
     <>
       <TouchableOpacity onPress={handleOpenModal}>
@@ -65,9 +73,11 @@ function DetailGradeItem({ grade }: DetailGradeItemProps) {
               </Text>
             </VStack>
             <HStack space={2} alignItems="center">
-              <Text fontWeight="bold">{grade.data.actualScore?.toString()}</Text>
+              <Text fontWeight="bold">
+                {showWeighted ? weightedGrade : grade.data.actualScore?.toString()}
+              </Text>
               <Text color="coolGray.600">/</Text>
-              <Text>{grade.data.maxScore.toString()}</Text>
+              <Text>{showWeighted ? `${grade.data.weight}%` : grade.data.maxScore.toString()}</Text>
             </HStack>
           </HStack>
         </Box>

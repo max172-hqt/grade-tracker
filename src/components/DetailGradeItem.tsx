@@ -8,6 +8,7 @@ import { DetailGradeItemProps } from '../types/index';
 import { updateGradeActualScore } from '../database/localdb';
 import { getWeightedPercentage } from '../utils/gradesCalculation';
 import { getLetterGrade } from '../utils/gradesCalculation';
+import CircularProgress from 'react-native-circular-progress-indicator';
 
 function DetailGradeItem({ grade, showWeighted }: DetailGradeItemProps) {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -56,33 +57,33 @@ function DetailGradeItem({ grade, showWeighted }: DetailGradeItemProps) {
   const weightedGrade = useMemo(() => {
     if (grade.data.actualScore !== null) {
       const ans = ((grade.data.actualScore ?? 0) / grade.data.maxScore) * grade.data.weight;
-      return ans.toFixed(2);
+      return ans.toFixed(2) + '%';
     }
     return '';
   }, [grade]);
 
   const letterGrade = useMemo(() => {
     if (grade.data.actualScore !== null) {
-      return 'Grade: ' + getLetterGrade((grade.data.actualScore / grade.data.maxScore) * 100);
+      return getLetterGrade((grade.data.actualScore / grade.data.maxScore) * 100);
     }
-    return '';
+    return '-';
   }, [grade]);
 
   return (
     <>
       <TouchableOpacity onPress={handleOpenModal}>
-        <Box key={grade.id} bg="white" p={4} borderRadius="md">
-          <HStack alignItems="center">
+        <Box key={grade.id} bg="white" p={4} borderRadius="2xl">
+          <HStack>
             <VStack flex="1" space="2">
               <Text fontWeight="bold" fontSize="md">
                 {grade.data.name}:
               </Text>
-              <Text color="coolGray.600" fontWeight="bold">
+              <Text color="coolGray.400" fontWeight="bold">
                 Weight: {grade.data.weight.toString()}%
               </Text>
             </VStack>
-            <VStack space="2">
-              <HStack space={2}>
+            <VStack space="2" justifyContent="center">
+              <HStack space={2} justifyContent="center">
                 <Text fontWeight="bold">
                   {showWeighted ? weightedGrade : grade.data.actualScore?.toString()}
                 </Text>
@@ -91,11 +92,19 @@ function DetailGradeItem({ grade, showWeighted }: DetailGradeItemProps) {
                   {showWeighted ? `${grade.data.weight}%` : grade.data.maxScore.toString()}
                 </Text>
               </HStack>
-              {showWeighted && (
-                <Text alignSelf="flex-end" fontWeight="bold" color="coolGray.600">
-                  {letterGrade}
-                </Text>
-              )}
+              <Box alignSelf="flex-end">
+                <CircularProgress
+                  value={grade.data.actualScore ?? 0}
+                  showProgressValue={false}
+                  valueSuffix={`/${grade.data.maxScore}%`}
+                  title={letterGrade}
+                  titleStyle={{ fontSize: 20 }}
+                  maxValue={grade.data.maxScore}
+                  radius={30}
+                  activeStrokeWidth={4}
+                  inActiveStrokeWidth={2}
+                />
+              </Box>
             </VStack>
           </HStack>
         </Box>

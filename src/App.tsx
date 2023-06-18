@@ -10,8 +10,15 @@ import { Provider, useDispatch } from 'react-redux';
 import { store } from './redux/store';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { setCourses, setGrades } from './redux/courseSlice';
+import { LinearGradient } from 'expo-linear-gradient';
 
 const Tab = createBottomTabNavigator();
+
+const config = {
+  dependencies: {
+    'linear-gradient': LinearGradient,
+  },
+};
 
 /**
  * Entry-point component using Bottom Tab navigation
@@ -40,7 +47,7 @@ function App() {
 
   return (
     <NavigationContainer>
-      <NativeBaseProvider>
+      <NativeBaseProvider config={config}>
         <Tab.Navigator
           screenOptions={({ route }) => ({
             headerShown: route.name === 'Settings',

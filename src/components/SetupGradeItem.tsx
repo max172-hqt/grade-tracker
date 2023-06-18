@@ -1,14 +1,14 @@
 import { Box, HStack, Text, IconButton, VStack } from 'native-base';
 import Ionicons from '@expo/vector-icons/Ionicons';
-import type { GradeItemProps } from '../types';
+import type { SetupGradeItemProps } from '../types';
 
-export default function GradeItem({
+export default function SetupGradeItem({
   tempId,
   grade,
   handleUpdateGrade,
   handleDeleteGrade,
   handleAddGrade,
-}: GradeItemProps) {
+}: SetupGradeItemProps) {
   return (
     <Box mb={2} pb={2} borderBottomWidth="1" borderBottomColor="coolGray.300">
       <HStack justifyContent="space-between" alignItems="center">

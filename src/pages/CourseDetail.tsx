@@ -28,7 +28,7 @@ export default function CourseDetail({ route }: Props) {
   if (!course) {
     return null;
   }
-  const { totalScore, percentage, remainingScore, letterGrade }: CourseSummary =
+  const { totalScore, percentage, remainingScore, letterGrade, preLetter }: CourseSummary =
     calculateCourseSummary(grades);
 
   return (
@@ -76,9 +76,9 @@ export default function CourseDetail({ route }: Props) {
               Current Score: {totalScore.toFixed(2)} / 100 ({percentage.toFixed(2)}
               %)
             </Text>
-            {remainingScore > 0 && (
-              <Text mt={2} fontWeight="bold" textAlign="center" color="red.500">
-                Remaining Score to Pass: {remainingScore.toFixed(2)}
+            {totalScore < 90 && (
+              <Text mt={2} fontWeight="bold" textAlign="center">
+                Remaining Score to {preLetter}: {remainingScore.toFixed(2)}
               </Text>
             )}
             <Text mt={2} fontWeight="bold" textAlign="center">

@@ -49,4 +49,5 @@ export interface CourseSummary {
   percentage: number;
   remainingScore: number;
   letterGrade: string;
+  preLetter: string;
 }

@@ -28,7 +28,8 @@ export default function CourseDetail({ route }: Props) {
   if (!course) {
     return null;
   }
-  const { totalScore, percentage, remainingScore, letterGrade, preLetter }: CourseSummary =
+
+  const { totalScore, percentage, remainingScore, preLetter, averageLetterGrade }: CourseSummary =
     calculateCourseSummary(grades);
 
   return (
@@ -82,7 +83,7 @@ export default function CourseDetail({ route }: Props) {
               </Text>
             )}
             <Text mt={2} fontWeight="bold" textAlign="center">
-              Letter Grade: {letterGrade}
+              Average letter Grade: {averageLetterGrade}
             </Text>
           </Box>
         </ScrollView>

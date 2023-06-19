@@ -50,4 +50,5 @@ export interface CourseSummary {
   remainingScore: number;
   letterGrade: string;
   preLetter: string;
+  averageLetterGrade: string;
 }

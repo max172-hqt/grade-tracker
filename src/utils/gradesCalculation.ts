@@ -34,13 +34,16 @@ export const getWeightedPercentage = (grade: number, maxGrade: number) => {
 
 export const calculateCourseSummary = (grades: Grade[]): CourseSummary => {
   let totalScore = 0;
+  let totalWeight = 0;
   let preScore = 0;
   let preLetter = '';
   grades.forEach((grade) => {
     if (grade.data.actualScore && grade.data.weight) {
       totalScore += (grade.data.actualScore / grade.data.maxScore) * grade.data.weight;
+      totalWeight += grade.data.weight;
     }
   });
+  const averageLetterGrade = getLetterGrade((totalScore / totalWeight) * 100);
   const letterGrade = getLetterGrade(totalScore);
   if (letterGrade === 'F') {
     preScore = 50;
@@ -76,5 +79,6 @@ export const calculateCourseSummary = (grades: Grade[]): CourseSummary => {
     remainingScore,
     letterGrade,
     preLetter,
+    averageLetterGrade,
   };
 };

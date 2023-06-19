@@ -43,3 +43,10 @@ export interface DetailGradeItemProps {
   grade: Grade;
   showWeighted: boolean;
 }
+
+export interface CourseSummary {
+  totalScore: number;
+  percentage: number;
+  remainingScore: number;
+  letterGrade: string;
+}

@@ -6,6 +6,8 @@ import { RootState } from '../redux/store';
 import DetailGradeItem from '../components/DetailGradeItem';
 import { useState } from 'react';
 import { Switch } from 'react-native';
+import { calculateCourseSummary } from '../utils/gradesCalculation';
+import { CourseSummary } from '../types';
 
 type CourseDetailRouteProp = RouteProp<Record<string, { courseId: number }>, 'Course Detail'>;
 
@@ -26,37 +28,8 @@ export default function CourseDetail({ route }: Props) {
   if (!course) {
     return null;
   }
-
-  let totalScore = 0;
-  grades.forEach((grade) => {
-    if (grade.data.actualScore && grade.data.weight) {
-      totalScore += (grade.data.actualScore / grade.data.maxScore) * grade.data.weight;
-    }
-  });
-
-  const percentage = (totalScore / 100) * 100;
-  const remainingScore = Math.max(50 - totalScore, 0);
-
-  let letterGrade = '';
-  if (percentage >= 90) {
-    letterGrade = 'A+';
-  } else if (percentage >= 80) {
-    letterGrade = 'A';
-  } else if (percentage >= 75) {
-    letterGrade = 'B+';
-  } else if (percentage >= 70) {
-    letterGrade = 'B';
-  } else if (percentage >= 65) {
-    letterGrade = 'C+';
-  } else if (percentage >= 60) {
-    letterGrade = 'C';
-  } else if (percentage >= 55) {
-    letterGrade = 'D+';
-  } else if (percentage >= 50) {
-    letterGrade = 'D';
-  } else {
-    letterGrade = 'F';
-  }
+  const { totalScore, percentage, remainingScore, letterGrade }: CourseSummary =
+    calculateCourseSummary(grades);
 
   return (
     <VStack flex="1">
@@ -97,7 +70,7 @@ export default function CourseDetail({ route }: Props) {
               <DetailGradeItem key={grade.id} grade={grade} showWeighted={showWeighted} />
             ))}
           </VStack>
-          <Box mt={4} mb={20}>
+          <Box mt={4} mb={15}>
             <Progress value={percentage} size="lg" colorScheme="teal" />
             <Text mt={2} fontWeight="bold" textAlign="center">
               Current Score: {totalScore.toFixed(2)} / 100 ({percentage.toFixed(2)}

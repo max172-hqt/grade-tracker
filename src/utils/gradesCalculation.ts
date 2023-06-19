@@ -1,3 +1,4 @@
+import { Grade, CourseSummary } from '../types';
 export const getLetterGrade = (percentage: number) => {
   // Round to the nearest integer
   percentage = Math.round(percentage);
@@ -29,4 +30,24 @@ export const getLetterGrade = (percentage: number) => {
 
 export const getWeightedPercentage = (grade: number, maxGrade: number) => {
   return (grade / maxGrade) * 100;
+};
+
+export const calculateCourseSummary = (grades: Grade[]): CourseSummary => {
+  let totalScore = 0;
+  grades.forEach((grade) => {
+    if (grade.data.actualScore && grade.data.weight) {
+      totalScore += (grade.data.actualScore / grade.data.maxScore) * grade.data.weight;
+    }
+  });
+
+  const percentage = (totalScore / 100) * 100;
+  const remainingScore = Math.max(50 - totalScore, 0);
+  const letterGrade = getLetterGrade(percentage);
+
+  return {
+    totalScore,
+    percentage,
+    remainingScore,
+    letterGrade,
+  };
 };

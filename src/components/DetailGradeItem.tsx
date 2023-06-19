@@ -6,7 +6,6 @@ import { useDispatch } from 'react-redux';
 import { updateActualGrade } from '../redux/courseSlice';
 import { DetailGradeItemProps } from '../types/index';
 import { updateGradeActualScore } from '../database/localdb';
-import { getWeightedPercentage } from '../utils/gradesCalculation';
 import { getLetterGrade } from '../utils/gradesCalculation';
 import CircularProgress from 'react-native-circular-progress-indicator';
 

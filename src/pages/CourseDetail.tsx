@@ -30,7 +30,7 @@ export default function CourseDetail({ route }: Props) {
   let totalScore = 0;
   grades.forEach((grade) => {
     if (grade.data.actualScore && grade.data.weight) {
-      totalScore += grade.data.actualScore * grade.data.weight * 0.01;
+      totalScore += (grade.data.actualScore / grade.data.maxScore) * grade.data.weight;
     }
   });
 

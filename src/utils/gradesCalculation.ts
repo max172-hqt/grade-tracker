@@ -1,8 +1,10 @@
 import type { Grade, CourseSummary } from '../types';
 
-export const getLetterGrade = (percentage: number) => {
+export const getLetterGrade = (percentage: number, roundUp = false) => {
   // Round to the nearest integer
-  percentage = Math.round(percentage);
+  if (roundUp) {
+    percentage = Math.round(percentage);
+  }
 
   let ret: string;
 
@@ -89,35 +91,44 @@ export const calculateCourseSummary = (grades: Grade[]): CourseSummary => {
  * @param grade Grade
  * @returns number: Weighted amount achieve for a grade
  */
-export const getWeightedAmount = (grade: Grade) => {
-  if (grade.data.actualScore === null) {
-    return 0;
+export const getWeighted = (grade: Grade) => {
+  if (grade.data.actualScore !== null) {
+    const ans = (grade.data.actualScore / grade.data.maxScore) * grade.data.weight;
+    return ans.toFixed(2) + '%';
   }
-  return (grade.data.actualScore / grade.data.maxScore) * grade.data.weight;
+  return '';
+};
+
+export const getLetterForGrade = (grade: Grade) => {
+  if (grade.data.actualScore !== null) {
+    return getLetterGrade((grade.data.actualScore / grade.data.maxScore) * 100);
+  }
+  return '-';
 };
 
 /**
  * Get total weight and score achieved so far
  * For example, the student completed 60% of the course total weight and got 50%,
- * it will return { totalWeightCompleted: 60, totalScoreAchieved: 50 }
+ * it will return { totalWeightCompleted: 60, totalWeightAchieved: 50 }
  *
  * @param grades List of grades
  * @returns object
  */
 export const getCurrentGradeProgress = (grades: Grade[]) => {
   let totalWeightCompleted = 0;
-  let totalScoreAchieved = 0;
+  let totalWeightAchieved = 0;
 
   grades.forEach((grade) => {
     if (grade.data.actualScore) {
-      totalScoreAchieved += (grade.data.actualScore / grade.data.maxScore) * grade.data.weight;
+      totalWeightAchieved += (grade.data.actualScore / grade.data.maxScore) * grade.data.weight;
       totalWeightCompleted += grade.data.weight;
     }
   });
 
   return {
     totalWeightCompleted,
-    totalScoreAchieved,
+    totalWeightAchieved,
+    currentLetterGrade: getLetterGrade((totalWeightAchieved / totalWeightCompleted) * 100, true),
   };
 };
 
@@ -140,7 +151,7 @@ export const getTotalCourseWeight = (grade: Grade[]) => {
  * @param grades List of grades
  */
 export const getEstimateAverageGrade = (grades: Grade[]) => {
-  const { totalWeightCompleted, totalScoreAchieved } = getCurrentGradeProgress(grades);
+  const { totalWeightCompleted, totalWeightAchieved } = getCurrentGradeProgress(grades);
   const totalCourseWeight = getTotalCourseWeight(grades);
 
   const GRADE_THRESHOLD = {
@@ -160,7 +171,7 @@ export const getEstimateAverageGrade = (grades: Grade[]) => {
   Object.keys(GRADE_THRESHOLD).forEach((grade: string) => {
     // Calculate the remaining weight needed to achieve each letter grade
     const remainingWeightNeeded =
-      GRADE_THRESHOLD[grade as keyof typeof GRADE_THRESHOLD] - totalScoreAchieved;
+      GRADE_THRESHOLD[grade as keyof typeof GRADE_THRESHOLD] - totalWeightAchieved;
 
     if (remainingWeightNeeded <= 0) {
       // Already achieve this letter grade even when all grades are 0

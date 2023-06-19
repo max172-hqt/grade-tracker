@@ -1,12 +1,12 @@
 import { Box, VStack, HStack, Text, Modal, Button, Input } from 'native-base';
 import { Alert } from 'react-native';
-import { useMemo, useState } from 'react';
+import { useState } from 'react';
 import { TouchableOpacity } from 'react-native';
 import { useDispatch } from 'react-redux';
 import { updateActualGrade } from '../redux/courseSlice';
 import { DetailGradeItemProps } from '../types/index';
 import { updateGradeActualScore } from '../database/localdb';
-import { getLetterGrade } from '../utils/gradesCalculation';
+import { getLetterForGrade, getWeighted } from '../utils/gradesCalculation';
 import CircularProgress from 'react-native-circular-progress-indicator';
 
 function DetailGradeItem({ grade, showWeighted }: DetailGradeItemProps) {
@@ -53,21 +53,6 @@ function DetailGradeItem({ grade, showWeighted }: DetailGradeItemProps) {
     }
   };
 
-  const weightedGrade = useMemo(() => {
-    if (grade.data.actualScore !== null) {
-      const ans = ((grade.data.actualScore ?? 0) / grade.data.maxScore) * grade.data.weight;
-      return ans.toFixed(2) + '%';
-    }
-    return '';
-  }, [grade]);
-
-  const letterGrade = useMemo(() => {
-    if (grade.data.actualScore !== null) {
-      return getLetterGrade((grade.data.actualScore / grade.data.maxScore) * 100);
-    }
-    return '-';
-  }, [grade]);
-
   return (
     <>
       <TouchableOpacity onPress={handleOpenModal}>
@@ -84,7 +69,7 @@ function DetailGradeItem({ grade, showWeighted }: DetailGradeItemProps) {
             <VStack space="2" justifyContent="center">
               <HStack space={2} justifyContent="center">
                 <Text fontWeight="bold">
-                  {showWeighted ? weightedGrade : grade.data.actualScore?.toString()}
+                  {showWeighted ? getWeighted(grade) : grade.data.actualScore?.toString()}
                 </Text>
                 <Text color="coolGray.600">/</Text>
                 <Text>
@@ -96,7 +81,7 @@ function DetailGradeItem({ grade, showWeighted }: DetailGradeItemProps) {
                   value={grade.data.actualScore ?? 0}
                   showProgressValue={false}
                   valueSuffix={`/${grade.data.maxScore}%`}
-                  title={letterGrade}
+                  title={getLetterForGrade(grade)}
                   titleStyle={{ fontSize: 20 }}
                   maxValue={grade.data.maxScore}
                   radius={30}

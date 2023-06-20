@@ -1,4 +1,4 @@
-import type { Grade, CourseSummary } from '../types';
+import type { Grade } from '../types';
 
 export const getLetterGrade = (percentage: number, roundUp = false) => {
   // Round to the nearest integer
@@ -35,19 +35,9 @@ export const getWeightedPercentage = (grade: number, maxGrade: number) => {
   return (grade / maxGrade) * 100;
 };
 
-export const calculateCourseSummary = (grades: Grade[]): CourseSummary => {
-  let totalScore = 0;
-  let totalWeight = 0;
+export const getPreLetterGrade = (letterGrade: string) => {
   let preScore = 0;
   let preLetter = '';
-  grades.forEach((grade) => {
-    if (grade.data.actualScore && grade.data.weight) {
-      totalScore += (grade.data.actualScore / grade.data.maxScore) * grade.data.weight;
-      totalWeight += grade.data.weight;
-    }
-  });
-  const averageLetterGrade = getLetterGrade((totalScore / totalWeight) * 100);
-  const letterGrade = getLetterGrade(totalScore);
   if (letterGrade === 'F') {
     preScore = 50;
     preLetter = 'D';
@@ -73,17 +63,7 @@ export const calculateCourseSummary = (grades: Grade[]): CourseSummary => {
     preScore = 90;
     preLetter = 'A+';
   }
-  const percentage = (totalScore / 100) * 100;
-  const remainingScore = Math.max(preScore - totalScore, 0);
-
-  return {
-    totalScore,
-    percentage,
-    remainingScore,
-    letterGrade,
-    preLetter,
-    averageLetterGrade,
-  };
+  return { preScore, preLetter };
 };
 
 /**
@@ -117,18 +97,23 @@ export const getLetterForGrade = (grade: Grade) => {
 export const getCurrentGradeProgress = (grades: Grade[]) => {
   let totalWeightCompleted = 0;
   let totalWeightAchieved = 0;
-
+  let percentage = 0;
+  let allGradesCompleted = true;
   grades.forEach((grade) => {
-    if (grade.data.actualScore) {
+    if (grade.data.actualScore !== null && grade.data.weight !== null) {
       totalWeightAchieved += (grade.data.actualScore / grade.data.maxScore) * grade.data.weight;
       totalWeightCompleted += grade.data.weight;
+    } else {
+      allGradesCompleted = false;
     }
   });
-
+  percentage = (totalWeightAchieved / totalWeightCompleted) * 100;
   return {
     totalWeightCompleted,
     totalWeightAchieved,
     currentLetterGrade: getLetterGrade((totalWeightAchieved / totalWeightCompleted) * 100, true),
+    percentage,
+    allGradesCompleted,
   };
 };
 

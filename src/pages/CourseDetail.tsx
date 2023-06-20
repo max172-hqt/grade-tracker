@@ -6,8 +6,11 @@ import { RootState } from '../redux/store';
 import DetailGradeItem from '../components/DetailGradeItem';
 import { useState } from 'react';
 import { Switch } from 'react-native';
-import { calculateCourseSummary } from '../utils/gradesCalculation';
-import { CourseSummary } from '../types';
+import {
+  getCurrentGradeProgress,
+  getEstimateAverageGrade,
+  getPreLetterGrade,
+} from '../utils/gradesCalculation';
 
 type CourseDetailRouteProp = RouteProp<Record<string, { courseId: number }>, 'Course Detail'>;
 
@@ -29,8 +32,15 @@ export default function CourseDetail({ route }: Props) {
     return null;
   }
 
-  const { totalScore, percentage, remainingScore, preLetter, averageLetterGrade }: CourseSummary =
-    calculateCourseSummary(grades);
+  const {
+    totalWeightCompleted,
+    totalWeightAchieved,
+    currentLetterGrade,
+    percentage,
+    allGradesCompleted,
+  } = getCurrentGradeProgress(grades);
+  const estimateAverageGrade = getEstimateAverageGrade(grades);
+  const preLetterGrade = getPreLetterGrade(currentLetterGrade);
 
   return (
     <VStack flex="1">
@@ -52,6 +62,40 @@ export default function CourseDetail({ route }: Props) {
         <Text color="coolGray.200" fontSize="md" fontWeight="bold">
           Course Code: {course.data.courseCode}
         </Text>
+        <Box mt={4} mb={15}>
+          {grades.some((grade) => grade.data.actualScore !== null) && (
+            <>
+              <Progress value={totalWeightAchieved} size="lg" colorScheme="teal" />
+              <Text mt={2} fontWeight="bold" textAlign="center">
+                Current Score: {totalWeightAchieved.toFixed(2)} / {totalWeightCompleted.toFixed(2)}{' '}
+                ({percentage !== 0 ? percentage.toFixed(2) + '%' : 'N/A'})
+              </Text>
+              <Text mt={2} fontWeight="bold" textAlign="center">
+                Current performance: {currentLetterGrade}
+              </Text>
+              {!allGradesCompleted && (
+                <>
+                  {currentLetterGrade !== 'A+' && (
+                    <Text mt={2} fontWeight="bold" textAlign="center">
+                      Average score to achieve {preLetterGrade.preLetter}:{' '}
+                      {estimateAverageGrade[preLetterGrade.preLetter] !== -1
+                        ? estimateAverageGrade[preLetterGrade.preLetter]?.toFixed(2)
+                        : 'N/A'}
+                      %
+                    </Text>
+                  )}
+                  <Text mt={2} fontWeight="bold" textAlign="center">
+                    Average score to maintain {currentLetterGrade}:{' '}
+                    {estimateAverageGrade[currentLetterGrade] !== -1
+                      ? estimateAverageGrade[currentLetterGrade]?.toFixed(2)
+                      : 'N/A'}
+                    %
+                  </Text>
+                </>
+              )}
+            </>
+          )}
+        </Box>
       </VStack>
       <VStack p={4} space={4} flex="1">
         <HStack>
@@ -71,21 +115,6 @@ export default function CourseDetail({ route }: Props) {
               <DetailGradeItem key={grade.id} grade={grade} showWeighted={showWeighted} />
             ))}
           </VStack>
-          <Box mt={4} mb={15}>
-            <Progress value={percentage} size="lg" colorScheme="teal" />
-            <Text mt={2} fontWeight="bold" textAlign="center">
-              Current Score: {totalScore.toFixed(2)} / 100 ({percentage.toFixed(2)}
-              %)
-            </Text>
-            {totalScore < 90 && (
-              <Text mt={2} fontWeight="bold" textAlign="center">
-                Remaining Score to {preLetter}: {remainingScore.toFixed(2)}
-              </Text>
-            )}
-            <Text mt={2} fontWeight="bold" textAlign="center">
-              Average letter Grade: {averageLetterGrade}
-            </Text>
-          </Box>
         </ScrollView>
       </VStack>
     </VStack>

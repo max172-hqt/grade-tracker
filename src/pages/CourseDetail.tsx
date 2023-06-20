@@ -84,13 +84,15 @@ export default function CourseDetail({ route }: Props) {
                       %
                     </Text>
                   )}
-                  <Text mt={2} fontWeight="bold" textAlign="center">
-                    Average score to maintain {currentLetterGrade}:{' '}
-                    {estimateAverageGrade[currentLetterGrade] !== -1
-                      ? estimateAverageGrade[currentLetterGrade]?.toFixed(2)
-                      : 'N/A'}
-                    %
-                  </Text>
+                  {currentLetterGrade !== 'F' && (
+                    <Text mt={2} fontWeight="bold" textAlign="center">
+                      Average score to maintain {currentLetterGrade}:{' '}
+                      {estimateAverageGrade[currentLetterGrade] !== -1
+                        ? estimateAverageGrade[currentLetterGrade]?.toFixed(2)
+                        : 'N/A'}
+                      %
+                    </Text>
+                  )}
                 </>
               )}
             </>

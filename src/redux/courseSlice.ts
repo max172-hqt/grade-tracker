@@ -1,4 +1,4 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSelector, createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
 import type { Course, Grade } from '../types';
 import { RootState } from './store';
@@ -62,8 +62,15 @@ export const courseSlice = createSlice({
 export const { addCourse, setCourses, setGrades, updateActualGrade } = courseSlice.actions;
 export default courseSlice.reducer;
 
-export const selectGradesForCourseWithId = (state: RootState, courseId: number) =>
+const selectGradesForCourseWithId = (state: RootState, courseId: number) =>
   state.course.grades.filter((grade) => grade.courseId === courseId);
 
-export const selectCourseWithId = (state: RootState, courseId: number) =>
+export const selectGradesForCourseWithIdMemoized = createSelector(
+  [selectGradesForCourseWithId],
+  (course) => course,
+);
+
+const selectCourseWithId = (state: RootState, courseId: number) =>
   state.course.courses.find((course) => course.id === courseId);
+
+export const selectCourseWithIdMemoized = createSelector([selectCourseWithId], (course) => course);

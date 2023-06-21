@@ -77,7 +77,7 @@ test('getWeighted', () => {
   expect(getWeighted(generateGrade({ actualScore: 90, maxScore: 100, weight: 10 }))).toBe('9.00%');
   expect(getWeighted(generateGrade({ actualScore: 89, maxScore: 90, weight: 10 }))).toBe('9.89%');
   expect(getWeighted(generateGrade({ actualScore: 0, maxScore: 90, weight: 10 }))).toBe('0.00%');
-  expect(getWeighted(generateGrade({ actualScore: null, maxScore: 90, weight: 10 }))).toBe('');
+  expect(getWeighted(generateGrade({ actualScore: null, maxScore: 90, weight: 10 }))).toBe('-');
 });
 
 test('getCurrentGradeProgress', () => {

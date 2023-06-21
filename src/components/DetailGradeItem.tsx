@@ -69,7 +69,7 @@ function DetailGradeItem({ grade, showWeighted }: DetailGradeItemProps) {
             <VStack space="2" justifyContent="center">
               <HStack space={2} justifyContent="center">
                 <Text fontWeight="bold">
-                  {showWeighted ? getWeighted(grade) : grade.data.actualScore?.toString()}
+                  {showWeighted ? getWeighted(grade) : grade.data.actualScore?.toString() ?? '-'}
                 </Text>
                 <Text color="coolGray.600">/</Text>
                 <Text>

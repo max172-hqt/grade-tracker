@@ -1,4 +1,4 @@
-import { Box, Divider, HStack, Heading, Spacer, Text, VStack } from 'native-base';
+import { Box, Divider, HStack, Heading, Text, VStack } from 'native-base';
 import type { Grade } from '../types';
 import {
   getCurrentGradeProgress,

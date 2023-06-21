@@ -1,4 +1,4 @@
-import { VStack, Text, ScrollView, HStack, Heading, Progress, Box } from 'native-base';
+import { VStack, Text, ScrollView, HStack, Heading } from 'native-base';
 import { useSelector } from 'react-redux';
 import { selectCourseWithId, selectGradesForCourseWithId } from '../redux/courseSlice';
 import { RouteProp } from '@react-navigation/native';

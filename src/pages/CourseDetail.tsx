@@ -6,11 +6,7 @@ import { RootState } from '../redux/store';
 import DetailGradeItem from '../components/DetailGradeItem';
 import { useState } from 'react';
 import { Switch } from 'react-native';
-import {
-  getCurrentGradeProgress,
-  getEstimateAverageGrade,
-  getPreLetterGrade,
-} from '../utils/gradesCalculation';
+import CourseSummary from '../components/CourseSummary';
 
 type CourseDetailRouteProp = RouteProp<Record<string, { courseId: number }>, 'Course Detail'>;
 
@@ -32,16 +28,6 @@ export default function CourseDetail({ route }: Props) {
     return null;
   }
 
-  const {
-    totalWeightCompleted,
-    totalWeightAchieved,
-    currentLetterGrade,
-    percentage,
-    allGradesCompleted,
-  } = getCurrentGradeProgress(grades);
-  const estimateAverageGrade = getEstimateAverageGrade(grades);
-  const preLetterGrade = getPreLetterGrade(currentLetterGrade);
-
   return (
     <VStack flex="1">
       <VStack
@@ -62,42 +48,14 @@ export default function CourseDetail({ route }: Props) {
         <Text color="coolGray.200" fontSize="md" fontWeight="bold">
           Course Code: {course.data.courseCode}
         </Text>
-        <Box mt={4} mb={15}>
-          {grades.some((grade) => grade.data.actualScore !== null) && (
-            <>
-              <Progress value={totalWeightAchieved} size="lg" colorScheme="teal" />
-              <Text mt={2} fontWeight="bold" textAlign="center">
-                Current Score: {totalWeightAchieved.toFixed(2)} / {totalWeightCompleted.toFixed(2)}{' '}
-                ({percentage !== 0 ? percentage.toFixed(2) + '%' : 'N/A'})
-              </Text>
-              <Text mt={2} fontWeight="bold" textAlign="center">
-                Current performance: {currentLetterGrade}
-              </Text>
-              {!allGradesCompleted && (
-                <>
-                  {currentLetterGrade !== 'A+' && (
-                    <Text mt={2} fontWeight="bold" textAlign="center">
-                      Average score to achieve {preLetterGrade.preLetter}:{' '}
-                      {estimateAverageGrade[preLetterGrade.preLetter] !== -1
-                        ? estimateAverageGrade[preLetterGrade.preLetter]?.toFixed(2)
-                        : 'N/A'}
-                      %
-                    </Text>
-                  )}
-                  {currentLetterGrade !== 'F' && (
-                    <Text mt={2} fontWeight="bold" textAlign="center">
-                      Average score to maintain {currentLetterGrade}:{' '}
-                      {estimateAverageGrade[currentLetterGrade] !== -1
-                        ? estimateAverageGrade[currentLetterGrade]?.toFixed(2)
-                        : 'N/A'}
-                      %
-                    </Text>
-                  )}
-                </>
-              )}
-            </>
-          )}
-        </Box>
+      </VStack>
+      <VStack p={4} space={4}>
+        <HStack>
+          <Text fontSize="xl" fontWeight="bold" flex="1">
+            Summary
+          </Text>
+        </HStack>
+        <CourseSummary grades={grades} />
       </VStack>
       <VStack p={4} space={4} flex="1">
         <HStack>

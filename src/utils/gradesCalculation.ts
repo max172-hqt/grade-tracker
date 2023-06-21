@@ -35,35 +35,15 @@ export const getWeightedPercentage = (grade: number, maxGrade: number) => {
   return (grade / maxGrade) * 100;
 };
 
-export const getPreLetterGrade = (letterGrade: string) => {
-  let preScore = 0;
-  let preLetter = '';
-  if (letterGrade === 'F') {
-    preScore = 50;
-    preLetter = 'D';
-  } else if (letterGrade === 'D') {
-    preScore = 55;
-    preLetter = 'D+';
-  } else if (letterGrade === 'D+') {
-    preScore = 60;
-    preLetter = 'C';
-  } else if (letterGrade === 'C') {
-    preScore = 65;
-    preLetter = 'C+';
-  } else if (letterGrade === 'C+') {
-    preScore = 70;
-    preLetter = 'B';
-  } else if (letterGrade === 'B') {
-    preScore = 75;
-    preLetter = 'B+';
-  } else if (letterGrade === 'B+') {
-    preScore = 80;
-    preLetter = 'A';
-  } else if (letterGrade === 'A') {
-    preScore = 90;
-    preLetter = 'A+';
+export const getNextLetterGrade = (letterGrade: string) => {
+  const grades = ['F', 'D', 'D+', 'C', 'C+', 'B', 'B+', 'A', 'A+'];
+  const index = grades.findIndex((grade) => grade === letterGrade);
+
+  if (index === 0 || index === grades.length - 1) {
+    return null;
   }
-  return { preScore, preLetter };
+
+  return grades[index + 1];
 };
 
 /**

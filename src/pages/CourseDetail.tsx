@@ -1,6 +1,9 @@
 import { VStack, Text, ScrollView, HStack, Heading } from 'native-base';
 import { useSelector } from 'react-redux';
-import { selectCourseWithId, selectGradesForCourseWithId } from '../redux/courseSlice';
+import {
+  selectCourseWithIdMemoized,
+  selectGradesForCourseWithIdMemoized,
+} from '../redux/courseSlice';
 import { RouteProp } from '@react-navigation/native';
 import { RootState } from '../redux/store';
 import DetailGradeItem from '../components/DetailGradeItem';
@@ -16,8 +19,10 @@ type Props = {
 
 export default function CourseDetail({ route }: Props) {
   const { courseId } = route.params;
-  const course = useSelector((state: RootState) => selectCourseWithId(state, courseId));
-  const grades = useSelector((state: RootState) => selectGradesForCourseWithId(state, courseId));
+  const course = useSelector((state: RootState) => selectCourseWithIdMemoized(state, courseId));
+  const grades = useSelector((state: RootState) =>
+    selectGradesForCourseWithIdMemoized(state, courseId),
+  );
   const [showWeighted, setShowWeighted] = useState(false);
 
   const handleToggleShowWeighted = () => {

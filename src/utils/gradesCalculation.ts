@@ -39,7 +39,7 @@ export const getNextLetterGrade = (letterGrade: string) => {
   const grades = ['F', 'D', 'D+', 'C', 'C+', 'B', 'B+', 'A', 'A+'];
   const index = grades.findIndex((grade) => grade === letterGrade);
 
-  if (index === grades.length - 1) {
+  if (index === -1 || index === grades.length - 1) {
     return null;
   }
 

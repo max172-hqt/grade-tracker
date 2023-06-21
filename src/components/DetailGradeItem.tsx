@@ -1,4 +1,4 @@
-import { Box, VStack, HStack, Text, Modal, Button, Input } from 'native-base';
+import { Box, VStack, HStack, Text, Modal, Button, Input, Heading } from 'native-base';
 import { Alert } from 'react-native';
 import { useState } from 'react';
 import { TouchableOpacity } from 'react-native';
@@ -96,10 +96,17 @@ function DetailGradeItem({ grade, showWeighted }: DetailGradeItemProps) {
       <Modal isOpen={isModalOpen} onClose={handleCloseModal}>
         <Modal.Content>
           <Modal.CloseButton />
-          <Modal.Header>Edit Grade</Modal.Header>
+          <Modal.Header>
+            <Text fontSize="lg" fontWeight="bold" mb={2}>
+              Enter Grade
+            </Text>
+            <Text>
+              {grade.data.name}. Max Score: {grade.data.maxScore}
+            </Text>
+          </Modal.Header>
           <Modal.Body>
             <Input
-              placeholder="Input Grade"
+              placeholder="Enter Grade"
               value={updatedActualGrade?.toString() ?? ''}
               onChangeText={(text) => setUpdatedActualGrade(text)}
             />

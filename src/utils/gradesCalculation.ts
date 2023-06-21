@@ -56,7 +56,7 @@ export const getWeighted = (grade: Grade) => {
     const ans = (grade.data.actualScore / grade.data.maxScore) * grade.data.weight;
     return ans.toFixed(2) + '%';
   }
-  return '';
+  return '-';
 };
 
 export const getLetterForGrade = (grade: Grade) => {
@@ -77,7 +77,6 @@ export const getLetterForGrade = (grade: Grade) => {
 export const getCurrentGradeProgress = (grades: Grade[]) => {
   let totalWeightCompleted = 0;
   let totalWeightAchieved = 0;
-  let percentage = 0;
   let allGradesCompleted = true;
   grades.forEach((grade) => {
     if (grade.data.actualScore !== null && grade.data.weight !== null) {
@@ -87,12 +86,16 @@ export const getCurrentGradeProgress = (grades: Grade[]) => {
       allGradesCompleted = false;
     }
   });
-  percentage = (totalWeightAchieved / totalWeightCompleted) * 100;
+
+  const currentLetterGrade =
+    totalWeightCompleted !== 0
+      ? getLetterGrade((totalWeightAchieved / totalWeightCompleted) * 100, true)
+      : getLetterGrade(0);
+
   return {
     totalWeightCompleted,
     totalWeightAchieved,
-    currentLetterGrade: getLetterGrade((totalWeightAchieved / totalWeightCompleted) * 100, true),
-    percentage,
+    currentLetterGrade,
     allGradesCompleted,
   };
 };

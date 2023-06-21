@@ -62,7 +62,7 @@ function DetailGradeItem({ grade, showWeighted }: DetailGradeItemProps) {
               <Text fontWeight="bold" fontSize="md">
                 {grade.data.name}:
               </Text>
-              <Text color="coolGray.400" fontWeight="bold">
+              <Text color="coolGray.400" fontWeight="medium">
                 Weight: {grade.data.weight.toString()}%
               </Text>
             </VStack>

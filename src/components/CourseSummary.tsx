@@ -9,8 +9,13 @@ import {
 import CircularProgress from 'react-native-circular-progress-indicator';
 
 export default function CourseSummary({ grades }: { grades: Grade[] }) {
-  const { totalWeightCompleted, totalWeightAchieved, currentLetterGrade, allGradesCompleted } =
-    getCurrentGradeProgress(grades);
+  const {
+    totalWeightCompleted,
+    totalWeightAchieved,
+    currentLetterGrade,
+    allGradesCompleted,
+    percentage,
+  } = getCurrentGradeProgress(grades);
 
   const estimateAverageGrade = getEstimateAverageGrade(grades);
 
@@ -41,7 +46,8 @@ export default function CourseSummary({ grades }: { grades: Grade[] }) {
               bottom={4}
               fontWeight="medium"
             >
-              ({totalWeightAchieved.toFixed(2)} / {totalWeightCompleted.toFixed(2)})
+              {totalWeightAchieved.toFixed(2)} / {totalWeightCompleted.toFixed(0)} (
+              {percentage.toFixed(2)}%)
             </Text>
           </HStack>
           <Text color="coolGray.400" fontWeight="medium">
@@ -97,22 +103,4 @@ export default function CourseSummary({ grades }: { grades: Grade[] }) {
       )}
     </Box>
   );
-
-  //   return (
-  //     <Box bg="white" p="4" borderRadius="2xl">
-  //       {grades.some((grade) => grade.data.actualScore !== null) && (
-  //         <>
-  //           <Progress value={totalWeightAchieved} size="lg" colorScheme="teal" />
-  //           <Text mt={2} fontWeight="bold" textAlign="center">
-  //             Current Score: {totalWeightAchieved.toFixed(2)} / {totalWeightCompleted.toFixed(2)} (
-  //             {percentage !== 0 ? percentage.toFixed(2) + '%' : 'N/A'})
-  //           </Text>
-  //           <Text mt={2} fontWeight="bold" textAlign="center">
-  //             Current performance: {currentLetterGrade}
-  //           </Text>
-  //
-  //         </>
-  //       )}
-  //     </Box>
-  //   );
 }

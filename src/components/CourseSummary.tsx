@@ -58,7 +58,7 @@ export default function CourseSummary({ grades }: { grades: Grade[] }) {
           <Box flex="1" pt="2" alignSelf="center">
             <CircularProgress
               value={totalWeightCompleted}
-              showProgressValue={true}
+              showProgressValue={false}
               title={`${totalWeightCompleted}%`}
               titleStyle={{ fontSize: 16 }}
               maxValue={getTotalCourseWeight(grades)}

@@ -12,7 +12,7 @@ export default function SetupGradeItem({
 }: SetupGradeItemProps) {
   const [showModal, setShowModal] = useState(false);
 
-  const handleSaveChanges = (name: string, maxScore: string, weight: string) => {
+  const onSavePressed = (name: string, maxScore: string, weight: string) => {
     console.log({ name, maxScore, weight });
     setShowModal(false);
     handleUpdateGrade(tempId, {
@@ -55,8 +55,8 @@ export default function SetupGradeItem({
       <EditGradeModal
         grade={grade}
         isModalOpen={showModal}
-        handleCloseModal={() => setShowModal(false)}
-        handleSaveChanges={handleSaveChanges}
+        onCloseModal={() => setShowModal(false)}
+        onSavePressed={onSavePressed}
       />
     </Box>
   );

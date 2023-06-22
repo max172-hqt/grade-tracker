@@ -292,8 +292,8 @@ export default function AddCourse({ navigation }) {
       <EditGradeModal
         grade={null}
         isModalOpen={dialog === ADD_GRADE_DIALOG}
-        handleCloseModal={handleDialogClose}
-        handleSaveChanges={handleAddGrade}
+        onCloseModal={handleDialogClose}
+        onSavePressed={handleAddGrade}
       />
     </Box>
   );

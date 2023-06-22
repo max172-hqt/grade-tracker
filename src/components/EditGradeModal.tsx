@@ -5,8 +5,8 @@ import { useState } from 'react';
 export default function EditGradeModal({
   grade,
   isModalOpen,
-  handleCloseModal,
-  handleSaveChanges,
+  onCloseModal,
+  onSavePressed,
 }: EditGradeModalProps) {
   const [name, setName] = useState(grade?.name ?? '');
   const [maxScore, setMaxScore] = useState(grade?.maxScore.toString() ?? '');
@@ -26,8 +26,18 @@ export default function EditGradeModal({
     setWeight(value);
   };
 
-  const onSavePressed = () => {
-    handleSaveChanges(name, maxScore, weight);
+  const handleSavePressed = () => {
+    setName('');
+    setWeight('');
+    setMaxScore('');
+    onSavePressed(name, maxScore, weight);
+  };
+
+  const handleCloseModal = () => {
+    setName('');
+    setWeight('');
+    setMaxScore('');
+    onCloseModal();
   };
 
   return (
@@ -52,7 +62,7 @@ export default function EditGradeModal({
             <Button variant="ghost" colorScheme="blueGray" onPress={handleCloseModal}>
               Cancel
             </Button>
-            <Button onPress={onSavePressed}>Save</Button>
+            <Button onPress={handleSavePressed}>Save</Button>
           </Button.Group>
         </Modal.Footer>
       </Modal.Content>

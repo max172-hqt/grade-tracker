@@ -9,10 +9,7 @@ export default function SetupGradeItem({
   grade,
   handleUpdateGrade,
   handleDeleteGrade,
-  handleAddGrade,
-}: // handleEditGradeItem,
-// handleAddGradeItem,
-SetupGradeItemProps) {
+}: SetupGradeItemProps) {
   const [showModal, setShowModal] = useState(false);
 
   const handleSaveChanges = (name: string, maxScore: string, weight: string) => {

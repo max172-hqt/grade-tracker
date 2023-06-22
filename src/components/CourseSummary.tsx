@@ -7,7 +7,6 @@ import {
   getTotalCourseWeight,
 } from '../utils/gradesCalculation';
 import CircularProgress from 'react-native-circular-progress-indicator';
-import { useEffect } from 'react';
 
 export default function CourseSummary({ grades }: { grades: Grade[] }) {
   const {
@@ -31,11 +30,6 @@ export default function CourseSummary({ grades }: { grades: Grade[] }) {
     currentLetterGrade != 'F' && estimateAverageGrade[currentLetterGrade] !== -1
       ? estimateAverageGrade[currentLetterGrade].toFixed(2) + '%'
       : 'N/A';
-
-  useEffect(() => {
-    console.log('render');
-    console.log(totalWeightCompleted, getTotalCourseWeight(grades));
-  });
 
   return (
     <Box bg="white" p="4" borderRadius="2xl">

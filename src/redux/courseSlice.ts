@@ -48,13 +48,6 @@ export const courseSlice = createSlice({
         gradeToUpdate.data.actualScore = actualScore;
       }
     },
-
-    /**
-     * TODO: Need to add actions for
-     * - Create grade components
-     * - Update actual grade
-     * - Update weight and max for a grade
-     */
   },
 });
 

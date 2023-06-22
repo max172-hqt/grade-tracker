@@ -17,6 +17,7 @@ import SetupGradeItem from '../components/SetupGradeItem';
 import { createGradesForCourse } from '../database/localdb';
 import { useDispatch } from 'react-redux';
 import { addCourse } from '../redux/courseSlice';
+import EditGradeModal from '../components/EditGradeModal';
 
 const sampleGradeData: GradeData[] = [
   {
@@ -59,12 +60,13 @@ const sampleGradeData: GradeData[] = [
 
 const SAVE_DIALOG = 'SAVE';
 const CANCEL_DIALOG = 'CANCEL';
+const ADD_GRADE_DIALOG = 'ADD_GRADE';
 
 export default function AddCourse({ navigation }) {
   const [name, setName] = useState('');
   const [code, setCode] = useState('');
   const [gradeData, setGradeData] = useState<GradeData[]>(sampleGradeData);
-  const [dialog, setDialog] = useState<'SAVE' | 'CANCEL' | null>();
+  const [dialog, setDialog] = useState<'SAVE' | 'CANCEL' | 'ADD_GRADE' | null>();
   const [clickedSave, setClickedSave] = useState(false);
 
   const cancelRef = useRef(null);
@@ -118,17 +120,16 @@ export default function AddCourse({ navigation }) {
   //   setShowModal(!showModal);
   // };
 
-  const handleOnCloseModal = () => {};
-  const handleUpdateItemMaxScore = () => {};
-  const handleUpdateItemWeight = () => {};
-  const handleUpdateItemName = () => {};
-
   const handleDeleteGrade = (id: number) => {
     setGradeData((prev) => prev.filter((_, index) => index !== id));
   };
 
-  const handleAddGrade = (grade: GradeData) => {
-    setGradeData((prev) => [...prev, grade]);
+  const handleAddGrade = (name: string, maxScore: string, weight: string) => {
+    setGradeData((prev) => [
+      ...prev,
+      { name, maxScore: Number(maxScore), weight: Number(weight), actualScore: null },
+    ]);
+    setDialog(null);
   };
 
   const handleNameChange = (text: string) => {
@@ -279,7 +280,7 @@ export default function AddCourse({ navigation }) {
         <VStack flex="1">
           <HStack justifyContent="space-between" alignItems="center">
             <Heading fontSize="xl">Grade Components</Heading>
-            <Button variant="unstyled" onPress={() => {}}>
+            <Button variant="unstyled" onPress={() => setDialog('ADD_GRADE')}>
               Add Item
             </Button>
           </HStack>
@@ -291,9 +292,6 @@ export default function AddCourse({ navigation }) {
                 key={index}
                 handleUpdateGrade={handleUpdateGrade}
                 handleDeleteGrade={handleDeleteGrade}
-                handleAddGrade={handleAddGrade}
-                // handleEditGradeItem={handleEditGradeItem}
-                // handleAddGradeItem={handleAddGradeItem}
                 tempId={index}
               />
             )}
@@ -304,6 +302,12 @@ export default function AddCourse({ navigation }) {
 
       <SaveAlertDialog />
       <CancelAlertDialog />
+      <EditGradeModal
+        grade={null}
+        isModalOpen={dialog === ADD_GRADE_DIALOG}
+        handleCloseModal={handleDialogClose}
+        handleSaveChanges={handleAddGrade}
+      />
     </Box>
   );
 }

@@ -116,11 +116,8 @@ export default function AddCourse({ navigation }) {
   /**
    * Add new grade
    */
-  const handleAddGrade = (name: string, maxScore: string, weight: string) => {
-    setGradeData((prev) => [
-      ...prev,
-      { name, maxScore: Number(maxScore), weight: Number(weight), actualScore: null },
-    ]);
+  const handleAddGrade = (name: string, maxScore: number, weight: number) => {
+    setGradeData((prev) => [...prev, { name, maxScore, weight, actualScore: null }]);
     handleDialogClose();
   };
 

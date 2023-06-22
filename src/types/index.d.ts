@@ -43,7 +43,7 @@ export interface EditGradeModalProps {
   grade: GradeData | null;
   isModalOpen: boolean;
   onCloseModal: () => void;
-  onSavePressed: (name: string, maxScore: string, weight: string) => void;
+  onSavePressed: (name: string, maxScore: number, weight: number) => void;
 }
 
 export interface DetailGradeItemProps {

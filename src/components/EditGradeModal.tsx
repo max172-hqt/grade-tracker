@@ -1,6 +1,7 @@
 import { Modal, Text, Button, Input, VStack } from 'native-base';
 import type { EditGradeModalProps } from '../types';
 import { useState } from 'react';
+import { Alert } from 'react-native';
 
 export default function EditGradeModal({
   grade,
@@ -26,17 +27,25 @@ export default function EditGradeModal({
   };
 
   const handleSavePressed = () => {
+    const inputMaxScore = parseFloat(maxScore);
+    const inputWeight = parseFloat(weight);
+
+    if (isNaN(inputWeight) || isNaN(inputMaxScore)) {
+      Alert.alert('Error', 'Input grade is not valid. Please try again.');
+      return;
+    }
+
+    onSavePressed(name, inputMaxScore, inputWeight);
     setName('');
     setWeight('');
     setMaxScore('');
-    onSavePressed(name, maxScore, weight);
   };
 
   const handleCloseModal = () => {
+    onCloseModal();
     setName('');
     setWeight('');
     setMaxScore('');
-    onCloseModal();
   };
 
   return (

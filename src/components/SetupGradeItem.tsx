@@ -12,14 +12,13 @@ export default function SetupGradeItem({
 }: SetupGradeItemProps) {
   const [showModal, setShowModal] = useState(false);
 
-  const onSavePressed = (name: string, maxScore: string, weight: string) => {
-    console.log({ name, maxScore, weight });
+  const onSavePressed = (name: string, maxScore: number, weight: number) => {
     setShowModal(false);
     handleUpdateGrade(tempId, {
       ...grade,
       name,
-      maxScore: Number(maxScore),
-      weight: Number(weight),
+      maxScore,
+      weight,
     });
   };
 

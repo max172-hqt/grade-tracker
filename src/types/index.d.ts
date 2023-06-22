@@ -41,6 +41,13 @@ export interface SetupGradeItemProps {
   // handledAddGradeItem: (id: number) => void;
 }
 
+export interface EditGradeModalProps {
+  grade: GradeData | null;
+  isModalOpen: boolean;
+  handleCloseModal: () => void;
+  handleSaveChanges: (name: string, maxScore: string, weight: string) => void;
+}
+
 export interface DetailGradeItemProps {
   grade: Grade;
   showWeighted: boolean;

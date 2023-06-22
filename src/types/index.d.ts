@@ -31,7 +31,7 @@ export interface CourseItemProps {
   handleGoToCourseDetail: (courseId: number) => void;
 }
 
-export interface GradeItemProps {
+export interface SetupGradeItemProps {
   tempId: number;
   grade: GradeData;
   handleAddGrade: (grade: GradeData) => void;
@@ -39,4 +39,9 @@ export interface GradeItemProps {
   handleDeleteGrade: (id: number) => void;
   // handleEditGradeItem: (id: number, name: string, weight: number, maxScore: number) => void;
   // handledAddGradeItem: (id: number) => void;
+}
+
+export interface DetailGradeItemProps {
+  grade: Grade;
+  showWeighted: boolean;
 }

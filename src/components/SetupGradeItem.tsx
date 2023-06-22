@@ -1,9 +1,9 @@
 import { useEffect, useState, useRef, useCallback } from 'react';
 import { Modal, Input, Button, Box, HStack, Text, IconButton, VStack } from 'native-base';
 import Ionicons from '@expo/vector-icons/Ionicons';
-import type { GradeItemProps } from '../types';
+import type { SetupGradeItemProps } from '../types';
 
-export default function GradeItem({
+export default function SetupGradeItem({
   tempId,
   grade,
   handleUpdateGrade,
@@ -11,7 +11,7 @@ export default function GradeItem({
   handleAddGrade,
 }: // handleEditGradeItem,
 // handleAddGradeItem,
-GradeItemProps) {
+SetupGradeItemProps) {
   const [showModal, setShowModal] = useState(false);
   const [currIndex, setCurrIndex] = useState(0);
   const [iName, setIName] = useState('');

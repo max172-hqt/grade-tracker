@@ -13,7 +13,7 @@ import {
   WarningOutlineIcon,
 } from 'native-base';
 import type { CourseData, GradeData } from '../types';
-import GradeItem from '../components/GradeItem';
+import SetupGradeItem from '../components/SetupGradeItem';
 import { createGradesForCourse } from '../database/localdb';
 import { useDispatch } from 'react-redux';
 import { addCourse } from '../redux/courseSlice';
@@ -22,7 +22,7 @@ const sampleGradeData: GradeData[] = [
   {
     name: 'Quiz 1',
     weight: 10,
-    maxScore: 10,
+    maxScore: 30,
     actualScore: null,
   },
   {
@@ -286,7 +286,7 @@ export default function AddCourse({ navigation }) {
           <FlatList
             data={gradeData}
             renderItem={({ item, index }) => (
-              <GradeItem
+              <SetupGradeItem
                 grade={item}
                 key={index}
                 handleUpdateGrade={handleUpdateGrade}

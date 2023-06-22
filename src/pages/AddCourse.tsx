@@ -291,6 +291,7 @@ export default function AddCourse({ navigation }) {
       <CancelAlertDialog />
       <EditGradeModal
         grade={null}
+        title="New Grade"
         isModalOpen={dialog === ADD_GRADE_DIALOG}
         onCloseModal={handleDialogClose}
         onSavePressed={handleAddGrade}

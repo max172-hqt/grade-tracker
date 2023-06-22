@@ -39,6 +39,7 @@ export interface SetupGradeItemProps {
 }
 
 export interface EditGradeModalProps {
+  title: string;
   grade: GradeData | null;
   isModalOpen: boolean;
   onCloseModal: () => void;

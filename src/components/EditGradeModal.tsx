@@ -1,9 +1,10 @@
-import { Modal, Text, Button, Input } from 'native-base';
+import { Modal, Text, Button, Input, VStack } from 'native-base';
 import type { EditGradeModalProps } from '../types';
 import { useState } from 'react';
 
 export default function EditGradeModal({
   grade,
+  title,
   isModalOpen,
   onCloseModal,
   onSavePressed,
@@ -17,12 +18,10 @@ export default function EditGradeModal({
   };
 
   const handleMaxScoreChange = (value: string) => {
-    // TODO: Check valid
     setMaxScore(value);
   };
 
   const handleWeightChange = (value: string) => {
-    // TODO: Check valid
     setWeight(value);
   };
 
@@ -43,19 +42,27 @@ export default function EditGradeModal({
   return (
     <Modal isOpen={isModalOpen} onClose={handleCloseModal}>
       <Modal.Content>
-        <Modal.Header>Updating Values</Modal.Header>
+        <Modal.Header>{title}</Modal.Header>
         <Modal.Body>
-          <Text>Name</Text>
-          <Input placeholder={name} w={48} value={name} onChangeText={handleNameChange} />
-          <Text>Max Score</Text>
-          <Input
-            placeholder={maxScore}
-            w={24}
-            value={maxScore}
-            onChangeText={(value) => handleMaxScoreChange(value)}
-          />
-          <Text>Weight</Text>
-          <Input placeholder={weight} value={weight} w={24} onChangeText={handleWeightChange} />
+          <VStack space="2">
+            <VStack space="1">
+              <Text>Name</Text>
+              <Input placeholder={name} w={48} value={name} onChangeText={handleNameChange} />
+            </VStack>
+            <VStack space="1">
+              <Text>Max Score</Text>
+              <Input
+                placeholder={maxScore}
+                w={24}
+                value={maxScore}
+                onChangeText={(value) => handleMaxScoreChange(value)}
+              />
+            </VStack>
+            <VStack space="1">
+              <Text>Weight</Text>
+              <Input placeholder={weight} value={weight} w={24} onChangeText={handleWeightChange} />
+            </VStack>
+          </VStack>
         </Modal.Body>
         <Modal.Footer>
           <Button.Group space={2}>

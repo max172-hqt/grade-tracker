@@ -54,6 +54,7 @@ export default function SetupGradeItem({
       </HStack>
       <EditGradeModal
         grade={grade}
+        title="Edit Grade"
         isModalOpen={showModal}
         onCloseModal={() => setShowModal(false)}
         onSavePressed={onSavePressed}

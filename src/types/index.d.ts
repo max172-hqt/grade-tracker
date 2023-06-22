@@ -34,9 +34,16 @@ export interface CourseItemProps {
 export interface SetupGradeItemProps {
   tempId: number;
   grade: GradeData;
-  handleAddGrade: (grade: GradeData) => void;
   handleUpdateGrade: (id: number, grade: GradeData) => void;
   handleDeleteGrade: (id: number) => void;
+}
+
+export interface EditGradeModalProps {
+  title: string;
+  grade: GradeData | null;
+  isModalOpen: boolean;
+  onCloseModal: () => void;
+  onSavePressed: (name: string, maxScore: number, weight: number) => void;
 }
 
 export interface DetailGradeItemProps {

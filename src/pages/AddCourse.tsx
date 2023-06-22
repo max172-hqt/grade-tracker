@@ -1,5 +1,4 @@
 import { useEffect, useState, useRef, useCallback } from 'react';
-import Ionicons from '@expo/vector-icons/Ionicons';
 import {
   AlertDialog,
   Box,
@@ -11,12 +10,16 @@ import {
   Input,
   VStack,
   WarningOutlineIcon,
+  Text,
 } from 'native-base';
 import type { CourseData, GradeData } from '../types';
 import SetupGradeItem from '../components/SetupGradeItem';
 import { createGradesForCourse } from '../database/localdb';
 import { useDispatch } from 'react-redux';
 import { addCourse } from '../redux/courseSlice';
+import EditGradeModal from '../components/EditGradeModal';
+import { Alert } from 'react-native';
+import { getTotalCourseWeightGradeData } from '../utils/gradesCalculation';
 
 const sampleGradeData: GradeData[] = [
   {
@@ -59,24 +62,28 @@ const sampleGradeData: GradeData[] = [
 
 const SAVE_DIALOG = 'SAVE';
 const CANCEL_DIALOG = 'CANCEL';
+const ADD_GRADE_DIALOG = 'ADD_GRADE';
 
 export default function AddCourse({ navigation }) {
   const [name, setName] = useState('');
   const [code, setCode] = useState('');
   const [gradeData, setGradeData] = useState<GradeData[]>(sampleGradeData);
-  const [dialog, setDialog] = useState<'SAVE' | 'CANCEL' | null>();
+  const [dialog, setDialog] = useState<'SAVE' | 'CANCEL' | 'ADD_GRADE' | null>();
   const [clickedSave, setClickedSave] = useState(false);
 
   const cancelRef = useRef(null);
 
   const dispatch = useDispatch();
-
   const handleOpenSaveDialog = useCallback(() => {
     setClickedSave(true);
 
     // TODO: validate error
     if (name.length === 0 || code.length === 0 || gradeData.length === 0) {
       return;
+    }
+
+    if (gradeData.length === 0) {
+      Alert.alert('Error', 'Please add grade components');
     }
 
     setDialog(SAVE_DIALOG);
@@ -100,12 +107,19 @@ export default function AddCourse({ navigation }) {
     );
   };
 
+  /**
+   * Delete grade
+   */
   const handleDeleteGrade = (id: number) => {
     setGradeData((prev) => prev.filter((_, index) => index !== id));
   };
 
-  const handleAddGrade = (grade: GradeData) => {
-    setGradeData((prev) => [...prev, grade]);
+  /**
+   * Add new grade
+   */
+  const handleAddGrade = (name: string, maxScore: number, weight: number) => {
+    setGradeData((prev) => [...prev, { name, maxScore, weight, actualScore: null }]);
+    handleDialogClose();
   };
 
   const handleNameChange = (text: string) => {
@@ -153,11 +167,21 @@ export default function AddCourse({ navigation }) {
       <AlertDialog.Content>
         <AlertDialog.CloseButton />
         <AlertDialog.Header>Create Course</AlertDialog.Header>
-        <AlertDialog.Body>Are you sure you want to create the course?</AlertDialog.Body>
+        <AlertDialog.Body>
+          <VStack space="4">
+            {getTotalCourseWeightGradeData(gradeData) !== 100 && (
+              <HStack space="2" alignItems="center">
+                <WarningOutlineIcon color="warning.500" />
+                <Text color="warning.500">The total weight is not equal to 100%</Text>
+              </HStack>
+            )}
+            <Text>Are you sure you want to create the course?</Text>
+          </VStack>
+        </AlertDialog.Body>
         <AlertDialog.Footer>
           <Button.Group space={2}>
             <Button
-              variant="unstyled"
+              variant="ghost"
               colorScheme="coolGray"
               onPress={handleDialogClose}
               ref={cancelRef}
@@ -188,7 +212,7 @@ export default function AddCourse({ navigation }) {
         <AlertDialog.Footer>
           <Button.Group space={2}>
             <Button
-              variant="unstyled"
+              variant="ghost"
               colorScheme="coolGray"
               onPress={handleDialogClose}
               ref={cancelRef}
@@ -207,19 +231,12 @@ export default function AddCourse({ navigation }) {
   useEffect(() => {
     navigation.setOptions({
       headerRight: () => (
-        <Button
-          variant="unstyled"
-          _icon={{
-            as: Ionicons,
-            name: 'Save',
-          }}
-          onPress={handleOpenSaveDialog}
-        >
+        <Button variant="ghost" colorScheme="blue" onPress={handleOpenSaveDialog}>
           Save
         </Button>
       ),
       headerLeft: () => (
-        <Button onPress={handleOpenCancelDialog} variant="unstyled">
+        <Button variant="ghost" colorScheme="danger" onPress={handleOpenCancelDialog}>
           Cancel
         </Button>
       ),
@@ -232,6 +249,7 @@ export default function AddCourse({ navigation }) {
         <Heading fontSize="xl">Course Information</Heading>
         <FormControl isInvalid={clickedSave && name.length === 0}>
           <Input
+            fontSize="sm"
             placeholder="Enter the course name"
             w="100%"
             value={name}
@@ -243,6 +261,7 @@ export default function AddCourse({ navigation }) {
         </FormControl>
         <FormControl isInvalid={clickedSave && code.length === 0}>
           <Input
+            fontSize="sm"
             placeholder="Enter the course code"
             w="100%"
             value={code}
@@ -256,7 +275,9 @@ export default function AddCourse({ navigation }) {
         <VStack flex="1">
           <HStack justifyContent="space-between" alignItems="center">
             <Heading fontSize="xl">Grade Components</Heading>
-            <Button variant="unstyled">Add rows</Button>
+            <Button variant="ghost" onPress={() => setDialog('ADD_GRADE')} colorScheme="red">
+              Add Item
+            </Button>
           </HStack>
           <FlatList
             data={gradeData}
@@ -266,7 +287,6 @@ export default function AddCourse({ navigation }) {
                 key={index}
                 handleUpdateGrade={handleUpdateGrade}
                 handleDeleteGrade={handleDeleteGrade}
-                handleAddGrade={handleAddGrade}
                 tempId={index}
               />
             )}
@@ -274,8 +294,16 @@ export default function AddCourse({ navigation }) {
           />
         </VStack>
       </VStack>
+
       <SaveAlertDialog />
       <CancelAlertDialog />
+      <EditGradeModal
+        grade={null}
+        title="New Grade"
+        isModalOpen={dialog === ADD_GRADE_DIALOG}
+        onCloseModal={handleDialogClose}
+        onSavePressed={handleAddGrade}
+      />
     </Box>
   );
 }

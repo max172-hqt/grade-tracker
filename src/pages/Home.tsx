@@ -16,8 +16,8 @@ export default function HomeScreen() {
         options={({ navigation }) => ({
           headerRight: () => (
             <IconButton
-              colorScheme="indigo"
-              variant="unstyled"
+              colorScheme="blue"
+              variant="ghost"
               _icon={{
                 as: Ionicons,
                 name: 'add',

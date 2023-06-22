@@ -1,5 +1,4 @@
 import { useEffect, useState, useRef, useCallback } from 'react';
-import Ionicons from '@expo/vector-icons/Ionicons';
 import {
   AlertDialog,
   Box,
@@ -11,6 +10,7 @@ import {
   Input,
   VStack,
   WarningOutlineIcon,
+  Text,
 } from 'native-base';
 import type { CourseData, GradeData } from '../types';
 import SetupGradeItem from '../components/SetupGradeItem';
@@ -19,6 +19,7 @@ import { useDispatch } from 'react-redux';
 import { addCourse } from '../redux/courseSlice';
 import EditGradeModal from '../components/EditGradeModal';
 import { Alert } from 'react-native';
+import { getTotalCourseWeightGradeData } from '../utils/gradesCalculation';
 
 const sampleGradeData: GradeData[] = [
   {
@@ -166,7 +167,17 @@ export default function AddCourse({ navigation }) {
       <AlertDialog.Content>
         <AlertDialog.CloseButton />
         <AlertDialog.Header>Create Course</AlertDialog.Header>
-        <AlertDialog.Body>Are you sure you want to create the course?</AlertDialog.Body>
+        <AlertDialog.Body>
+          <VStack space="4">
+            {getTotalCourseWeightGradeData(gradeData) !== 100 && (
+              <HStack space="2" alignItems="center">
+                <WarningOutlineIcon color="warning.500" />
+                <Text color="warning.500">The total weight is not equal to 100%</Text>
+              </HStack>
+            )}
+            <Text>Are you sure you want to create the course?</Text>
+          </VStack>
+        </AlertDialog.Body>
         <AlertDialog.Footer>
           <Button.Group space={2}>
             <Button

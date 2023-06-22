@@ -1,4 +1,4 @@
-import type { Grade } from '../types';
+import type { Grade, GradeData } from '../types';
 
 export const getLetterGrade = (percentage: number, roundUp = false) => {
   // Round to the nearest integer
@@ -107,9 +107,13 @@ export const getCurrentGradeProgress = (grades: Grade[]) => {
  * @param grade List of grades
  * @returns Total course weight
  */
-export const getTotalCourseWeight = (grade: Grade[]) => {
+export function getTotalCourseWeight(grade: Grade[]) {
   return grade.reduce((curr, grade) => curr + grade.data.weight, 0);
-};
+}
+
+export function getTotalCourseWeightGradeData(grade: GradeData[]) {
+  return grade.reduce((curr, grade) => curr + grade.weight, 0);
+}
 
 /**
  * Get the estimated average grades needed for the rest of the course

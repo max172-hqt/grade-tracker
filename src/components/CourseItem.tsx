@@ -1,6 +1,6 @@
 import { Box, HStack, VStack, Text } from 'native-base';
 import type { CourseItemProps } from '../types';
-import { Pressable } from 'react-native';
+import { TouchableOpacity } from 'react-native';
 
 export default function CourseItem({ course, handleGoToCourseDetail }: CourseItemProps) {
   const handleOnPressCourse = () => {
@@ -23,7 +23,7 @@ export default function CourseItem({ course, handleGoToCourseDetail }: CourseIte
       borderWidth="1"
       borderColor="gray.300"
     >
-      <Pressable onPress={handleOnPressCourse}>
+      <TouchableOpacity onPress={handleOnPressCourse}>
         <HStack space={[2, 3]} justifyContent="space-between">
           <VStack>
             <Text
@@ -45,7 +45,7 @@ export default function CourseItem({ course, handleGoToCourseDetail }: CourseIte
             </Text>
           </VStack>
         </HStack>
-      </Pressable>
+      </TouchableOpacity>
     </Box>
   );
 }

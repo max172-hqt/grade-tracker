@@ -18,6 +18,7 @@ import { createGradesForCourse } from '../database/localdb';
 import { useDispatch } from 'react-redux';
 import { addCourse } from '../redux/courseSlice';
 import EditGradeModal from '../components/EditGradeModal';
+import { Alert } from 'react-native';
 
 const sampleGradeData: GradeData[] = [
   {
@@ -78,6 +79,10 @@ export default function AddCourse({ navigation }) {
     // TODO: validate error
     if (name.length === 0 || code.length === 0 || gradeData.length === 0) {
       return;
+    }
+
+    if (gradeData.length === 0) {
+      Alert.alert('Error', 'Please add grade components');
     }
 
     setDialog(SAVE_DIALOG);
@@ -168,7 +173,7 @@ export default function AddCourse({ navigation }) {
         <AlertDialog.Footer>
           <Button.Group space={2}>
             <Button
-              variant="unstyled"
+              variant="ghost"
               colorScheme="coolGray"
               onPress={handleDialogClose}
               ref={cancelRef}
@@ -199,7 +204,7 @@ export default function AddCourse({ navigation }) {
         <AlertDialog.Footer>
           <Button.Group space={2}>
             <Button
-              variant="unstyled"
+              variant="ghost"
               colorScheme="coolGray"
               onPress={handleDialogClose}
               ref={cancelRef}
@@ -218,19 +223,12 @@ export default function AddCourse({ navigation }) {
   useEffect(() => {
     navigation.setOptions({
       headerRight: () => (
-        <Button
-          variant="unstyled"
-          _icon={{
-            as: Ionicons,
-            name: 'Save',
-          }}
-          onPress={handleOpenSaveDialog}
-        >
+        <Button variant="ghost" colorScheme="blue" onPress={handleOpenSaveDialog}>
           Save
         </Button>
       ),
       headerLeft: () => (
-        <Button onPress={handleOpenCancelDialog} variant="unstyled">
+        <Button variant="ghost" colorScheme="danger" onPress={handleOpenCancelDialog}>
           Cancel
         </Button>
       ),
@@ -243,6 +241,7 @@ export default function AddCourse({ navigation }) {
         <Heading fontSize="xl">Course Information</Heading>
         <FormControl isInvalid={clickedSave && name.length === 0}>
           <Input
+            fontSize="sm"
             placeholder="Enter the course name"
             w="100%"
             value={name}
@@ -254,6 +253,7 @@ export default function AddCourse({ navigation }) {
         </FormControl>
         <FormControl isInvalid={clickedSave && code.length === 0}>
           <Input
+            fontSize="sm"
             placeholder="Enter the course code"
             w="100%"
             value={code}
@@ -267,7 +267,7 @@ export default function AddCourse({ navigation }) {
         <VStack flex="1">
           <HStack justifyContent="space-between" alignItems="center">
             <Heading fontSize="xl">Grade Components</Heading>
-            <Button variant="unstyled" onPress={() => setDialog('ADD_GRADE')}>
+            <Button variant="ghost" onPress={() => setDialog('ADD_GRADE')} colorScheme="red">
               Add Item
             </Button>
           </HStack>

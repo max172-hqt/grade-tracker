@@ -96,7 +96,7 @@ export const getCurrentGradeProgress = (grades: Grade[]) => {
     totalWeightCompleted,
     totalWeightAchieved,
     currentLetterGrade,
-    percentage: (totalWeightAchieved / totalWeightCompleted) * 100,
+    percentage: totalWeightCompleted === 0 ? 0 : (totalWeightAchieved / totalWeightCompleted) * 100,
     allGradesCompleted,
   };
 };

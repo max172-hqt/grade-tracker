@@ -26,16 +26,17 @@ export default function SetupGradeItem({
   return (
     <Box mb={2} pb={2} borderBottomWidth="1" borderBottomColor="coolGray.300">
       <HStack justifyContent="space-between" alignItems="center">
-        <VStack width="100%" flexShrink={1} textAlign="left">
-          <Text bold>{grade.name}</Text>
+        <VStack width="100%" flexShrink={1} textAlign="left" space={2}>
+          <Text fontWeight="medium" fontSize="md">
+            {grade.name}
+          </Text>
           <HStack space={4}>
             <Text color="coolGray.600">Weight: {grade.weight}%</Text>
             <Text color="coolGray.600">Max Score: {grade.maxScore}</Text>
           </HStack>
         </VStack>
         <IconButton
-          colorScheme="indigo"
-          variant="unstyled"
+          colorScheme="coolGray"
           _icon={{
             as: Ionicons,
             name: 'create-outline',
@@ -43,8 +44,7 @@ export default function SetupGradeItem({
           onPress={() => setShowModal(true)}
         />
         <IconButton
-          colorScheme="indigo"
-          variant="unstyled"
+          colorScheme="red"
           _icon={{
             as: Ionicons,
             name: 'trash',

@@ -72,12 +72,6 @@ export default function AddCourse({ navigation }) {
   const cancelRef = useRef(null);
 
   const dispatch = useDispatch();
-  // const [showModal, setShowModal] = useState(false);
-  // const [currIndex, setCurrIndex] = useState(0);
-  // const [iName, setIName] = useState('');
-  // const [iMaxScore, setIMaxScore] = useState(0);
-  // const [iWeight, setIWeight] = useState(0);
-
   const handleOpenSaveDialog = useCallback(() => {
     setClickedSave(true);
 
@@ -107,29 +101,22 @@ export default function AddCourse({ navigation }) {
     );
   };
 
-  // const handleEditGradeItem = (id: number) => {
-
-  //   console.log('Edit Add Course');
-  //   console.log(gradeData[id].name);
-
-  //   setCurrIndex(id);
-  //   // setIName(gradeData[id].name);
-  //   // setIMaxScore(gradeData[id].maxScore);
-  //   // setIWeight(gradeData[id].weight);
-
-  //   setShowModal(!showModal);
-  // };
-
+  /**
+   * Delete grade
+   */
   const handleDeleteGrade = (id: number) => {
     setGradeData((prev) => prev.filter((_, index) => index !== id));
   };
 
+  /**
+   * Add new grade
+   */
   const handleAddGrade = (name: string, maxScore: string, weight: string) => {
     setGradeData((prev) => [
       ...prev,
       { name, maxScore: Number(maxScore), weight: Number(weight), actualScore: null },
     ]);
-    setDialog(null);
+    handleDialogClose();
   };
 
   const handleNameChange = (text: string) => {

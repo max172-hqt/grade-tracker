@@ -6,6 +6,8 @@ This mobile application is designed to track student progress in every courses t
 
 To cater to a wider range of users using Android and iOS, this cross-platform applicaton was developed with React Native.
 
+![Screenshot 2023-06-23 at 12 21 03 AM](https://github.com/max172-hqt/grade-tracker/assets/55776151/64f558ab-1774-4c94-935e-7daa330c5088)
+
 ## Group 8 Members
 
 - Huy Tran

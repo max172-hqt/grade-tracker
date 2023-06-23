@@ -25,7 +25,7 @@ const sampleGradeData: GradeData[] = [
   {
     name: 'Quiz 1',
     weight: 10,
-    maxScore: 30,
+    maxScore: 10,
     actualScore: null,
   },
   {

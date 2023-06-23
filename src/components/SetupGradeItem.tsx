@@ -13,7 +13,7 @@ export default function SetupGradeItem({
   const [showModal, setShowModal] = useState(false);
 
   const onSavePressed = (name: string, maxScore: number, weight: number) => {
-    setShowModal(false);
+    console.log('on save pressed');
     handleUpdateGrade(tempId, {
       ...grade,
       name,

@@ -13,6 +13,7 @@ export default function EditGradeModal({
   const [name, setName] = useState(grade?.name ?? '');
   const [maxScore, setMaxScore] = useState(grade?.maxScore.toString() ?? '');
   const [weight, setWeight] = useState(grade?.weight.toString() ?? '');
+  console.log(grade);
 
   const handleNameChange = (value: string) => {
     setName(value);
@@ -38,8 +39,9 @@ export default function EditGradeModal({
     onSavePressed(name, inputMaxScore, inputWeight);
     // Reset the value
     setName(grade ? name : '');
-    setWeight(grade ? maxScore : '');
-    setMaxScore(grade ? weight : '');
+    setWeight(grade ? weight : '');
+    setMaxScore(grade ? maxScore : '');
+    onCloseModal();
   };
 
   const handleCloseModal = () => {

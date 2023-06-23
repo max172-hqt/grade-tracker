@@ -13,7 +13,6 @@ export default function EditGradeModal({
   const [name, setName] = useState(grade?.name ?? '');
   const [maxScore, setMaxScore] = useState(grade?.maxScore.toString() ?? '');
   const [weight, setWeight] = useState(grade?.weight.toString() ?? '');
-  console.log(grade);
 
   const handleNameChange = (value: string) => {
     setName(value);

@@ -1,6 +1,6 @@
 import { Modal, Text, Button, Input, VStack } from 'native-base';
 import type { EditGradeModalProps } from '../types';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Alert } from 'react-native';
 
 export default function EditGradeModal({
@@ -36,16 +36,18 @@ export default function EditGradeModal({
     }
 
     onSavePressed(name, inputMaxScore, inputWeight);
-    setName('');
-    setWeight('');
-    setMaxScore('');
+    // Reset the value
+    setName(grade ? name : '');
+    setWeight(grade ? maxScore : '');
+    setMaxScore(grade ? weight : '');
   };
 
   const handleCloseModal = () => {
     onCloseModal();
-    setName('');
-    setWeight('');
-    setMaxScore('');
+    // Reset the value
+    setName(grade?.name ?? '');
+    setWeight(grade?.weight.toString() ?? '');
+    setMaxScore(grade?.maxScore.toString() ?? '');
   };
 
   return (

@@ -77,13 +77,13 @@ export default function AddCourse({ navigation }) {
   const handleOpenSaveDialog = useCallback(() => {
     setClickedSave(true);
 
-    // TODO: validate error
-    if (name.length === 0 || code.length === 0 || gradeData.length === 0) {
+    if (name.length === 0 || code.length === 0) {
       return;
     }
 
     if (gradeData.length === 0) {
-      Alert.alert('Error', 'Please add grade components');
+      Alert.alert('Error', 'Please add at least 1 grade component.');
+      return;
     }
 
     setDialog(SAVE_DIALOG);

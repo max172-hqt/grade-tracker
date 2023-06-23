@@ -1,6 +1,6 @@
 import { Modal, Text, Button, Input, VStack } from 'native-base';
 import type { EditGradeModalProps } from '../types';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { Alert } from 'react-native';
 
 export default function EditGradeModal({

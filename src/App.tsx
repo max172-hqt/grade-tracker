@@ -71,7 +71,7 @@ function App() {
           })}
         >
           <Tab.Screen name="Home" component={HomeScreen} />
-          <Tab.Screen name="Settings" component={SettingsScreen} />
+          {/* <Tab.Screen name="Settings" component={SettingsScreen} /> */}
         </Tab.Navigator>
       </NativeBaseProvider>
     </NavigationContainer>

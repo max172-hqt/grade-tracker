@@ -29,9 +29,21 @@ export default function EditGradeModal({
   const handleSavePressed = () => {
     const inputMaxScore = parseFloat(maxScore);
     const inputWeight = parseFloat(weight);
+    const inputName = name;
 
     if (isNaN(inputWeight) || isNaN(inputMaxScore)) {
-      Alert.alert('Error', 'Input grade is not valid. Please try again.');
+      Alert.alert('Error', 'Input value must be numeric. Please try again.');
+      return;
+    } else if (Math.sign(inputWeight) === -1 || Math.sign(inputMaxScore) === -1) {
+      Alert.alert('Invalid Input', 'Negative number is not allowed.');
+      return;
+    } else if (inputMaxScore === 0 || inputWeight === 0) {
+      Alert.alert('Invalid Input', ' Zero value is not allowed.');
+      return;
+    }
+
+    if (!isNaN(+inputName)) {
+      Alert.alert('Invalid Input', 'Name should describe the component and not numeric only');
       return;
     }
 
@@ -72,7 +84,13 @@ export default function EditGradeModal({
             </VStack>
             <VStack space="1">
               <Text>Weight</Text>
-              <Input placeholder={weight} value={weight} w={24} onChangeText={handleWeightChange} />
+              <Input
+                placeholder={weight}
+                value={weight}
+                w={24}
+                onChangeText={handleWeightChange}
+                maxLength={2}
+              />
             </VStack>
           </VStack>
         </Modal.Body>

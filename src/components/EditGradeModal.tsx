@@ -47,6 +47,15 @@ export default function EditGradeModal({
       return;
     }
 
+    if (inputWeight > 99) {
+      Alert.alert('Invalid Input', 'Grade  weight component must be less than 100');
+      return;
+    }
+    if (!/[0-9a-zA-Z]/.test(name)) {
+      Alert.alert('Invalid Input', 'Only number and letters are accepted for Name');
+      return;
+    }
+
     onSavePressed(name, inputMaxScore, inputWeight);
     // Reset the value
     setName(grade ? name : '');
@@ -84,13 +93,7 @@ export default function EditGradeModal({
             </VStack>
             <VStack space="1">
               <Text>Weight</Text>
-              <Input
-                placeholder={weight}
-                value={weight}
-                w={24}
-                onChangeText={handleWeightChange}
-                maxLength={2}
-              />
+              <Input placeholder={weight} value={weight} w={24} onChangeText={handleWeightChange} />
             </VStack>
           </VStack>
         </Modal.Body>

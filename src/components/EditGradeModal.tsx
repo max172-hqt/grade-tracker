@@ -29,21 +29,23 @@ export default function EditGradeModal({
   const handleSavePressed = () => {
     const inputMaxScore = parseFloat(maxScore);
     const inputWeight = parseFloat(weight);
-    const inputName = name;
 
     if (isNaN(inputWeight) || isNaN(inputMaxScore)) {
       Alert.alert('Error', 'Input value must be numeric. Please try again.');
       return;
-    } else if (Math.sign(inputWeight) === -1 || Math.sign(inputMaxScore) === -1) {
+    }
+
+    if (Math.sign(inputWeight) === -1 || Math.sign(inputMaxScore) === -1) {
       Alert.alert('Invalid Input', 'Negative number is not allowed.');
       return;
-    } else if (inputMaxScore === 0 || inputWeight === 0) {
+    }
+    if (inputMaxScore === 0 || inputWeight === 0) {
       Alert.alert('Invalid Input', ' Zero value is not allowed.');
       return;
     }
 
-    if (!isNaN(+inputName)) {
-      Alert.alert('Invalid Input', 'Name should describe the component and not numeric only');
+    if (!isNaN(+name)) {
+      Alert.alert('Invalid Input', 'Please provide short description for the component');
       return;
     }
 
@@ -51,6 +53,7 @@ export default function EditGradeModal({
       Alert.alert('Invalid Input', 'Grade  weight component must be less than 100');
       return;
     }
+
     if (!/[0-9a-zA-Z]/.test(name)) {
       Alert.alert('Invalid Input', 'Only number and letters are accepted for Name');
       return;

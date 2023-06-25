@@ -87,16 +87,18 @@ export const getCurrentGradeProgress = (grades: Grade[]) => {
     }
   });
 
-  const currentLetterGrade =
-    totalWeightCompleted !== 0
-      ? getLetterGrade((totalWeightAchieved / totalWeightCompleted) * 100, true)
-      : getLetterGrade(0);
+  const percentage =
+    totalWeightCompleted === 0
+      ? 0
+      : (totalWeightAchieved / Math.min(totalWeightCompleted, 100)) * 100;
+
+  const currentLetterGrade = getLetterGrade(percentage, true);
 
   return {
     totalWeightCompleted,
     totalWeightAchieved,
     currentLetterGrade,
-    percentage: totalWeightCompleted === 0 ? 0 : (totalWeightAchieved / totalWeightCompleted) * 100,
+    percentage,
     allGradesCompleted,
   };
 };

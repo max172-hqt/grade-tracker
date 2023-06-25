@@ -46,7 +46,7 @@ export default function CourseSummary({ grades }: { grades: Grade[] }) {
               bottom={4}
               fontWeight="medium"
             >
-              {totalWeightAchieved.toFixed(2)} / {totalWeightCompleted.toFixed(0)} (
+              {totalWeightAchieved.toFixed(2)} / {Math.min(100, totalWeightCompleted).toFixed(0)} (
               {percentage.toFixed(2)}%)
             </Text>
           </HStack>

@@ -167,12 +167,9 @@ export default function AddCourse({ navigation }) {
         <AlertDialog.CloseButton />
         <AlertDialog.Header>Create Course</AlertDialog.Header>
         <AlertDialog.Body>
-          <VStack space="4">
+          <VStack space="4" p="1">
             {getTotalCourseWeightGradeData(gradeData) !== 100 && (
-              <HStack space="2" alignItems="center">
-                <WarningOutlineIcon color="warning.500" />
-                <Text color="warning.500">The total weight is not equal to 100%</Text>
-              </HStack>
+              <Text color="warning.500">The total weight is not equal to 100%</Text>
             )}
             <Text>Are you sure you want to create the course?</Text>
           </VStack>

@@ -122,11 +122,11 @@ export default function AddCourse({ navigation }) {
   };
 
   const handleNameChange = (text: string) => {
-    setName(text);
+    setName(text.trim());
   };
 
   const handleCodeChange = (text: string) => {
-    setCode(text);
+    setCode(text.trim());
   };
 
   const handleDialogClose = () => setDialog(null);
@@ -141,6 +141,7 @@ export default function AddCourse({ navigation }) {
       name,
       courseCode: code,
     };
+
     const data = await createGradesForCourse(courseData, gradeData);
     if (!data) {
       console.log('Error creating course');

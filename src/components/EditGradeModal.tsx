@@ -49,7 +49,7 @@ export default function EditGradeModal({
       return;
     }
 
-    if (inputWeight > 99) {
+    if (inputWeight >= 100) {
       Alert.alert('Invalid Input', 'Grade  weight component must be less than 100');
       return;
     }

@@ -2,7 +2,6 @@ import { registerRootComponent } from 'expo';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import HomeScreen from './pages/Home';
-import SettingsScreen from './pages/Setting';
 import { NativeBaseProvider } from 'native-base';
 import { useEffect } from 'react';
 import { initDatabase, getAllCourses, getAllGrades } from './database/localdb';
@@ -11,6 +10,7 @@ import { store } from './redux/store';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { setCourses, setGrades } from './redux/courseSlice';
 import { LinearGradient } from 'expo-linear-gradient';
+import 'react-native-gesture-handler';
 
 const Tab = createBottomTabNavigator();
 

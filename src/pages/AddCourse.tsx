@@ -3,7 +3,6 @@ import {
   AlertDialog,
   Box,
   Button,
-  FlatList,
   FormControl,
   HStack,
   Heading,
@@ -20,6 +19,7 @@ import { addCourse } from '../redux/courseSlice';
 import EditGradeModal from '../components/EditGradeModal';
 import { Alert } from 'react-native';
 import { getTotalCourseWeightGradeData } from '../utils/gradesCalculation';
+import { ScrollView } from 'react-native-gesture-handler';
 
 const sampleGradeData: GradeData[] = [
   {
@@ -243,66 +243,67 @@ export default function AddCourse({ navigation }) {
   }, [navigation, handleOpenSaveDialog]);
 
   return (
-    <Box p="4" flex="1" bg="white">
-      <VStack space="4" flex="1">
-        <Heading fontSize="xl">Course Information</Heading>
-        <FormControl isInvalid={clickedSave && name.length === 0}>
-          <Input
-            fontSize="sm"
-            placeholder="Enter the course name"
-            w="100%"
-            value={name}
-            onChangeText={handleNameChange}
-          />
-          <FormControl.ErrorMessage leftIcon={<WarningOutlineIcon size="xs" />}>
-            Course name cannot be empty
-          </FormControl.ErrorMessage>
-        </FormControl>
-        <FormControl isInvalid={clickedSave && code.length === 0}>
-          <Input
-            fontSize="sm"
-            placeholder="Enter the course code"
-            w="100%"
-            value={code}
-            onChangeText={handleCodeChange}
-          />
-          <FormControl.ErrorMessage leftIcon={<WarningOutlineIcon size="xs" />}>
-            Course code cannot be empty
-          </FormControl.ErrorMessage>
-        </FormControl>
+    <ScrollView>
+      <Box p="4" flex="1" bg="white">
+        <VStack space="4" flex="1">
+          <Heading fontSize="xl">Course Information</Heading>
+          <FormControl isInvalid={clickedSave && name.length === 0}>
+            <Input
+              fontSize="sm"
+              placeholder="Enter the course name"
+              w="100%"
+              value={name}
+              onChangeText={handleNameChange}
+            />
+            <FormControl.ErrorMessage leftIcon={<WarningOutlineIcon size="xs" />}>
+              Course name cannot be empty
+            </FormControl.ErrorMessage>
+          </FormControl>
+          <FormControl isInvalid={clickedSave && code.length === 0}>
+            <Input
+              fontSize="sm"
+              placeholder="Enter the course code"
+              w="100%"
+              value={code}
+              onChangeText={handleCodeChange}
+            />
+            <FormControl.ErrorMessage leftIcon={<WarningOutlineIcon size="xs" />}>
+              Course code cannot be empty
+            </FormControl.ErrorMessage>
+          </FormControl>
 
-        <VStack flex="1">
-          <HStack justifyContent="space-between" alignItems="center">
-            <Heading fontSize="xl">Grade Components</Heading>
-            <Button variant="ghost" onPress={() => setDialog('ADD_GRADE')} colorScheme="red">
-              Add Item
-            </Button>
-          </HStack>
-          <FlatList
-            data={gradeData}
-            renderItem={({ item, index }) => (
-              <SetupGradeItem
-                grade={item}
-                key={index}
-                handleUpdateGrade={handleUpdateGrade}
-                handleDeleteGrade={handleDeleteGrade}
-                tempId={index}
-              />
-            )}
-            keyExtractor={(_, index) => index.toString()}
-          />
+          <VStack flex="1">
+            <HStack justifyContent="space-between" alignItems="center">
+              <Heading fontSize="xl">Grade Components</Heading>
+              <Button variant="ghost" onPress={() => setDialog('ADD_GRADE')} colorScheme="red">
+                Add Item
+              </Button>
+            </HStack>
+
+            <VStack>
+              {gradeData.map((grade, index) => (
+                <SetupGradeItem
+                  grade={grade}
+                  key={index}
+                  handleUpdateGrade={handleUpdateGrade}
+                  handleDeleteGrade={handleDeleteGrade}
+                  tempId={index}
+                />
+              ))}
+            </VStack>
+          </VStack>
         </VStack>
-      </VStack>
 
-      <SaveAlertDialog />
-      <CancelAlertDialog />
-      <EditGradeModal
-        grade={null}
-        title="New Grade"
-        isModalOpen={dialog === ADD_GRADE_DIALOG}
-        onCloseModal={handleDialogClose}
-        onSavePressed={handleAddGrade}
-      />
-    </Box>
+        <SaveAlertDialog />
+        <CancelAlertDialog />
+        <EditGradeModal
+          grade={null}
+          title="New Grade"
+          isModalOpen={dialog === ADD_GRADE_DIALOG}
+          onCloseModal={handleDialogClose}
+          onSavePressed={handleAddGrade}
+        />
+      </Box>
+    </ScrollView>
   );
 }

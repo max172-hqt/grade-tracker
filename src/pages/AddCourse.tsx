@@ -243,7 +243,7 @@ export default function AddCourse({ navigation }) {
   }, [navigation, handleOpenSaveDialog]);
 
   return (
-    <ScrollView>
+    <>
       <Box p="4" flex="1" bg="white">
         <VStack space="4" flex="1">
           <Heading fontSize="xl">Course Information</Heading>
@@ -280,30 +280,31 @@ export default function AddCourse({ navigation }) {
               </Button>
             </HStack>
 
-            <VStack>
-              {gradeData.map((grade, index) => (
-                <SetupGradeItem
-                  grade={grade}
-                  key={index}
-                  handleUpdateGrade={handleUpdateGrade}
-                  handleDeleteGrade={handleDeleteGrade}
-                  tempId={index}
-                />
-              ))}
-            </VStack>
+            <ScrollView>
+              <VStack>
+                {gradeData.map((grade, index) => (
+                  <SetupGradeItem
+                    grade={grade}
+                    key={index}
+                    handleUpdateGrade={handleUpdateGrade}
+                    handleDeleteGrade={handleDeleteGrade}
+                    tempId={index}
+                  />
+                ))}
+              </VStack>
+            </ScrollView>
           </VStack>
         </VStack>
-
-        <SaveAlertDialog />
-        <CancelAlertDialog />
-        <EditGradeModal
-          grade={null}
-          title="New Grade"
-          isModalOpen={dialog === ADD_GRADE_DIALOG}
-          onCloseModal={handleDialogClose}
-          onSavePressed={handleAddGrade}
-        />
       </Box>
-    </ScrollView>
+      <SaveAlertDialog />
+      <CancelAlertDialog />
+      <EditGradeModal
+        grade={null}
+        title="New Grade"
+        isModalOpen={dialog === ADD_GRADE_DIALOG}
+        onCloseModal={handleDialogClose}
+        onSavePressed={handleAddGrade}
+      />
+    </>
   );
 }

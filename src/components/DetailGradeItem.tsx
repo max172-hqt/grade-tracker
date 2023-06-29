@@ -17,7 +17,7 @@ import {
 
 function DetailGradeItem({ grade, showWeighted }: DetailGradeItemProps) {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [updatedActualGrade, setUpdatedActualGrade] = useState(grade.data.actualScore?.toString());
+  const [actualScore, setActualScore] = useState(grade.data.actualScore?.toString());
   const dispatch = useDispatch();
 
   const handleOpenModal = () => {
@@ -29,18 +29,12 @@ function DetailGradeItem({ grade, showWeighted }: DetailGradeItemProps) {
   };
 
   const handleSaveChanges = async () => {
-    if (
-      updateActualGrade === null ||
-      updateActualGrade === undefined ||
-      updateActualGrade.length === 0
-    ) {
+    if (actualScore === undefined || actualScore.length === 0) {
       Alert.alert('Error', EMPTY_GRADE_INPUT);
       return;
     }
 
-    const inputGrade = parseFloat(updatedActualGrade);
-
-    console.log(inputGrade);
+    const inputGrade = parseFloat(actualScore);
 
     if (inputGrade > grade.data.maxScore) {
       Alert.alert('Error', EXCEED_MAX_GRADE);
@@ -59,7 +53,7 @@ function DetailGradeItem({ grade, showWeighted }: DetailGradeItemProps) {
 
     try {
       const inputGradeString = inputGrade.toFixed(2);
-      setUpdatedActualGrade(inputGradeString);
+      setActualScore(inputGradeString);
       await updateGradeActualScore(grade.id, +inputGradeString);
       dispatch(updateActualGrade({ gradeId: grade.id, actualScore: +inputGradeString }));
       setIsModalOpen(false);
@@ -122,8 +116,8 @@ function DetailGradeItem({ grade, showWeighted }: DetailGradeItemProps) {
           <Modal.Body>
             <Input
               placeholder="Enter Grade"
-              value={updatedActualGrade?.toString() ?? ''}
-              onChangeText={(text) => setUpdatedActualGrade(text)}
+              value={actualScore?.toString() ?? ''}
+              onChangeText={(text) => setActualScore(text)}
             />
           </Modal.Body>
           <Modal.Footer>

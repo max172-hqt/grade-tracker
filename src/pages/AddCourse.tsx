@@ -290,9 +290,13 @@ export default function AddCourse({ navigation }) {
                 ))}
               </VStack>
             </ScrollView>
+            <Text textAlign="center" fontWeight="bold" pt="2" color="coolGray.600">
+              Total Weight: {getTotalCourseWeightGradeData(gradeData)}%
+            </Text>
           </VStack>
         </VStack>
       </Box>
+
       <SaveAlertDialog />
       <CancelAlertDialog />
       <EditGradeModal

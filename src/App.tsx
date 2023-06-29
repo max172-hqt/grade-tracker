@@ -52,6 +52,7 @@ function App() {
         <Tab.Navigator
           screenOptions={({ route }) => ({
             headerShown: route.name === 'Settings',
+            headerTitleAlign: 'center',
             // tabBarStyle: {
             //   backgroundColor: lightGray,
             // },

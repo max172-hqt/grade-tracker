@@ -97,11 +97,18 @@ export default function EditGradeModal({
                 w={24}
                 value={maxScore}
                 onChangeText={(value) => handleMaxScoreChange(value)}
+                keyboardType="numeric"
               />
             </VStack>
             <VStack space="1">
               <Text>Weight</Text>
-              <Input placeholder={weight} value={weight} w={24} onChangeText={handleWeightChange} />
+              <Input
+                placeholder={weight}
+                value={weight}
+                w={24}
+                onChangeText={handleWeightChange}
+                keyboardType="numeric"
+              />
             </VStack>
           </VStack>
         </Modal.Body>

@@ -11,6 +11,7 @@ import Ionicons from '@expo/vector-icons/Ionicons';
 import { setCourses, setGrades } from './redux/courseSlice';
 import { LinearGradient } from 'expo-linear-gradient';
 import 'react-native-gesture-handler';
+import SettingsScreen from './pages/Setting';
 
 const Tab = createBottomTabNavigator();
 
@@ -71,7 +72,7 @@ function App() {
           })}
         >
           <Tab.Screen name="Home" component={HomeScreen} />
-          {/* <Tab.Screen name="Settings" component={SettingsScreen} /> */}
+          <Tab.Screen name="Settings" component={SettingsScreen} />
         </Tab.Navigator>
       </NativeBaseProvider>
     </NavigationContainer>

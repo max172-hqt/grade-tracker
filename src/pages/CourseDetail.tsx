@@ -53,6 +53,12 @@ export default function CourseDetail({ route }: Props) {
         <Text color="coolGray.200" fontSize="md" fontWeight="bold">
           Course Code: {course.data.courseCode}
         </Text>
+        <Text color="coolGray.200" fontSize="md" fontWeight="bold">
+          Units: {course.data.units}
+        </Text>
+        <Text color="coolGray.200" fontSize="md" fontWeight="bold">
+          Letter: {course.data.letterGrade}
+        </Text>
       </VStack>
       <ScrollView>
         <VStack p={4} space={2}>

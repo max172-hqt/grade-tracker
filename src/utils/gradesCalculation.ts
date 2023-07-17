@@ -1,4 +1,7 @@
-import type { Grade, GradeData } from '../types';
+import type { Course, CourseData, Grade, GradeData } from '../types';
+import { updateCourse, updateCourse2, updateCourse3 } from '../database/localdb';
+import { useState } from 'react';
+let myLetterGrade = '';
 
 export const getLetterGrade = (percentage: number, roundUp = false) => {
   // Round to the nearest integer
@@ -66,6 +69,13 @@ export const getLetterForGrade = (grade: Grade) => {
   return '-';
 };
 
+export const updateMyDB = (courseId: number) => {
+  updateCourse3(myLetterGrade, courseId);
+  // updateCourse2(myLetterGrade, courseId);
+  console.log('DB update should be done at this point');
+  console.log('my letter grade ', myLetterGrade);
+};
+
 /**
  * Get total weight and score achieved so far
  * For example, the student completed 60% of the course total weight and got 50%,
@@ -74,7 +84,7 @@ export const getLetterForGrade = (grade: Grade) => {
  * @param grades List of grades
  * @returns object
  */
-export const getCurrentGradeProgress = (grades: Grade[]) => {
+export const getCurrentGradeProgress = (grades: Grade[], courseCode: string) => {
   let totalWeightCompleted = 0;
   let totalWeightAchieved = 0;
   let allGradesCompleted = true;
@@ -94,12 +104,26 @@ export const getCurrentGradeProgress = (grades: Grade[]) => {
 
   const currentLetterGrade = getLetterGrade(percentage, true);
 
+  myLetterGrade = currentLetterGrade;
+  console.log('checkpoin 1');
+
+  // updateCourse(courseData.courseCode, currentLetterGrade);
+  // console.log('checkpoint2');
+
+  // setMyLetterGrade(currentLetterGrade);
+  //I need to save the letter grade to the course table here
+  //but not sure how to extract the course code from here
+
+  // updatateCourse(courseData);
+  updateMyDB(courseCode, myLetterGrade);
+
   return {
     totalWeightCompleted,
     totalWeightAchieved,
     currentLetterGrade,
     percentage,
     allGradesCompleted,
+    myLetterGrade,
   };
 };
 

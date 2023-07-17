@@ -2,6 +2,8 @@
 export interface CourseData {
   name: string;
   courseCode: string;
+  units: number;
+  letterGrade: string;
 }
 
 export interface Course {

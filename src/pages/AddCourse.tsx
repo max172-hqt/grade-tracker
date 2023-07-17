@@ -20,6 +20,7 @@ import EditGradeModal from '../components/EditGradeModal';
 import { Alert } from 'react-native';
 import { getTotalCourseWeightGradeData } from '../utils/gradesCalculation';
 import { ScrollView } from 'react-native-gesture-handler';
+import { useAnimatedStyle } from 'react-native-reanimated';
 
 const sampleGradeData: GradeData[] = [
   {
@@ -67,6 +68,8 @@ const ADD_GRADE_DIALOG = 'ADD_GRADE';
 export default function AddCourse({ navigation }) {
   const [name, setName] = useState('');
   const [code, setCode] = useState('');
+  const [units, setUnits] = useState('');
+  const [letterGrade, setLetterGrade] = useState('');
   const [gradeData, setGradeData] = useState<GradeData[]>(sampleGradeData);
   const [dialog, setDialog] = useState<'SAVE' | 'CANCEL' | 'ADD_GRADE' | null>();
   const [clickedSave, setClickedSave] = useState(false);
@@ -77,7 +80,7 @@ export default function AddCourse({ navigation }) {
   const handleOpenSaveDialog = useCallback(() => {
     setClickedSave(true);
 
-    if (name.length === 0 || code.length === 0) {
+    if (name.length === 0 || code.length === 0 || units.length === 0) {
       return;
     }
 
@@ -87,7 +90,7 @@ export default function AddCourse({ navigation }) {
     }
 
     setDialog(SAVE_DIALOG);
-  }, [name, code, gradeData]);
+  }, [name, code, units, gradeData]);
 
   const handleOpenCancelDialog = () => {
     setDialog(CANCEL_DIALOG);
@@ -122,11 +125,15 @@ export default function AddCourse({ navigation }) {
   };
 
   const handleNameChange = (text: string) => {
-    setName(text);
+    setName(text.trim());
   };
 
   const handleCodeChange = (text: string) => {
-    setCode(text);
+    setCode(text.trim());
+  };
+
+  const handleUnitsChange = (text: string) => {
+    setUnits(text.trim());
   };
 
   const handleDialogClose = () => setDialog(null);
@@ -140,7 +147,10 @@ export default function AddCourse({ navigation }) {
     const courseData: CourseData = {
       name,
       courseCode: code,
+      units,
+      letterGrade,
     };
+
     const data = await createGradesForCourse(courseData, gradeData);
     if (!data) {
       console.log('Error creating course');
@@ -271,7 +281,18 @@ export default function AddCourse({ navigation }) {
               Course code cannot be empty
             </FormControl.ErrorMessage>
           </FormControl>
-
+          <FormControl isInvalid={clickedSave && units.length === 0}>
+            <Input
+              fontSize="sm"
+              placeholder="Enter the course number of units"
+              w="100%"
+              value={units}
+              onChangeText={handleUnitsChange}
+            />
+            <FormControl.ErrorMessage leftIcon={<WarningOutlineIcon size="xs" />}>
+              Equivalent unit cannot be empty
+            </FormControl.ErrorMessage>
+          </FormControl>
           <VStack flex="1">
             <HStack justifyContent="space-between" alignItems="center">
               <Heading fontSize="xl">Grade Components</Heading>

@@ -1,5 +1,5 @@
 import { Box, Divider, HStack, Heading, Text, VStack } from 'native-base';
-import type { Grade } from '../types';
+import type { Grade, Course, CourseData } from '../types';
 import {
   getCurrentGradeProgress,
   getEstimateAverageGrade,
@@ -30,6 +30,8 @@ export default function CourseSummary({ grades }: { grades: Grade[] }) {
     currentLetterGrade != 'F' && estimateAverageGrade[currentLetterGrade] !== -1
       ? estimateAverageGrade[currentLetterGrade].toFixed(2) + '%'
       : 'N/A';
+
+  // updateCourse(currentLetterGrade, CourseSummary.);
 
   return (
     <Box bg="white" p="4" borderRadius="2xl">

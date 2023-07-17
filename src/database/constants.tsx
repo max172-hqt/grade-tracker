@@ -2,7 +2,10 @@ export const CREATE_COURSES_TABLE_QUERY = `
   CREATE TABLE IF NOT EXISTS COURSES (
     id INTEGER PRIMARY KEY NOT NULL,
     name TEXT,
-    course_code TEXT
+    course_code TEXT,
+    letter_Grade TEXT,
+    units INTEGER
+    
   )
 `;
 
@@ -28,9 +31,13 @@ export const SELECT_GRADES = `
 `;
 
 export const CREATE_COURSE = `
-  INSERT INTO COURSES (name, course_code) values (?, ?)
+  INSERT INTO COURSES (name, course_code, units, letter_Grade) values (?, ?, ?, ?)
 `;
 
 export const CREATE_GRADE = `
   INSERT INTO GRADES (name, weight, max_score, actual_score, course_id) values (?, ?, ?, ?, ?)
+`;
+
+export const UPDATE_COURSE = `
+  UPDATE COURSES SET letter_Grade = ? WHERE id = ? 
 `;

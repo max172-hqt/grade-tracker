@@ -7,6 +7,7 @@ import {
   getTotalCourseWeight,
 } from '../utils/gradesCalculation';
 import CircularProgress from 'react-native-circular-progress-indicator';
+import { gradeColors } from '../utils/colors';
 
 export default function CourseSummary({ grades }: { grades: Grade[] }) {
   const {
@@ -36,7 +37,7 @@ export default function CourseSummary({ grades }: { grades: Grade[] }) {
       <HStack alignItems="center" mb={4}>
         <VStack flex="1">
           <HStack space="2">
-            <Heading fontSize="6xl" fontWeight="bold">
+            <Heading fontSize="6xl" fontWeight="bold" color={gradeColors[currentLetterGrade]}>
               {currentLetterGrade}
             </Heading>
             <Text

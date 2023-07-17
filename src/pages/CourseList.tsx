@@ -3,23 +3,54 @@ import { useSelector } from 'react-redux';
 import { RootState } from '../redux/store';
 import CourseItem from '../components/CourseItem';
 import { useMemo } from 'react';
+import { Grade } from '../types';
 
 export default function CourseList({ navigation }) {
   const courses = useSelector((state: RootState) => state.course.courses);
+  const calculateGPA = (courseId: number, grades: Grade[]) => {
+    const gradesForCourse = grades.filter((grade) => grade.courseId === courseId);
+    if (gradesForCourse.length === 0) {
+      return 0;
+    }
 
+    const totalWeightedScore = gradesForCourse.reduce((acc, grade) => {
+      if (grade.data.actualScore !== null) {
+        const gradePercentage =
+          (grade.data.actualScore / grade.data.maxScore) * (grade.data.weight / 100);
+        return acc + gradePercentage;
+      }
+      return acc;
+    }, 0);
+
+    const totalWeightedScorePercentage = (totalWeightedScore / gradesForCourse.length) * 100;
+    return totalWeightedScorePercentage;
+  };
+  const sortedCourses = useSelector((state: RootState) => {
+    if (state.course.sortOrder === 'ALPHABETICAL') {
+      return [...courses].sort((a, b) => a.data.name.localeCompare(b.data.name));
+    } else if (state.course.sortOrder === 'GPA_HIGH_TO_LOW') {
+      const coursesWithGPA = courses.map((course) => ({
+        ...course,
+        gpa: calculateGPA(course.id, state.course.grades),
+      }));
+
+      return [...coursesWithGPA].sort((a, b) => b.gpa - a.gpa);
+    } else {
+      return courses;
+    }
+  });
   const handleGoToCourseDetail = (id: number) => {
     navigation.navigate('Course Detail', { courseId: id });
   };
 
-  // Add a dummy course if the number of courses is odd
   const formattedCourses = useMemo(() => {
-    if (courses.length === 0) return courses;
+    if (sortedCourses.length === 0) return sortedCourses;
 
-    if (courses.length % 2 === 1) {
-      return [...courses, null];
+    if (sortedCourses.length % 2 === 1) {
+      return [...sortedCourses, null];
     }
-    return courses;
-  }, [courses]);
+    return sortedCourses;
+  }, [sortedCourses]);
 
   if (formattedCourses.length === 0) {
     return (

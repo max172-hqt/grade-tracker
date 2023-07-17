@@ -2,6 +2,7 @@ import { createSelector, createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
 import type { Course, Grade } from '../types';
 import { RootState } from './store';
+import { calculateGPA } from '../utils/gradesCalculation';
 
 export interface CourseState {
   courses: Course[];
@@ -79,26 +80,6 @@ const selectCourseWithId = (state: RootState, courseId: number) =>
   state.course.courses.find((course) => course.id === courseId);
 
 export const selectCourseWithIdMemoized = createSelector([selectCourseWithId], (course) => course);
-
-// Function to calculate GPA for a course based on its grades
-const calculateGPA = (courseId: number, grades: Grade[]) => {
-  const gradesForCourse = grades.filter((grade) => grade.courseId === courseId);
-  if (gradesForCourse.length === 0) {
-    return 0;
-  }
-
-  const totalWeightedScore = gradesForCourse.reduce((acc, grade) => {
-    if (grade.data.actualScore !== null) {
-      const gradePercentage =
-        (grade.data.actualScore / grade.data.maxScore) * (grade.data.weight / 100);
-      return acc + gradePercentage;
-    }
-    return acc;
-  }, 0);
-
-  const totalWeightedScorePercentage = (totalWeightedScore / gradesForCourse.length) * 100;
-  return totalWeightedScorePercentage;
-};
 
 const selectCourses = (state: RootState) => state.course.courses;
 const selectGrades = (state: RootState) => state.course.grades;

@@ -1,44 +1,11 @@
 import { Box, Button, FlatList, Heading, VStack } from 'native-base';
 import { useSelector } from 'react-redux';
-import { RootState } from '../redux/store';
-import CourseItem from '../components/CourseItem';
 import { useMemo } from 'react';
-import { Grade } from '../types';
+import CourseItem from '../components/CourseItem';
+import { selectSortedCourses } from '../redux/courseSlice';
 
 export default function CourseList({ navigation }) {
-  const courses = useSelector((state: RootState) => state.course.courses);
-  const calculateGPA = (courseId: number, grades: Grade[]) => {
-    const gradesForCourse = grades.filter((grade) => grade.courseId === courseId);
-    if (gradesForCourse.length === 0) {
-      return 0;
-    }
-
-    const totalWeightedScore = gradesForCourse.reduce((acc, grade) => {
-      if (grade.data.actualScore !== null) {
-        const gradePercentage =
-          (grade.data.actualScore / grade.data.maxScore) * (grade.data.weight / 100);
-        return acc + gradePercentage;
-      }
-      return acc;
-    }, 0);
-
-    const totalWeightedScorePercentage = (totalWeightedScore / gradesForCourse.length) * 100;
-    return totalWeightedScorePercentage;
-  };
-  const sortedCourses = useSelector((state: RootState) => {
-    if (state.course.sortOrder === 'ALPHABETICAL') {
-      return [...courses].sort((a, b) => a.data.name.localeCompare(b.data.name));
-    } else if (state.course.sortOrder === 'GPA_HIGH_TO_LOW') {
-      const coursesWithGPA = courses.map((course) => ({
-        ...course,
-        gpa: calculateGPA(course.id, state.course.grades),
-      }));
-
-      return [...coursesWithGPA].sort((a, b) => b.gpa - a.gpa);
-    } else {
-      return courses;
-    }
-  });
+  const sortedCourses = useSelector(selectSortedCourses);
   const handleGoToCourseDetail = (id: number) => {
     navigation.navigate('Course Detail', { courseId: id });
   };

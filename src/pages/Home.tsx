@@ -37,7 +37,7 @@ export default function HomeScreen() {
                   <IconButton
                     colorScheme="blue"
                     variant="ghost"
-                    icon={<Ionicons name="md-options" size={24} color="blue" />}
+                    icon={<Ionicons name="md-options" size={22} color="blue" />}
                     {...triggerProps}
                   />
                 )}

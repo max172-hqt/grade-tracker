@@ -2,7 +2,6 @@ import { registerRootComponent } from 'expo';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import HomeScreen from './pages/Home';
-import { NativeBaseProvider } from 'native-base';
 import { useEffect } from 'react';
 import { initDatabase, getAllCourses, getAllGrades } from './database/localdb';
 import { Provider, useDispatch } from 'react-redux';
@@ -12,14 +11,11 @@ import { setCourses, setGrades } from './redux/courseSlice';
 import { LinearGradient } from 'expo-linear-gradient';
 import 'react-native-gesture-handler';
 import SettingsScreen from './pages/Setting';
+import { NativeBaseProvider, extendTheme, useColorModeValue } from 'native-base';
+import { themeColors } from './utils/colors';
+import { StatusBar } from 'react-native';
 
 const Tab = createBottomTabNavigator();
-
-const config = {
-  dependencies: {
-    'linear-gradient': LinearGradient,
-  },
-};
 
 /**
  * Entry-point component using Bottom Tab navigation
@@ -29,8 +25,18 @@ const config = {
  *
  * Setting: TODO
  */
+const config = {
+  useSystemColorMode: false,
+  initialColorMode: 'dark',
+};
+
+const theme = extendTheme(config);
+
 function App() {
   const dispatch = useDispatch();
+  const bg = useColorModeValue(themeColors.light.headerBg, themeColors.dark.headerBg);
+  const text = useColorModeValue(themeColors.light.text, themeColors.dark.text);
+  const statusBar = useColorModeValue('dark-content', 'light-content');
 
   useEffect(() => {
     (async () => {
@@ -48,34 +54,41 @@ function App() {
 
   return (
     <NavigationContainer>
-      <NativeBaseProvider config={config}>
-        <Tab.Navigator
-          screenOptions={({ route }) => ({
-            headerShown: route.name === 'Settings',
-            headerTitleAlign: 'center',
-            // tabBarStyle: {
-            //   backgroundColor: lightGray,
-            // },
-            // tabBarActiveTintColor: themeColor,
-            tabBarIcon: ({ focused, color, size }) => {
-              let iconName: keyof typeof Ionicons.glyphMap;
+      <StatusBar barStyle={statusBar} />
+      <Tab.Navigator
+        screenOptions={({ route }) => ({
+          headerShown: route.name === 'Settings',
+          headerTitleAlign: 'center',
+          headerTitleStyle: {
+            color: text,
+          },
+          headerStyle: {
+            backgroundColor: bg,
+          },
+          tabBarStyle: {
+            backgroundColor: bg,
+            borderTopWidth: 0,
+          },
+          headerShadowVisible: false, // applied here
+          headerBackTitleVisible: false,
+          tabBarIcon: ({ focused, color, size }) => {
+            let iconName: keyof typeof Ionicons.glyphMap;
 
-              if (route.name === 'Home') {
-                iconName = focused ? 'home' : 'home-outline';
-              } else if (route.name === 'Settings') {
-                iconName = focused ? 'settings' : 'settings-outline';
-              } else {
-                throw new Error('Unknown tab: ' + route.name);
-              }
+            if (route.name === 'Home') {
+              iconName = focused ? 'home' : 'home-outline';
+            } else if (route.name === 'Settings') {
+              iconName = focused ? 'settings' : 'settings-outline';
+            } else {
+              throw new Error('Unknown tab: ' + route.name);
+            }
 
-              return <Ionicons name={iconName} size={size} color={color} />;
-            },
-          })}
-        >
-          <Tab.Screen name="Home" component={HomeScreen} />
-          <Tab.Screen name="Settings" component={SettingsScreen} />
-        </Tab.Navigator>
-      </NativeBaseProvider>
+            return <Ionicons name={iconName} size={size} color={color} />;
+          },
+        })}
+      >
+        <Tab.Screen name="Home" component={HomeScreen} />
+        <Tab.Screen name="Settings" component={SettingsScreen} />
+      </Tab.Navigator>
     </NavigationContainer>
   );
 }
@@ -83,7 +96,16 @@ function App() {
 const RootComponent = () => {
   return (
     <Provider store={store}>
-      <App />
+      <NativeBaseProvider
+        config={{
+          dependencies: {
+            'linear-gradient': LinearGradient,
+          },
+        }}
+        theme={theme}
+      >
+        <App />
+      </NativeBaseProvider>
     </Provider>
   );
 };

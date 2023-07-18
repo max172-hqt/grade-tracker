@@ -64,7 +64,6 @@ export async function getAllGrades(): Promise<Grade[]> {
         [],
         (_, resultSet) => {
           const grades: Grade[] = [];
-          console.log(resultSet.rows._array);
           resultSet.rows._array.forEach((data) => {
             grades.push({
               id: data.id,
@@ -100,7 +99,6 @@ export async function createGradesForCourse(
   const gradePromises: Promise<Grade>[] = [];
 
   for (const data of gradesData) {
-    console.log(data);
     gradePromises.push(
       new Promise((resolve, reject) => {
         db.transaction((tx) => {

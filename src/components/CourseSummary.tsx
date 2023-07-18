@@ -33,7 +33,16 @@ export default function CourseSummary({ grades }: { grades: Grade[] }) {
       : 'N/A';
 
   return (
-    <Box bg="white" p="4" borderRadius="2xl">
+    <Box
+      p="4"
+      borderRadius="2xl"
+      _dark={{
+        bg: 'coolGray.800',
+      }}
+      _light={{
+        bg: 'white',
+      }}
+    >
       <HStack alignItems="center" mb={4}>
         <VStack flex="1">
           <HStack space="2">
@@ -42,6 +51,9 @@ export default function CourseSummary({ grades }: { grades: Grade[] }) {
             </Heading>
             <Text
               color="coolGray.600"
+              _dark={{
+                color: 'coolGray.400',
+              }}
               alignSelf="flex-end"
               position="relative"
               bottom={4}
@@ -51,7 +63,13 @@ export default function CourseSummary({ grades }: { grades: Grade[] }) {
               {percentage.toFixed(2)}%)
             </Text>
           </HStack>
-          <Text color="coolGray.400" fontWeight="medium">
+          <Text
+            color="coolGray.400"
+            _dark={{
+              color: 'coolGray.300',
+            }}
+            fontWeight="medium"
+          >
             Overall Performance
           </Text>
         </VStack>
@@ -68,7 +86,13 @@ export default function CourseSummary({ grades }: { grades: Grade[] }) {
               inActiveStrokeWidth={2}
             />
           </Box>
-          <Text color="coolGray.400" fontWeight="medium">
+          <Text
+            color="coolGray.400"
+            _dark={{
+              color: 'coolGray.300',
+            }}
+            fontWeight="medium"
+          >
             Completion
           </Text>
         </VStack>
@@ -79,7 +103,14 @@ export default function CourseSummary({ grades }: { grades: Grade[] }) {
           <Divider />
 
           <VStack mt={4}>
-            <Text color="coolGray.400" fontWeight="medium" textAlign="center">
+            <Text
+              color="coolGray.400"
+              _dark={{
+                color: 'coolGray.300',
+              }}
+              fontWeight="medium"
+              textAlign="center"
+            >
               You will need an avarage of
             </Text>
             <HStack flex="1">
@@ -96,7 +127,14 @@ export default function CourseSummary({ grades }: { grades: Grade[] }) {
                 </VStack>
               )}
             </HStack>
-            <Text color="coolGray.400" fontWeight="medium" textAlign="center">
+            <Text
+              color="coolGray.400"
+              fontWeight="medium"
+              textAlign="center"
+              _dark={{
+                color: 'coolGray.300',
+              }}
+            >
               for the remaining of the course
             </Text>
           </VStack>

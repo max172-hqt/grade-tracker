@@ -34,22 +34,17 @@ export default function CourseDetail({ route }: Props) {
   }
 
   return (
-    <VStack flex="1">
-      <VStack
-        space="2"
-        p="4"
-        bg={{
-          linearGradient: {
-            colors: ['violet.800', 'lightBlue.300'],
-            start: [0, 0],
-            end: [1, 0],
-          },
-        }}
-      >
-        <Heading size="md" fontWeight="bold" color="white">
+    <VStack
+      flex="1"
+      _dark={{
+        bg: 'coolGray.900',
+      }}
+    >
+      <VStack space="2" p="4">
+        <Heading size="lg" fontWeight="bold" _dark={{ color: 'coolGray.200' }}>
           {course.data.name}
         </Heading>
-        <Text color="coolGray.200" fontSize="md" fontWeight="bold">
+        <Text _dark={{ color: 'coolGray.200' }} fontSize="md" fontWeight="medium">
           Course Code: {course.data.courseCode}
         </Text>
       </VStack>

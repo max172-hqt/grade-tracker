@@ -46,16 +46,16 @@ export default function HomeScreen() {
         component={CourseList}
         options={({ navigation }) => ({
           headerLeft: () => (
-            <Box flexDirection="row">
+            <Box flexDirection="row" alignItems="center">
               <Menu
                 onClose={() => setSortingMenuOpen(false)}
                 isOpen={sortingMenuOpen}
                 onOpen={() => setSortingMenuOpen(true)}
                 trigger={(triggerProps) => (
                   <IconButton
-                    colorScheme="blue"
                     variant="ghost"
-                    icon={<Ionicons name="md-options" size={22} color="blue" />}
+                    borderRadius="50%"
+                    icon={<Ionicons name="md-options" size={22} color={iconColor} />}
                     {...triggerProps}
                   />
                 )}
@@ -70,7 +70,7 @@ export default function HomeScreen() {
               variant="ghost"
               borderRadius="50%"
               _icon={{
-                size: 'xl',
+                size: 22,
                 as: Ionicons,
                 name: 'add',
                 color: iconColor,

@@ -9,7 +9,6 @@ import { themeColors } from '../utils/colors';
 const Stack = createStackNavigator();
 
 export default function HomeScreen() {
-  const headerBg = useColorModeValue(themeColors.light.headerBg, themeColors.dark.headerBg);
   const bg = useColorModeValue(themeColors.light.bg, themeColors.dark.bg);
   const text = useColorModeValue(themeColors.light.text, themeColors.dark.text);
   const iconColor = useColorModeValue('coolGray.500', 'white');

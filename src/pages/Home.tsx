@@ -3,15 +3,29 @@ import CourseList from './CourseList';
 import CourseDetail from './CourseDetail';
 import AddCourse from './AddCourse';
 import Ionicons from '@expo/vector-icons/Ionicons';
-import { IconButton, useColorModeValue } from 'native-base';
+import { Box, IconButton, Menu, useColorModeValue } from 'native-base';
 import { themeColors } from '../utils/colors';
+import { useState } from 'react';
+import { setSortOrder } from '../redux/courseSlice';
+import { useDispatch } from 'react-redux';
 
 const Stack = createStackNavigator();
 
 export default function HomeScreen() {
+  const dispatch = useDispatch();
   const bg = useColorModeValue(themeColors.light.bg, themeColors.dark.bg);
   const text = useColorModeValue(themeColors.light.text, themeColors.dark.text);
   const iconColor = useColorModeValue('coolGray.500', 'white');
+  const [sortingMenuOpen, setSortingMenuOpen] = useState(false);
+  const handleSortByAlphabetical = () => {
+    dispatch(setSortOrder('ALPHABETICAL'));
+    setSortingMenuOpen(false);
+  };
+
+  const handleSortByGPA = () => {
+    dispatch(setSortOrder('GPA_HIGH_TO_LOW'));
+    setSortingMenuOpen(false);
+  };
 
   return (
     <Stack.Navigator
@@ -31,6 +45,26 @@ export default function HomeScreen() {
         name="Courses"
         component={CourseList}
         options={({ navigation }) => ({
+          headerLeft: () => (
+            <Box flexDirection="row">
+              <Menu
+                onClose={() => setSortingMenuOpen(false)}
+                isOpen={sortingMenuOpen}
+                onOpen={() => setSortingMenuOpen(true)}
+                trigger={(triggerProps) => (
+                  <IconButton
+                    colorScheme="blue"
+                    variant="ghost"
+                    icon={<Ionicons name="md-options" size={22} color="blue" />}
+                    {...triggerProps}
+                  />
+                )}
+              >
+                <Menu.Item onPress={handleSortByAlphabetical}>Sort A-Z</Menu.Item>
+                <Menu.Item onPress={handleSortByGPA}>Sort GPA</Menu.Item>
+              </Menu>
+            </Box>
+          ),
           headerRight: () => (
             <IconButton
               variant="ghost"

@@ -21,7 +21,15 @@ export default function CourseList({ navigation }) {
 
   if (formattedCourses.length === 0) {
     return (
-      <VStack flex="1" alignItems="center" justifyContent="center" space="4">
+      <VStack
+        flex="1"
+        alignItems="center"
+        justifyContent="center"
+        space="4"
+        _dark={{
+          bg: 'coolGray.900',
+        }}
+      >
         <Heading color="light.400" fontSize="md">
           You have no courses yet.
         </Heading>

@@ -15,7 +15,7 @@ export default function HomeScreen() {
   const dispatch = useDispatch();
   const bg = useColorModeValue(themeColors.light.bg, themeColors.dark.bg);
   const text = useColorModeValue(themeColors.light.text, themeColors.dark.text);
-  const iconColor = useColorModeValue('coolGray.500', 'white');
+  const iconColor = useColorModeValue('#6b7280', 'white');
   const [sortingMenuOpen, setSortingMenuOpen] = useState(false);
   const handleSortByAlphabetical = () => {
     dispatch(setSortOrder('ALPHABETICAL'));
@@ -69,12 +69,7 @@ export default function HomeScreen() {
             <IconButton
               variant="ghost"
               borderRadius="50%"
-              _icon={{
-                size: 22,
-                as: Ionicons,
-                name: 'add',
-                color: iconColor,
-              }}
+              icon={<Ionicons name="add" size={22} color={iconColor} />}
               onPress={() => navigation.navigate('Add Course')}
             />
           ),

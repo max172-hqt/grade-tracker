@@ -1,25 +1,23 @@
 import { Box, Button, FlatList, Heading, VStack } from 'native-base';
 import { useSelector } from 'react-redux';
-import { RootState } from '../redux/store';
-import CourseItem from '../components/CourseItem';
 import { useMemo } from 'react';
+import CourseItem from '../components/CourseItem';
+import { selectSortedCourses } from '../redux/courseSlice';
 
 export default function CourseList({ navigation }) {
-  const courses = useSelector((state: RootState) => state.course.courses);
-
+  const sortedCourses = useSelector(selectSortedCourses);
   const handleGoToCourseDetail = (id: number) => {
     navigation.navigate('Course Detail', { courseId: id });
   };
 
-  // Add a dummy course if the number of courses is odd
   const formattedCourses = useMemo(() => {
-    if (courses.length === 0) return courses;
+    if (sortedCourses.length === 0) return sortedCourses;
 
-    if (courses.length % 2 === 1) {
-      return [...courses, null];
+    if (sortedCourses.length % 2 === 1) {
+      return [...sortedCourses, null];
     }
-    return courses;
-  }, [courses]);
+    return sortedCourses;
+  }, [sortedCourses]);
 
   if (formattedCourses.length === 0) {
     return (

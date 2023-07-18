@@ -9,7 +9,12 @@ const Stack = createStackNavigator();
 
 export default function HomeScreen() {
   return (
-    <Stack.Navigator initialRouteName="Courses">
+    <Stack.Navigator
+      initialRouteName="Courses"
+      screenOptions={{
+        headerTitleAlign: 'center',
+      }}
+    >
       <Stack.Screen
         name="Courses"
         component={CourseList}

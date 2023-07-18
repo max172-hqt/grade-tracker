@@ -2,6 +2,13 @@ import { Modal, Text, Button, Input, VStack } from 'native-base';
 import type { EditGradeModalProps } from '../types';
 import { useState } from 'react';
 import { Alert } from 'react-native';
+import {
+  EMPTY_DESCRIPTION,
+  MUST_BE_GREATER_THAN_ZEO_GRADE_INPUT,
+  MUST_BE_LESS_THAN_100,
+  MUST_BE_LETTERS_AND_NUMBERS,
+  NOT_A_NUMBER_INPUT,
+} from '../utils/errorMessages';
 
 export default function EditGradeModal({
   grade,
@@ -31,36 +38,34 @@ export default function EditGradeModal({
     const inputWeight = parseFloat(weight);
 
     if (isNaN(inputWeight) || isNaN(inputMaxScore)) {
-      Alert.alert('Error', 'Input value must be numeric. Please try again.');
+      Alert.alert('Error', NOT_A_NUMBER_INPUT);
       return;
     }
 
-    if (Math.sign(inputWeight) === -1 || Math.sign(inputMaxScore) === -1) {
-      Alert.alert('Invalid Input', 'Negative number is not allowed.');
-      return;
-    }
-    if (inputMaxScore === 0 || inputWeight === 0) {
-      Alert.alert('Invalid Input', ' Zero value is not allowed.');
-      return;
-    }
-
-    if (!isNaN(+name)) {
-      Alert.alert('Invalid Input', 'Please provide short description for the component');
+    if (inputWeight <= 0 || inputMaxScore <= 0) {
+      Alert.alert('Invalid Input', MUST_BE_GREATER_THAN_ZEO_GRADE_INPUT);
       return;
     }
 
     if (inputWeight >= 100) {
-      Alert.alert('Invalid Input', 'Grade  weight component must be less than 100');
+      Alert.alert('Invalid Input', MUST_BE_LESS_THAN_100);
+      return;
+    }
+
+    if (!isNaN(+name)) {
+      // Grade cannot be empty or contains numeric
+      Alert.alert('Invalid Input', EMPTY_DESCRIPTION);
       return;
     }
 
     if (!/[0-9a-zA-Z]/.test(name)) {
-      Alert.alert('Invalid Input', 'Only number and letters are accepted for Name');
+      Alert.alert('Invalid Input', MUST_BE_LETTERS_AND_NUMBERS);
       return;
     }
 
     onSavePressed(name, inputMaxScore, inputWeight);
-    // Reset the value
+
+    // Set to new value or empty if the form did not previously tie to a grade
     setName(grade ? name : '');
     setWeight(grade ? weight : '');
     setMaxScore(grade ? maxScore : '');
@@ -69,7 +74,7 @@ export default function EditGradeModal({
 
   const handleCloseModal = () => {
     onCloseModal();
-    // Reset the value
+    // Reset to previous value
     setName(grade?.name ?? '');
     setWeight(grade?.weight.toString() ?? '');
     setMaxScore(grade?.maxScore.toString() ?? '');
@@ -92,11 +97,18 @@ export default function EditGradeModal({
                 w={24}
                 value={maxScore}
                 onChangeText={(value) => handleMaxScoreChange(value)}
+                keyboardType="numeric"
               />
             </VStack>
             <VStack space="1">
               <Text>Weight</Text>
-              <Input placeholder={weight} value={weight} w={24} onChangeText={handleWeightChange} />
+              <Input
+                placeholder={weight}
+                value={weight}
+                w={24}
+                onChangeText={handleWeightChange}
+                keyboardType="numeric"
+              />
             </VStack>
           </VStack>
         </Modal.Body>

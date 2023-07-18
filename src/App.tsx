@@ -2,7 +2,6 @@ import { registerRootComponent } from 'expo';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import HomeScreen from './pages/Home';
-import SettingsScreen from './pages/Setting';
 import { NativeBaseProvider } from 'native-base';
 import { useEffect } from 'react';
 import { initDatabase, getAllCourses, getAllGrades } from './database/localdb';
@@ -11,6 +10,8 @@ import { store } from './redux/store';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { setCourses, setGrades } from './redux/courseSlice';
 import { LinearGradient } from 'expo-linear-gradient';
+import 'react-native-gesture-handler';
+import SettingsScreen from './pages/Setting';
 
 const Tab = createBottomTabNavigator();
 
@@ -51,6 +52,7 @@ function App() {
         <Tab.Navigator
           screenOptions={({ route }) => ({
             headerShown: route.name === 'Settings',
+            headerTitleAlign: 'center',
             // tabBarStyle: {
             //   backgroundColor: lightGray,
             // },
@@ -71,7 +73,7 @@ function App() {
           })}
         >
           <Tab.Screen name="Home" component={HomeScreen} />
-          {/* <Tab.Screen name="Settings" component={SettingsScreen} /> */}
+          <Tab.Screen name="Settings" component={SettingsScreen} />
         </Tab.Navigator>
       </NativeBaseProvider>
     </NavigationContainer>

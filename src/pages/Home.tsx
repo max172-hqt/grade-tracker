@@ -22,7 +22,12 @@ export default function HomeScreen() {
     setSortingMenuOpen(false);
   };
   return (
-    <Stack.Navigator initialRouteName="Courses">
+    <Stack.Navigator
+      initialRouteName="Courses"
+      screenOptions={{
+        headerTitleAlign: 'center',
+      }}
+    >
       <Stack.Screen
         name="Courses"
         component={CourseList}

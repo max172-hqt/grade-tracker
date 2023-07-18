@@ -1,4 +1,4 @@
-import { Box, VStack, HStack, Text, Modal, Button, Input, Heading } from 'native-base';
+import { Box, VStack, HStack, Text, Modal, Button, Input } from 'native-base';
 import { Alert } from 'react-native';
 import { useState } from 'react';
 import { TouchableOpacity } from 'react-native';
@@ -8,10 +8,16 @@ import { DetailGradeItemProps } from '../types/index';
 import { updateGradeActualScore } from '../database/localdb';
 import { getLetterForGrade, getWeighted } from '../utils/gradesCalculation';
 import CircularProgress from 'react-native-circular-progress-indicator';
+import {
+  EMPTY_GRADE_INPUT,
+  EXCEED_MAX_GRADE,
+  GENERIC_INVALID_GRADE_INPUT,
+  NEGATIVE_GRADE_INPUT,
+} from '../utils/errorMessages';
 
 function DetailGradeItem({ grade, showWeighted }: DetailGradeItemProps) {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [updatedActualGrade, setUpdatedActualGrade] = useState(grade.data.actualScore?.toString());
+  const [actualScore, setActualScore] = useState(grade.data.actualScore?.toString());
   const dispatch = useDispatch();
 
   const handleOpenModal = () => {
@@ -23,28 +29,31 @@ function DetailGradeItem({ grade, showWeighted }: DetailGradeItemProps) {
   };
 
   const handleSaveChanges = async () => {
-    if (!updatedActualGrade) return;
+    if (actualScore === undefined || actualScore.length === 0) {
+      Alert.alert('Error', EMPTY_GRADE_INPUT);
+      return;
+    }
 
-    const inputGrade = parseFloat(updatedActualGrade);
+    const inputGrade = parseFloat(actualScore);
 
     if (inputGrade > grade.data.maxScore) {
-      Alert.alert('Error', 'The entered grade exceeds the maximum score!');
+      Alert.alert('Error', EXCEED_MAX_GRADE);
       return;
     }
 
     if (inputGrade < 0) {
-      Alert.alert('Error', 'The entered grade must be greater than or equal to 0');
+      Alert.alert('Error', NEGATIVE_GRADE_INPUT);
       return;
     }
 
     if (isNaN(inputGrade)) {
-      Alert.alert('Error', 'Input grade is not valid. Please try again.');
+      Alert.alert('Error', GENERIC_INVALID_GRADE_INPUT);
       return;
     }
 
     try {
       const inputGradeString = inputGrade.toFixed(2);
-      setUpdatedActualGrade(inputGradeString);
+      setActualScore(inputGradeString);
       await updateGradeActualScore(grade.id, +inputGradeString);
       dispatch(updateActualGrade({ gradeId: grade.id, actualScore: +inputGradeString }));
       setIsModalOpen(false);
@@ -107,8 +116,8 @@ function DetailGradeItem({ grade, showWeighted }: DetailGradeItemProps) {
           <Modal.Body>
             <Input
               placeholder="Enter Grade"
-              value={updatedActualGrade?.toString() ?? ''}
-              onChangeText={(text) => setUpdatedActualGrade(text)}
+              value={actualScore?.toString() ?? ''}
+              onChangeText={(text) => setActualScore(text)}
             />
           </Modal.Body>
           <Modal.Footer>

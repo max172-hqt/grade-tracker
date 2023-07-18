@@ -46,7 +46,6 @@ export default function CourseDetail({ route }: Props) {
           },
         }}
       >
-        {/* TODO: Customize color based on the current grade */}
         <Heading size="md" fontWeight="bold" color="white">
           {course.data.name}
         </Heading>

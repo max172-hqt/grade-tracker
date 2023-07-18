@@ -15,13 +15,16 @@ export default function CourseItem({ course, handleGoToCourseDetail }: CourseIte
 
   return (
     <Box
-      background="white"
       p="4"
       flex="1"
       m={1}
       borderRadius="8"
-      borderWidth="1"
-      borderColor="gray.300"
+      _light={{
+        bg: 'white',
+      }}
+      _dark={{
+        bg: 'coolGray.800',
+      }}
     >
       <TouchableOpacity onPress={handleOnPressCourse}>
         <HStack space={[2, 3]} justifyContent="space-between">
@@ -30,7 +33,7 @@ export default function CourseItem({ course, handleGoToCourseDetail }: CourseIte
               _dark={{
                 color: 'warmGray.50',
               }}
-              color="coolGray.800"
+              color="gray.800"
               bold
             >
               {course.data.name}

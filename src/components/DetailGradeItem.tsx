@@ -1,4 +1,4 @@
-import { Box, VStack, HStack, Text, Modal, Button, Input } from 'native-base';
+import { Box, VStack, HStack, Text, Modal, Button, Input, useColorModeValue } from 'native-base';
 import { Alert } from 'react-native';
 import { useState } from 'react';
 import { TouchableOpacity } from 'react-native';
@@ -14,8 +14,10 @@ import {
   GENERIC_INVALID_GRADE_INPUT,
   NEGATIVE_GRADE_INPUT,
 } from '../utils/errorMessages';
+import { gradeColorsHex, themeColors } from '../utils/colors';
 
 function DetailGradeItem({ grade, showWeighted }: DetailGradeItemProps) {
+  const progressColor = useColorModeValue('#e7e5e4', themeColors.dark.text);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [actualScore, setActualScore] = useState(grade.data.actualScore?.toString());
   const dispatch = useDispatch();
@@ -65,7 +67,15 @@ function DetailGradeItem({ grade, showWeighted }: DetailGradeItemProps) {
   return (
     <>
       <TouchableOpacity onPress={handleOpenModal}>
-        <Box key={grade.id} bg="white" p={4} borderRadius="2xl">
+        <Box
+          key={grade.id}
+          bg="white"
+          _dark={{
+            bg: 'coolGray.800',
+          }}
+          p={4}
+          borderRadius="2xl"
+        >
           <HStack>
             <VStack flex="1" space="2">
               <Text fontWeight="bold" fontSize="md">
@@ -96,6 +106,8 @@ function DetailGradeItem({ grade, showWeighted }: DetailGradeItemProps) {
                   radius={30}
                   activeStrokeWidth={4}
                   inActiveStrokeWidth={2}
+                  activeStrokeColor={gradeColorsHex[getLetterForGrade(grade)]}
+                  inActiveStrokeColor={progressColor}
                 />
               </Box>
             </VStack>

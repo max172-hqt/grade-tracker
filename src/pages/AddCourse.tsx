@@ -241,7 +241,16 @@ export default function AddCourse({ navigation }) {
 
   return (
     <>
-      <Box p="4" flex="1" bg="white">
+      <Box
+        p="4"
+        flex="1"
+        _dark={{
+          bg: 'coolGray.900',
+        }}
+        _light={{
+          bg: 'white',
+        }}
+      >
         <VStack space="4" flex="1">
           <Heading fontSize="xl">Course Information</Heading>
           <FormControl isInvalid={clickedSave && name.length === 0}>
@@ -290,7 +299,15 @@ export default function AddCourse({ navigation }) {
                 ))}
               </VStack>
             </ScrollView>
-            <Text textAlign="center" fontWeight="bold" pt="2" color="coolGray.600">
+            <Text
+              textAlign="center"
+              fontWeight="bold"
+              pt="2"
+              color="coolGray.600"
+              _dark={{
+                color: 'coolGray.400',
+              }}
+            >
               Total Weight: {getTotalCourseWeightGradeData(gradeData)}%
             </Text>
           </VStack>

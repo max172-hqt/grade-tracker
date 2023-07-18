@@ -31,10 +31,13 @@ export default function CourseList({ navigation }) {
   }
 
   return (
-    <Box p="4" flex="1" bg="white">
-      <Heading fontSize="xl" pb="3">
-        Current Courses
-      </Heading>
+    <Box
+      p="4"
+      flex="1"
+      _dark={{
+        bg: 'coolGray.900',
+      }}
+    >
       <FlatList
         columnWrapperStyle={{
           flex: 1,

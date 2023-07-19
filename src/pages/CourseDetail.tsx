@@ -15,6 +15,7 @@ type CourseDetailRouteProp = RouteProp<Record<string, { courseId: number }>, 'Co
 
 type Props = {
   route: CourseDetailRouteProp;
+  courseId: number;
 };
 
 export default function CourseDetail({ route }: Props) {
@@ -28,6 +29,7 @@ export default function CourseDetail({ route }: Props) {
   const handleToggleShowWeighted = () => {
     setShowWeighted(!showWeighted);
   };
+  console.log('CourseDetail coursdeID:', courseId);
 
   if (!course) {
     return null;
@@ -67,7 +69,7 @@ export default function CourseDetail({ route }: Props) {
               Summary
             </Text>
           </HStack>
-          <CourseSummary grades={grades} />
+          <CourseSummary key={courseId} grades={grades} courseId={courseId} />
         </VStack>
         <VStack p={4} space={2} flex="1">
           <HStack>

@@ -70,10 +70,11 @@ export const getLetterForGrade = (grade: Grade) => {
 };
 
 export const updateMyDB = (courseId: number) => {
-  updateCourse3(myLetterGrade, courseId);
+  updateCourse(myLetterGrade, courseId);
   // updateCourse2(myLetterGrade, courseId);
-  console.log('DB update should be done at this point');
+  // console.log('DB update should be done at this point');
   console.log('my letter grade ', myLetterGrade);
+  console.log('gradesCalculations DBupdate courseID:', courseId);
 };
 
 /**
@@ -84,14 +85,26 @@ export const updateMyDB = (courseId: number) => {
  * @param grades List of grades
  * @returns object
  */
-export const getCurrentGradeProgress = (grades: Grade[], courseCode: string) => {
+export const getCurrentGradeProgress = (
+  grades: Grade[],
+  // , courseId: number
+) => {
   let totalWeightCompleted = 0;
   let totalWeightAchieved = 0;
   let allGradesCompleted = true;
+
+  let totalGPA = 0.0;
+  let totalUnits = 0;
+  // console.log('getCurrentGradeProgress courseID', courseId);
   grades.forEach((grade) => {
     if (grade.data.actualScore !== null && grade.data.weight !== null) {
       totalWeightAchieved += (grade.data.actualScore / grade.data.maxScore) * grade.data.weight;
       totalWeightCompleted += grade.data.weight;
+
+      // Calculate the GPA for each course
+      const courseGPA = calculateGPAFromLetterGrade(currentLetterGrade);
+      totalGPA += courseGPA * course.data.units;
+      totalUnits += course.data.units;
     } else {
       allGradesCompleted = false;
     }
@@ -105,17 +118,10 @@ export const getCurrentGradeProgress = (grades: Grade[], courseCode: string) => 
   const currentLetterGrade = getLetterGrade(percentage, true);
 
   myLetterGrade = currentLetterGrade;
-  console.log('checkpoin 1');
+  console.log('checkpoint 1');
 
-  // updateCourse(courseData.courseCode, currentLetterGrade);
-  // console.log('checkpoint2');
-
-  // setMyLetterGrade(currentLetterGrade);
-  //I need to save the letter grade to the course table here
-  //but not sure how to extract the course code from here
-
-  // updatateCourse(courseData);
-  updateMyDB(courseCode, myLetterGrade);
+  // Calculate the overall GPA
+  const overallGPA = totalGPA / totalUnits;
 
   return {
     totalWeightCompleted,
@@ -124,6 +130,7 @@ export const getCurrentGradeProgress = (grades: Grade[], courseCode: string) => 
     percentage,
     allGradesCompleted,
     myLetterGrade,
+    overallGPA, //overAll GPA added in the return
   };
 };
 
@@ -184,4 +191,26 @@ export const getEstimateAverageGrade = (grades: Grade[]) => {
   });
 
   return result;
+};
+
+// gradesCalculation.ts
+
+export const calculateGPAFromLetterGrade = (letterGrade: string) => {
+  // Identify the GPA points for each letter grade
+  const gpaPoints: Record<string, number> = {
+    'A+': 4.2,
+    A: 4.0,
+    'A-': 3.7,
+    'B+': 3.3,
+    B: 3.0,
+    'B-': 2.7,
+    'C+': 2.3,
+    C: 2.0,
+    'C-': 1.7,
+    'D+': 1.3,
+    D: 1.0,
+    F: 0.0,
+  };
+
+  return gpaPoints[letterGrade] || 0.0; // Return 0.0 for invalid letter grades (e.g., if letterGrade is null or undefined)
 };

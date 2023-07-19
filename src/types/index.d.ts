@@ -7,6 +7,7 @@ export interface CourseData {
 }
 
 export interface Course {
+  grades(grades: any): { currentLetterGrade: any };
   id: number;
   data: CourseData;
 }
@@ -30,6 +31,7 @@ export interface Grade {
 // ========== PROPS ==========
 export interface CourseItemProps {
   course: Course | null;
+  courseid: number;
   handleGoToCourseDetail: (courseId: number) => void;
 }
 

@@ -205,7 +205,9 @@ export function updateCourse(letterGrade: string, code: number): Promise<number 
         [letterGrade, code],
         (_, resultSet) => {
           resolve(resultSet.rowsAffected);
-          console.log('course letter grade updated');
+          console.log('course letter grade updated in DB');
+          console.log('letterGrade is:', letterGrade);
+          console.log('courseID is:', code);
         },
         (_, error) => {
           reject(error);
@@ -263,12 +265,14 @@ export function updateCourse3(letterGrade: string, code: number): Promise<number
   return new Promise((resolve, reject) => {
     db.transaction((tx) => {
       tx.executeSql(
-        // 'UPDATE courses SET letter_Grade = ? WHERE id = ?',
-        UPDATE_COURSE,
+        'UPDATE courses SET letter_Grade = ? WHERE id = ?',
+        // UPDATE_COURSE,
         [letterGrade, code],
         (_, resultSet) => {
           console.log('course letter grade updated');
           console.log(resultSet);
+          console.log('grade is', letterGrade);
+          console.log('code is', code);
           resolve(resultSet.rowsAffected);
         },
         (_, error) => {

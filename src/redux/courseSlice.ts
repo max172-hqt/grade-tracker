@@ -2,7 +2,7 @@ import { createSelector, createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
 import type { Course, Grade } from '../types';
 import { RootState } from './store';
-import { calculateGPA } from '../utils/gradesCalculation';
+import { calculateGPA, getLetterGradeFromTotalWeightedScore } from '../utils/gradesCalculation';
 
 export interface CourseState {
   courses: Course[];
@@ -42,8 +42,29 @@ export const courseSlice = createSlice({
      * Add a new course and its grades to the store
      */
     addCourse: (state, action: PayloadAction<CoursePayloadData>) => {
-      state.courses.push(action.payload.course);
-      state.grades.push(...action.payload.grades);
+      const { course, grades } = action.payload;
+
+      // Calculate GPA for the new course
+      const courseGPA = calculateGPA(course.id, grades);
+
+      // Update the course with the calculated GPA and letterGrade
+      const courseWithGPA: Course = {
+        ...course,
+        data: {
+          ...course.data,
+          letterGrade: getLetterGradeFromTotalWeightedScore(courseGPA),
+        },
+      };
+
+      // state.courses.push(action.payload.course);
+      state.courses.push(courseWithGPA);
+      console.log('coursesWithGPA:::', courseWithGPA);
+
+      // state.grades.push(...action.payload.grades);
+      // If the grades array is not empty, add the new grades to the state
+      if (grades.length > 0) {
+        state.grades.push(...grades);
+      }
     },
 
     /**
@@ -54,6 +75,18 @@ export const courseSlice = createSlice({
       const gradeToUpdate = state.grades.find((grade) => grade.id === gradeId);
       if (gradeToUpdate) {
         gradeToUpdate.data.actualScore = actualScore;
+
+        // Recalculate the GPA and letterGrade for the affected course
+        const courseId = gradeToUpdate.courseId;
+        const gradesForCourse = state.grades.filter((grade) => grade.courseId === courseId);
+        const courseGPA = calculateGPA(courseId, gradesForCourse);
+        const letterGrade = getLetterGradeFromTotalWeightedScore(courseGPA);
+
+        // Update the letterGrade property of the course
+        const courseToUpdate = state.courses.find((course) => course.id === courseId);
+        if (courseToUpdate) {
+          courseToUpdate.data.letterGrade = letterGrade;
+        }
       }
     },
 

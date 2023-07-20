@@ -7,7 +7,9 @@ export interface CourseData {
 }
 
 export interface Course {
-  grades(grades: any): { currentLetterGrade: any };
+  // grades(grades: any): { currentLetterGrade: any };
+  grades: Grade[]; // Add the grades property as an array of Grade[]
+
   id: number;
   data: CourseData;
 }

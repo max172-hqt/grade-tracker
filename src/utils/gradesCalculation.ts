@@ -1,4 +1,12 @@
-import type { Grade, GradeData } from '../types';
+import { convertAbsoluteToRem } from 'native-base/lib/typescript/theme/tools';
+import type { Grade, GradeData, CourseData } from '../types';
+// import { getLetterGrade, calculateGPAFromLetterGrade } from '../types';
+// import { getLetterGrade } from '../utils/gradesCalculation';
+
+// Function to get letter grade from total weighted score
+export const getLetterGradeFromTotalWeightedScore = (totalWeightedScore: number) => {
+  return getLetterGrade(totalWeightedScore * 100); // Multiply by 100 to convert to percentage
+};
 
 export const getLetterGrade = (percentage: number, roundUp = false) => {
   // Round to the nearest integer
@@ -82,6 +90,7 @@ export const getCurrentGradeProgress = (grades: Grade[]) => {
     if (grade.data.actualScore !== null && grade.data.weight !== null) {
       totalWeightAchieved += (grade.data.actualScore / grade.data.maxScore) * grade.data.weight;
       totalWeightCompleted += grade.data.weight;
+      console.log('totalWeightedAchieved', totalWeightAchieved);
     } else {
       allGradesCompleted = false;
     }
@@ -94,6 +103,7 @@ export const getCurrentGradeProgress = (grades: Grade[]) => {
 
   const currentLetterGrade = getLetterGrade(percentage, true);
 
+  console.log('currentletterGrade', currentLetterGrade);
   return {
     totalWeightCompleted,
     totalWeightAchieved,
@@ -165,19 +175,46 @@ export const getEstimateAverageGrade = (grades: Grade[]) => {
 // Function to calculate GPA for a course based on its grades
 export const calculateGPA = (courseId: number, grades: Grade[]) => {
   const gradesForCourse = grades.filter((grade) => grade.courseId === courseId);
+  console.log('gradesForCourse');
+  console.log(gradesForCourse);
   if (gradesForCourse.length === 0) {
     return 0;
   }
 
   const totalWeightedScore = gradesForCourse.reduce((acc, grade) => {
+    console.log('acc:', acc);
     if (grade.data.actualScore !== null) {
       const gradePercentage =
         (grade.data.actualScore / grade.data.maxScore) * (grade.data.weight / 100);
+      console.log('gradePercentage:', gradePercentage);
       return acc + gradePercentage;
     }
     return acc;
   }, 0);
+  console.log('totalWeightedScore', totalWeightedScore);
+  console.log('gradesForCourse Length', gradesForCourse.length);
 
   const totalWeightedScorePercentage = (totalWeightedScore / gradesForCourse.length) * 100;
-  return totalWeightedScorePercentage;
+  console.log('totalWeightedScorePercentage', totalWeightedScorePercentage);
+  // return totalWeightedScorePercentage; //There is no need for percentage here, We just need
+  // the total marks for the whole course, we will base the letterGrade from this.
+  // return totalWeightedScore * 100;
+  return totalWeightedScore;
+};
+
+export const calculateGPAFromLetterGrade = (letterGrade: string) => {
+  const GPA_MAP: Record<string, number> = {
+    'A+': 4.2,
+    A: 4.0,
+    'B+': 3.5,
+    B: 3.0,
+    'C+': 2.5,
+    C: 2.0,
+    'D+': 1.5,
+    D: 1.0,
+    F: 0.0,
+  };
+
+  const GPA = GPA_MAP[letterGrade.toUpperCase()];
+  return GPA ? GPA : 0.0;
 };

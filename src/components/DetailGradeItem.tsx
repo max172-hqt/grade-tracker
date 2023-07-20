@@ -57,7 +57,9 @@ function DetailGradeItem({ grade, showWeighted }: DetailGradeItemProps) {
       const inputGradeString = inputGrade.toFixed(2);
       setActualScore(inputGradeString);
       await updateGradeActualScore(grade.id, +inputGradeString);
+
       dispatch(updateActualGrade({ gradeId: grade.id, actualScore: +inputGradeString }));
+
       setIsModalOpen(false);
     } catch (error) {
       console.log('Failed to update grade', error);

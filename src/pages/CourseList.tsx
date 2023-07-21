@@ -1,4 +1,4 @@
-import { Box, Button, FlatList, Heading, VStack } from 'native-base';
+import { Box, Button, Divider, FlatList, Heading, VStack } from 'native-base';
 import { useSelector } from 'react-redux';
 import { useMemo } from 'react';
 import CourseItem from '../components/CourseItem';
@@ -46,6 +46,10 @@ export default function CourseList({ navigation }) {
         bg: 'coolGray.900',
       }}
     >
+      <Heading size="lg" fontWeight="bold" _dark={{ color: 'coolGray.200' }}>
+        Overall Progress
+      </Heading>
+      <Divider />
       <FlatList
         columnWrapperStyle={{
           flex: 1,

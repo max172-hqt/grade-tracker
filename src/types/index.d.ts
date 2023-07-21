@@ -2,9 +2,12 @@
 export interface CourseData {
   name: string;
   courseCode: string;
+  units: number;
+  letterGrade: string;
 }
 
 export interface Course {
+  grades(grades: any): { currentLetterGrade: any };
   id: number;
   data: CourseData;
 }
@@ -28,6 +31,7 @@ export interface Grade {
 // ========== PROPS ==========
 export interface CourseItemProps {
   course: Course | null;
+  courseid: number;
   handleGoToCourseDetail: (courseId: number) => void;
 }
 

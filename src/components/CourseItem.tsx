@@ -1,6 +1,15 @@
 import { Box, HStack, VStack, Text } from 'native-base';
 import type { CourseItemProps } from '../types';
 import { TouchableOpacity } from 'react-native';
+import type { Grade, GradeData } from '../types';
+import {
+  getCurrentGradeProgress,
+  getEstimateAverageGrade,
+  getNextLetterGrade,
+  getTotalCourseWeight,
+  getLetterGrade,
+} from '../utils/gradesCalculation';
+// import currentLetterGrade from '../components/CourseSummary';
 
 export default function CourseItem({ course, handleGoToCourseDetail }: CourseItemProps) {
   const handleOnPressCourse = () => {
@@ -45,6 +54,22 @@ export default function CourseItem({ course, handleGoToCourseDetail }: CourseIte
               }}
             >
               {course.data.courseCode}
+            </Text>
+            <Text
+              color="coolGray.600"
+              _dark={{
+                color: 'warmGray.200',
+              }}
+            >
+              Units: {course.data.units}
+            </Text>
+            <Text
+              color="coolGray.600"
+              _dark={{
+                color: 'warmGray.200',
+              }}
+            >
+              Letter Grade: {}
             </Text>
           </VStack>
         </HStack>

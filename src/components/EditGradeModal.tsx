@@ -22,15 +22,15 @@ export default function EditGradeModal({
   const [weight, setWeight] = useState(grade?.weight.toString() ?? '');
 
   const handleNameChange = (value: string) => {
-    setName(value);
+    setName(value.trim());
   };
 
   const handleMaxScoreChange = (value: string) => {
-    setMaxScore(value);
+    setMaxScore(value.trim());
   };
 
   const handleWeightChange = (value: string) => {
-    setWeight(value);
+    setWeight(value.trim());
   };
 
   const handleSavePressed = () => {

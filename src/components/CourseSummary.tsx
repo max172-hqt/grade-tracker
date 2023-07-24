@@ -1,5 +1,5 @@
 import { Box, Divider, HStack, Heading, Text, VStack } from 'native-base';
-import type { Grade } from '../types';
+import type { Course, Grade } from '../types';
 import {
   getCurrentGradeProgress,
   getEstimateAverageGrade,
@@ -9,7 +9,7 @@ import {
 import CircularProgress from 'react-native-circular-progress-indicator';
 import { gradeColors } from '../utils/colors';
 
-export default function CourseSummary({ grades }: { grades: Grade[] }) {
+export default function CourseSummary({ grades, course }: { grades: Grade[]; course: Course }) {
   const {
     totalWeightCompleted,
     totalWeightAchieved,
@@ -43,6 +43,20 @@ export default function CourseSummary({ grades }: { grades: Grade[] }) {
         bg: 'white',
       }}
     >
+      <VStack mb={2}>
+        <Text fontWeight="bold" fontSize="lg">
+          {course.data.name}
+        </Text>
+        <Text
+          color="coolGray.400"
+          _dark={{
+            color: 'coolGray.300',
+          }}
+          fontWeight="medium"
+        >
+          {course.data.courseCode}
+        </Text>
+      </VStack>
       <HStack alignItems="center" mb={4}>
         <VStack flex="1">
           <HStack space="2">

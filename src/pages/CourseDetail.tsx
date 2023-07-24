@@ -46,15 +46,14 @@ export default function CourseDetail({ route }: Props) {
         <Heading size="lg" fontWeight="bold" _dark={{ color: 'coolGray.200' }}>
           {course.data.name}
         </Heading>
-        <Text _dark={{ color: 'coolGray.200' }} fontSize="md" fontWeight="medium">
-          Course Code: {course.data.courseCode}
-        </Text>
-        <Text color="coolGray.200" fontSize="md" fontWeight="bold">
-          Units: {course.data.units}
-        </Text>
-        <Text color="coolGray.200" fontSize="md" fontWeight="bold">
-          Letter: {course.data.letterGrade}
-        </Text>
+        <HStack>
+          <Text _dark={{ color: 'coolGray.200' }} fontSize="md" fontWeight="medium">
+            Course Code: {course.data.courseCode}
+          </Text>
+          <Text _dark={{ color: 'coolGray.200' }} fontSize="md" fontWeight="medium">
+            Credit Units: {course.data.units}
+          </Text>
+        </HStack>
       </VStack>
       <ScrollView>
         <VStack p={4} space={2}>

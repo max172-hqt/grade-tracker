@@ -1,3 +1,5 @@
+/* eslint-disable prettier/prettier */
+/* eslint-disable indent */
 import type { Grade, GradeData } from '../types';
 
 export const getLetterGrade = (percentage: number, roundUp = false) => {
@@ -29,6 +31,40 @@ export const getLetterGrade = (percentage: number, roundUp = false) => {
   }
 
   return ret;
+};
+
+export const getLetterValue = (letGrade: string) => {
+  let letGradeVal: number;
+  switch (letGrade) {
+    case 'A+':
+      letGradeVal = 4.2;
+      break;
+    case 'A':
+      letGradeVal = 4.0;
+      break;
+    case 'B+':
+      letGradeVal = 3.5;
+      break;
+    case 'B':
+      letGradeVal = 3;
+      break;
+    case 'C+':
+      letGradeVal = 2.5;
+      break;
+    case 'C':
+      letGradeVal = 2.0;
+      break;
+    case 'D+':
+      letGradeVal = 1.5;
+      break;
+    case '5':
+      letGradeVal = 1;
+      break;
+    default:
+      letGradeVal = 0;
+  }
+
+  return letGradeVal;
 };
 
 export const getWeightedPercentage = (grade: number, maxGrade: number) => {
@@ -78,7 +114,14 @@ export const getCurrentGradeProgress = (grades: Grade[]) => {
   let totalWeightCompleted = 0;
   let totalWeightAchieved = 0;
   let allGradesCompleted = true;
+  console.log('grades');
+  console.log(grades);
+
+  // grades.forEach((grade) => {});
+
   grades.forEach((grade) => {
+    console.log('gradesCalculation: grade.courseID:', grade.courseId);
+
     if (grade.data.actualScore !== null && grade.data.weight !== null) {
       totalWeightAchieved += (grade.data.actualScore / grade.data.maxScore) * grade.data.weight;
       totalWeightCompleted += grade.data.weight;
@@ -180,4 +223,28 @@ export const calculateGPA = (courseId: number, grades: Grade[]) => {
 
   const totalWeightedScorePercentage = (totalWeightedScore / gradesForCourse.length) * 100;
   return totalWeightedScorePercentage;
+};
+
+// Function to calculate LetterGrade for a course based on its grades
+export const calculateLetterGrade = (courseId: number, grades: Grade[]) => {
+  const gradesForCourse = grades.filter((grade) => grade.courseId === courseId);
+  if (gradesForCourse.length === 0) {
+    return 'NA';
+  }
+
+  const totalWeightedScore = gradesForCourse.reduce((acc, grade) => {
+    if (grade.data.actualScore !== null) {
+      const gradePercentage =
+        (grade.data.actualScore / grade.data.maxScore) * (grade.data.weight / 100);
+      return acc + gradePercentage;
+    }
+    return acc;
+  }, 0);
+
+  const courseLetGrade = getLetterGrade(totalWeightedScore * 100, true);
+  console.log('gradesComputation totalWeightedScore:', totalWeightedScore);
+
+  console.log('gradesComputation courseLetGrade:', courseLetGrade);
+  // const totalWeightedScorePercentage = (totalWeightedScore / gradesForCourse.length) * 100;
+  return courseLetGrade;
 };

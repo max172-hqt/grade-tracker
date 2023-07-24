@@ -1,15 +1,10 @@
 import { Box, HStack, VStack, Text } from 'native-base';
 import type { CourseItemProps } from '../types';
 import { TouchableOpacity } from 'react-native';
-import type { Grade, GradeData } from '../types';
-import {
-  getCurrentGradeProgress,
-  getEstimateAverageGrade,
-  getNextLetterGrade,
-  getTotalCourseWeight,
-  getLetterGrade,
-} from '../utils/gradesCalculation';
+import CircularProgress from 'react-native-circular-progress-indicator';
+
 // import currentLetterGrade from '../components/CourseSummary';
+// import CourseSummary from '../components/CourseSummary';
 
 export default function CourseItem({ course, handleGoToCourseDetail }: CourseItemProps) {
   const handleOnPressCourse = () => {
@@ -21,6 +16,9 @@ export default function CourseItem({ course, handleGoToCourseDetail }: CourseIte
   if (course === null) {
     return <Box p="4" flex="1" m={1}></Box>;
   }
+  console.log('Course item: course in Course Item');
+  console.log(course);
+  console.log(course.currLetGrade);
 
   return (
     <Box
@@ -47,30 +45,53 @@ export default function CourseItem({ course, handleGoToCourseDetail }: CourseIte
             >
               {course.data.name}
             </Text>
-            <Text
+            <HStack>
+              <VStack>
+                <Text
+                  color="coolGray.600"
+                  _dark={{
+                    color: 'warmGray.200',
+                  }}
+                >
+                  {course.data.courseCode}
+                </Text>
+                <Text
+                  color="coolGray.600"
+                  _dark={{
+                    color: 'warmGray.200',
+                  }}
+                >
+                  Units: {course.data.units}
+                </Text>
+              </VStack>
+              <VStack justifyContent="center" alignItems="flex-end">
+                <Box>
+                  <CircularProgress
+                    // value={course.currLetGrade}
+                    showProgressValue={false}
+                    // valueSuffix={`/${grade.data.maxScore}%`}
+                    title={course.currLetGrade}
+                    titleStyle={{ fontSize: 15 }}
+                    // maxValue={grade.data.maxScore}
+                    radius={20}
+                    activeStrokeWidth={4}
+                    inActiveStrokeWidth={2}
+
+                    // activeStrokeColor={gradeColorsHex[getLetterForGrade(grade)]}
+                    // inActiveStrokeColor={progressColor}
+                  />
+                </Box>
+              </VStack>
+            </HStack>
+
+            {/* <Text
               color="coolGray.600"
               _dark={{
                 color: 'warmGray.200',
               }}
             >
-              {course.data.courseCode}
-            </Text>
-            <Text
-              color="coolGray.600"
-              _dark={{
-                color: 'warmGray.200',
-              }}
-            >
-              Units: {course.data.units}
-            </Text>
-            <Text
-              color="coolGray.600"
-              _dark={{
-                color: 'warmGray.200',
-              }}
-            >
-              Letter Grade: {}
-            </Text>
+              Letter Grade: {course.currLetGrade}
+            </Text> */}
           </VStack>
         </HStack>
       </TouchableOpacity>

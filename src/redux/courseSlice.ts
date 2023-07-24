@@ -2,7 +2,7 @@ import { createSelector, createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
 import type { Course, Grade } from '../types';
 import { RootState } from './store';
-import { calculateGPA } from '../utils/gradesCalculation';
+import { calculateGPA, calculateLetterGrade } from '../utils/gradesCalculation';
 
 export interface CourseState {
   courses: Course[];
@@ -91,7 +91,12 @@ export const selectSortedCourses = createSelector(
     const coursesWithGPA = courses.map((course) => ({
       ...course,
       gpa: calculateGPA(course.id, grades),
+      currLetGrade: calculateLetterGrade(course.id, grades),
     }));
+
+    console.log(' Course Slice courses With GpA');
+    console.log(coursesWithGPA);
+
     if (sortOrder === 'ALPHABETICAL') {
       return [...coursesWithGPA].sort((a, b) => a.data.name.localeCompare(b.data.name));
     } else if (sortOrder === 'GPA_HIGH_TO_LOW') {

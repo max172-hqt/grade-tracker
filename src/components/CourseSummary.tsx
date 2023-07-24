@@ -1,5 +1,5 @@
 import { Box, Divider, HStack, Heading, Text, VStack } from 'native-base';
-import type { Grade, Course, CourseData } from '../types';
+import type { Grade } from '../types';
 import {
   getCurrentGradeProgress,
   getEstimateAverageGrade,
@@ -21,6 +21,8 @@ export default function CourseSummary({ grades }: { grades: Grade[] }) {
   const estimateAverageGrade = getEstimateAverageGrade(grades);
 
   const nextLetterGrade = getNextLetterGrade(currentLetterGrade);
+
+  console.log(getCurrentGradeProgress(grades));
 
   const averageNextLetter =
     nextLetterGrade && estimateAverageGrade[nextLetterGrade] !== -1

@@ -6,7 +6,6 @@ import {
   CREATE_GRADES_TABLE_QUERY,
   SELECT_COURSES,
   SELECT_GRADES,
-  UPDATE_COURSE,
 } from './constants';
 import type { Course, CourseData, Grade, GradeData } from '../types';
 
@@ -46,7 +45,6 @@ export async function getAllCourses(): Promise<Course[]> {
                 name: data.name,
                 courseCode: data.course_code,
                 units: data.units,
-                letterGrade: data.letterGrade,
               },
             });
           });

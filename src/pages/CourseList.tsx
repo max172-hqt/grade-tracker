@@ -3,12 +3,17 @@ import { useSelector } from 'react-redux';
 import { useMemo } from 'react';
 import CourseItem from '../components/CourseItem';
 import { selectSortedCourses } from '../redux/courseSlice';
+// import { gradeColors } from '../utils/colors';
+import { getLetterValue } from '../utils/gradesCalculation';
 
 export default function CourseList({ navigation }) {
   const sortedCourses = useSelector(selectSortedCourses);
   const handleGoToCourseDetail = (id: number) => {
     navigation.navigate('Course Detail', { courseId: id });
   };
+
+  console.log('sortedCourses');
+  console.log(sortedCourses);
 
   const formattedCourses = useMemo(() => {
     if (sortedCourses.length === 0) return sortedCourses;
@@ -18,6 +23,42 @@ export default function CourseList({ navigation }) {
     }
     return sortedCourses;
   }, [sortedCourses]);
+
+  // form.forEach((grade) => {
+  //   if (grade.data.actualScore !== null && grade.data.weight !== null) {
+  //     totalWeightAchieved += (grade.data.actualScore / grade.data.maxScore) * grade.data.weight;
+  //     totalWeightCompleted += grade.data.weight;
+  //   } else {
+  //     allGradesCompleted = false;
+  //   }
+  // });
+  let courseCtr = 0;
+  let unitCtr = 0;
+  let courseValue = 0;
+  let Finalgrade = 0;
+
+  sortedCourses.forEach((course) => {
+    if (course?.id !== null) {
+      courseCtr += 1;
+      unitCtr += course?.data.units;
+      console.log('counter:', courseCtr);
+      console.log('CourseList course ID:', course?.id);
+      console.log('CourseList course Units:', course?.data.units);
+      console.log('CourseList letter grades', course?.currLetGrade);
+
+      // overAllGrade += getLetterValue(course?.currLetGrade) * course?.data.units;
+      const letterValue = getLetterValue(course?.currLetGrade);
+      courseValue += letterValue * course?.data.units;
+      console.log('getLetterValue', getLetterValue(course?.currLetGrade));
+      console.log('course Grade:', courseValue);
+    }
+    Finalgrade = courseValue / unitCtr;
+    // console.log('Final:', FinalGrade);
+    console.log('units ctr', unitCtr);
+  });
+
+  console.log('formattedCourses');
+  console.log(formattedCourses);
 
   if (formattedCourses.length === 0) {
     return (
@@ -47,7 +88,7 @@ export default function CourseList({ navigation }) {
       }}
     >
       <Heading size="lg" fontWeight="bold" _dark={{ color: 'coolGray.200' }}>
-        Overall Progress
+        Overall Progress: {Finalgrade.toFixed(2)}
       </Heading>
       <Divider />
       <FlatList

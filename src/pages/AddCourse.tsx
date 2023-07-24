@@ -20,7 +20,6 @@ import EditGradeModal from '../components/EditGradeModal';
 import { Alert } from 'react-native';
 import { getTotalCourseWeightGradeData } from '../utils/gradesCalculation';
 import { ScrollView } from 'react-native-gesture-handler';
-import { useAnimatedStyle } from 'react-native-reanimated';
 
 const sampleGradeData: GradeData[] = [
   {
@@ -69,7 +68,7 @@ export default function AddCourse({ navigation }) {
   const [name, setName] = useState('');
   const [code, setCode] = useState('');
   const [units, setUnits] = useState('');
-  const [letterGrade, setLetterGrade] = useState('');
+  const [letterGrade] = useState('');
   const [gradeData, setGradeData] = useState<GradeData[]>(sampleGradeData);
   const [dialog, setDialog] = useState<'SAVE' | 'CANCEL' | 'ADD_GRADE' | null>();
   const [clickedSave, setClickedSave] = useState(false);

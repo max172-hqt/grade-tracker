@@ -1,4 +1,4 @@
-import { Box, Button, Divider, FlatList, Heading, VStack } from 'native-base';
+import { Box, Button, Divider, FlatList, Heading, VStack, Spacer } from 'native-base';
 import { useSelector } from 'react-redux';
 import { useMemo } from 'react';
 import CourseItem from '../components/CourseItem';
@@ -87,9 +87,28 @@ export default function CourseList({ navigation }) {
         bg: 'coolGray.900',
       }}
     >
-      <Heading size="lg" fontWeight="bold" _dark={{ color: 'coolGray.200' }}>
-        Overall Progress: {Finalgrade.toFixed(2)}
-      </Heading>
+      <VStack alignItems={'center'}>
+        <Box
+          paddingTop={5}
+          paddingLeft={20}
+          paddingRight={20}
+          marginLeft={5}
+          borderRadius="8"
+          _light={{
+            bg: 'white',
+          }}
+          _dark={{
+            bg: 'coolGray.800',
+          }}
+        >
+          <Heading marginBottom={'5'} size="sm" fontWeight="bold" _dark={{ color: 'coolGray.200' }}>
+            Overall Progress
+          </Heading>
+
+          <Heading marginBottom={'5'}>GPA: {Finalgrade.toFixed(2)}</Heading>
+        </Box>
+      </VStack>
+
       <Divider />
       <FlatList
         columnWrapperStyle={{

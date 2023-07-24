@@ -60,11 +60,16 @@ export const courseSlice = createSlice({
     setSortOrder: (state, action: PayloadAction<'ALPHABETICAL' | 'GPA_HIGH_TO_LOW'>) => {
       state.sortOrder = action.payload;
     },
+
+    deleteData: (state) => {
+      state.courses = [];
+      state.grades = [];
+    },
   },
 });
 
 // Action creators are generated for each case reducer function
-export const { addCourse, setCourses, setGrades, updateActualGrade, setSortOrder } =
+export const { addCourse, setCourses, setGrades, updateActualGrade, setSortOrder, deleteData } =
   courseSlice.actions;
 export default courseSlice.reducer;
 

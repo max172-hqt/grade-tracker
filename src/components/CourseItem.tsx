@@ -2,9 +2,7 @@ import { Box, HStack, VStack, Text } from 'native-base';
 import type { CourseItemProps } from '../types';
 import { TouchableOpacity } from 'react-native';
 import CircularProgress from 'react-native-circular-progress-indicator';
-
-// import currentLetterGrade from '../components/CourseSummary';
-// import CourseSummary from '../components/CourseSummary';
+// import { gradeColors } from '../utils/colors';
 
 export default function CourseItem({ course, handleGoToCourseDetail }: CourseItemProps) {
   const handleOnPressCourse = () => {
@@ -65,7 +63,7 @@ export default function CourseItem({ course, handleGoToCourseDetail }: CourseIte
                 </Text>
               </VStack>
               <VStack justifyContent="center" alignItems="flex-end">
-                <Box>
+                <Box paddingLeft={10}>
                   <CircularProgress
                     // value={course.currLetGrade}
                     showProgressValue={false}
@@ -76,22 +74,10 @@ export default function CourseItem({ course, handleGoToCourseDetail }: CourseIte
                     radius={20}
                     activeStrokeWidth={4}
                     inActiveStrokeWidth={2}
-
-                    // activeStrokeColor={gradeColorsHex[getLetterForGrade(grade)]}
-                    // inActiveStrokeColor={progressColor}
                   />
                 </Box>
               </VStack>
             </HStack>
-
-            {/* <Text
-              color="coolGray.600"
-              _dark={{
-                color: 'warmGray.200',
-              }}
-            >
-              Letter Grade: {course.currLetGrade}
-            </Text> */}
           </VStack>
         </HStack>
       </TouchableOpacity>

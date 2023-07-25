@@ -1,9 +1,10 @@
-import { Box, Button, Divider, FlatList, Heading, VStack, Spacer } from 'native-base';
+import { Box, Button, Divider, FlatList, Heading, VStack, HStack } from 'native-base';
+import Icon from 'react-native-vector-icons/FontAwesome';
+
 import { useSelector } from 'react-redux';
 import { useMemo } from 'react';
 import CourseItem from '../components/CourseItem';
 import { selectSortedCourses } from '../redux/courseSlice';
-// import { gradeColors } from '../utils/colors';
 import { getLetterValue } from '../utils/gradesCalculation';
 
 export default function CourseList({ navigation }) {
@@ -24,14 +25,6 @@ export default function CourseList({ navigation }) {
     return sortedCourses;
   }, [sortedCourses]);
 
-  // form.forEach((grade) => {
-  //   if (grade.data.actualScore !== null && grade.data.weight !== null) {
-  //     totalWeightAchieved += (grade.data.actualScore / grade.data.maxScore) * grade.data.weight;
-  //     totalWeightCompleted += grade.data.weight;
-  //   } else {
-  //     allGradesCompleted = false;
-  //   }
-  // });
   let courseCtr = 0;
   let unitCtr = 0;
   let courseValue = 0;
@@ -46,14 +39,12 @@ export default function CourseList({ navigation }) {
       console.log('CourseList course Units:', course?.data.units);
       console.log('CourseList letter grades', course?.currLetGrade);
 
-      // overAllGrade += getLetterValue(course?.currLetGrade) * course?.data.units;
       const letterValue = getLetterValue(course?.currLetGrade);
       courseValue += letterValue * course?.data.units;
       console.log('getLetterValue', getLetterValue(course?.currLetGrade));
       console.log('course Grade:', courseValue);
     }
     Finalgrade = courseValue / unitCtr;
-    // console.log('Final:', FinalGrade);
     console.log('units ctr', unitCtr);
   });
 
@@ -87,27 +78,83 @@ export default function CourseList({ navigation }) {
         bg: 'coolGray.900',
       }}
     >
-      <VStack alignItems={'center'}>
-        <Box
-          paddingTop={5}
-          paddingLeft={20}
-          paddingRight={20}
-          marginLeft={5}
-          borderRadius="8"
-          _light={{
-            bg: 'white',
-          }}
-          _dark={{
-            bg: 'coolGray.800',
-          }}
-        >
-          <Heading marginBottom={'5'} size="sm" fontWeight="bold" _dark={{ color: 'coolGray.200' }}>
-            Overall Progress
-          </Heading>
-
-          <Heading marginBottom={'5'}>GPA: {Finalgrade.toFixed(2)}</Heading>
-        </Box>
-      </VStack>
+      <HStack>
+        <VStack alignItems={'center'} marginTop={1}>
+          <Box
+            paddingTop={5}
+            paddingLeft={15}
+            paddingRight={15}
+            paddingBottom={1}
+            marginLeft={1}
+            marginRight={1}
+            marginBottom={2}
+            borderRadius={8}
+            _light={{
+              bg: 'white',
+            }}
+            _dark={{
+              bg: 'coolGray.800',
+            }}
+          >
+            <Icon
+              name="line-chart"
+              size={50}
+              color="green"
+              marginTop={1}
+              marginBottom={1}
+              marginRight={1}
+            />
+            <HStack marginTop={5}>
+              <Icon name="star" size={10} color="green" marginLeft={5} />
+              <Icon name="star" size={10} color="green" marginLeft={5} />
+              <Icon name="star" size={10} color="green" marginLeft={5} />
+            </HStack>
+            <Heading
+              marginBottom={'1'}
+              size="sm"
+              fontWeight="bold"
+              _dark={{ color: 'coolGray.200' }}
+            >
+              Overall
+            </Heading>
+            <Heading
+              marginBottom={'5'}
+              size="sm"
+              fontWeight="bold"
+              _dark={{ color: 'coolGray.200' }}
+            >
+              Progress
+            </Heading>
+            {/* </HStack> */}
+          </Box>
+        </VStack>
+        <VStack alignItems={'center'} marginTop={1}>
+          <Box
+            paddingTop={5}
+            paddingLeft={15}
+            paddingRight={5}
+            paddingBottom={1}
+            marginLeft={1}
+            marginRight={1}
+            marginBottom={2}
+            marginTop={5}
+            borderRadius={8}
+            _light={{
+              bg: 'white',
+            }}
+            _dark={{
+              bg: 'coolGray.800',
+            }}
+          >
+            <Heading marginBottom={'2'} size="4xl" justifyContent="center">
+              {Finalgrade.toFixed(2)}
+            </Heading>
+            <Heading marginBottom={'1'} size="sm">
+              Grade Point Average
+            </Heading>
+          </Box>
+        </VStack>
+      </HStack>
 
       <Divider />
       <FlatList

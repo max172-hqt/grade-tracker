@@ -50,7 +50,13 @@ export default function CourseDetail({ route }: Props) {
           <Text _dark={{ color: 'coolGray.200' }} fontSize="md" fontWeight="medium">
             Course Code: {course.data.courseCode}
           </Text>
-          <Text _dark={{ color: 'coolGray.200' }} fontSize="md" fontWeight="medium">
+          <Text
+            _dark={{ color: 'coolGray.200' }}
+            justifyContent="flex-end"
+            flexDirection="row"
+            fontSize="md"
+            fontWeight="medium"
+          >
             Credit Units: {course.data.units}
           </Text>
         </HStack>

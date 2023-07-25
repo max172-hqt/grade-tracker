@@ -34,8 +34,6 @@ export default function CourseSummary({ grades }: { grades: Grade[] }) {
       ? estimateAverageGrade[currentLetterGrade].toFixed(2) + '%'
       : 'N/A';
 
-  // updateCourse(currentLetterGrade, CourseSummary.);
-
   return (
     <Box
       p="4"

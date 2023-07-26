@@ -79,7 +79,13 @@ export default function AddCourse({ navigation }) {
   const handleOpenSaveDialog = useCallback(() => {
     setClickedSave(true);
 
-    if (name.length === 0 || code.length === 0 || units.length === 0) {
+    if (
+      name.length === 0 ||
+      code.length === 0 ||
+      units.length === 0 ||
+      parseInt(units) > 5 ||
+      parseInt(units) < 0
+    ) {
       return;
     }
 
@@ -90,6 +96,14 @@ export default function AddCourse({ navigation }) {
 
     setDialog(SAVE_DIALOG);
   }, [name, code, units, gradeData]);
+
+  const validateUnits = (units: string) => {
+    console.log('unit validation start');
+    console.log('units:', parseInt(units));
+    if (parseInt(units) <= 0 || parseInt(units) > 6) return true;
+    console.log('unit validation end');
+    return false;
+  };
 
   const handleOpenCancelDialog = () => {
     setDialog(CANCEL_DIALOG);
@@ -286,8 +300,10 @@ export default function AddCourse({ navigation }) {
               Course code cannot be empty
             </FormControl.ErrorMessage>
           </FormControl>
-          <FormControl isInvalid={clickedSave && units.length === 0}>
+          {/* <FormControl isInvalid={clickedSave && units.length === 0}> */}
+          <FormControl isInvalid={clickedSave && validateUnits(units)}>
             <Input
+              keyboardType="numeric"
               fontSize="sm"
               placeholder="Enter the course number of units"
               w="100%"
@@ -295,7 +311,7 @@ export default function AddCourse({ navigation }) {
               onChangeText={handleUnitsChange}
             />
             <FormControl.ErrorMessage leftIcon={<WarningOutlineIcon size="xs" />}>
-              Equivalent unit cannot be empty
+              Equivalent unit cannot be empty, 0, or more than 6
             </FormControl.ErrorMessage>
           </FormControl>
           <VStack flex="1">

@@ -2,7 +2,7 @@ import { createSelector, createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
 import type { Course, Grade } from '../types';
 import { RootState } from './store';
-import { calculateGPA } from '../utils/gradesCalculation';
+import { getCurrentGradeProgress } from '../utils/gradesCalculation';
 
 export interface CourseState {
   courses: Course[];
@@ -87,14 +87,19 @@ const selectGrades = (state: RootState) => state.course.grades;
 export const selectSortedCourses = createSelector(
   [selectCourses, selectGrades, (state: RootState) => state.course.sortOrder],
   (courses, grades, sortOrder) => {
-    const coursesWithGPA = courses.map((course) => ({
-      ...course,
-      gpa: calculateGPA(course.id, grades),
-    }));
+    const coursesWithGPA = courses.map((course) => {
+      const courseGrades = grades.filter((grade) => grade.courseId === course.id);
+      const { percentage } = getCurrentGradeProgress(courseGrades);
+      return {
+        ...course,
+        percentage,
+      };
+    });
+
     if (sortOrder === 'ALPHABETICAL') {
       return [...coursesWithGPA].sort((a, b) => a.data.name.localeCompare(b.data.name));
     } else if (sortOrder === 'GPA_HIGH_TO_LOW') {
-      return [...coursesWithGPA].sort((a, b) => b.gpa - a.gpa);
+      return [...coursesWithGPA].sort((a, b) => b.percentage - a.percentage);
     } else {
       return coursesWithGPA;
     }

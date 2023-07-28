@@ -68,7 +68,7 @@ export default function CourseDetail({ route }: Props) {
               Summary
             </Text>
           </HStack>
-          <CourseSummary key={courseId} grades={grades} courseId={courseId} />
+          <CourseSummary key={courseId} course={course} grades={grades} courseId={courseId} />
         </VStack>
         <VStack p={4} space={2} flex="1">
           <HStack>

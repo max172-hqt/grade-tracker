@@ -18,7 +18,7 @@ export const CREATE_GRADES_TABLE_QUERY = `
     max_score INTEGER,
     actual_score INTEGER,
     course_id INTEGER,
-    FOREIGN KEY(course_id) REFERENCES COURSES(id)
+    FOREIGN KEY(course_id) REFERENCES COURSES(id) ON DELETE CASCADE
   )
 `;
 
@@ -37,6 +37,8 @@ export const CREATE_COURSE = `
 export const CREATE_GRADE = `
   INSERT INTO GRADES (name, weight, max_score, actual_score, course_id) values (?, ?, ?, ?, ?)
 `;
+
+export const DELETE_COURSE = 'DELETE FROM COURSES';
 
 export const UPDATE_COURSE = `
   UPDATE COURSES SET letter_Grade = ? WHERE id = ? 

@@ -205,26 +205,6 @@ export const getEstimateAverageGrade = (grades: Grade[]) => {
   return result;
 };
 
-// Function to calculate GPA for a course based on its grades
-export const calculateGPA = (courseId: number, grades: Grade[]) => {
-  const gradesForCourse = grades.filter((grade) => grade.courseId === courseId);
-  if (gradesForCourse.length === 0) {
-    return 0;
-  }
-
-  const totalWeightedScore = gradesForCourse.reduce((acc, grade) => {
-    if (grade.data.actualScore !== null) {
-      const gradePercentage =
-        (grade.data.actualScore / grade.data.maxScore) * (grade.data.weight / 100);
-      return acc + gradePercentage;
-    }
-    return acc;
-  }, 0);
-
-  const totalWeightedScorePercentage = (totalWeightedScore / gradesForCourse.length) * 100;
-  return totalWeightedScorePercentage;
-};
-
 // Function to calculate LetterGrade for a course based on its grades
 export const calculateLetterGrade = (courseId: number, grades: Grade[]) => {
   const gradesForCourse = grades.filter((grade) => grade.courseId === courseId);

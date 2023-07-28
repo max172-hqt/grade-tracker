@@ -1,4 +1,4 @@
-import { VStack, Text, ScrollView, HStack, Heading } from 'native-base';
+import { VStack, Text, ScrollView, HStack } from 'native-base';
 import { useSelector } from 'react-redux';
 import {
   selectCourseWithIdMemoized,
@@ -40,14 +40,6 @@ export default function CourseDetail({ route }: Props) {
         bg: 'coolGray.900',
       }}
     >
-      <VStack space="2" p="4">
-        <Heading size="lg" fontWeight="bold" _dark={{ color: 'coolGray.200' }}>
-          {course.data.name}
-        </Heading>
-        <Text _dark={{ color: 'coolGray.200' }} fontSize="md" fontWeight="medium">
-          Course Code: {course.data.courseCode}
-        </Text>
-      </VStack>
       <ScrollView>
         <VStack p={4} space={2}>
           <HStack>
@@ -55,7 +47,7 @@ export default function CourseDetail({ route }: Props) {
               Summary
             </Text>
           </HStack>
-          <CourseSummary grades={grades} />
+          <CourseSummary course={course} grades={grades} />
         </VStack>
         <VStack p={4} space={2} flex="1">
           <HStack>

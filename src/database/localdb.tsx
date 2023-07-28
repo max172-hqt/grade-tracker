@@ -4,6 +4,7 @@ import {
   CREATE_COURSES_TABLE_QUERY,
   CREATE_GRADE,
   CREATE_GRADES_TABLE_QUERY,
+  DELETE_COURSE,
   SELECT_COURSES,
   SELECT_GRADES,
 } from './constants';
@@ -25,6 +26,10 @@ export async function initDatabase() {
     },
     (error) => console.log('Error creating tables: ', error),
     () => console.log('Create tables successfully'),
+  );
+
+  db.exec([{ sql: 'PRAGMA foreign_keys = ON;', args: [] }], false, () =>
+    console.log('Foreign keys turned on'),
   );
 }
 
@@ -149,6 +154,26 @@ export async function debugTableSchema() {
         return true;
       },
     );
+  });
+}
+
+export function deleteAllCourses() {
+  return new Promise((resolve, reject) => {
+    db.transaction((tx) => {
+      tx.executeSql(
+        DELETE_COURSE,
+        [],
+        (tx, resultSet) => {
+          console.log(resultSet.rows);
+          resolve(true);
+        },
+        (error) => {
+          console.log(error);
+          reject(false);
+          return true;
+        },
+      );
+    });
   });
 }
 

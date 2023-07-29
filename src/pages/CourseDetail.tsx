@@ -53,6 +53,7 @@ export default function CourseDetail({ route }: Props) {
           <Text
             _dark={{ color: 'coolGray.200' }}
             justifyContent="flex-end"
+            textAlign={'right'}
             flexDirection="row"
             fontSize="md"
             fontWeight="medium"

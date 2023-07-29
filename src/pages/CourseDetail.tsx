@@ -1,4 +1,4 @@
-import { VStack, Text, ScrollView, HStack, Heading } from 'native-base';
+import { VStack, Text, ScrollView, HStack } from 'native-base';
 import { useSelector } from 'react-redux';
 import {
   selectCourseWithIdMemoized,

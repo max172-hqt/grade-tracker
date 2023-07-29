@@ -32,7 +32,7 @@ export default function CourseList({ navigation }) {
       0,
     );
 
-    const totalUnits = sortedCourses.reduceRight((curr, course) => curr + course.data.units, 0);
+    const totalUnits = sortedCourses.reduce((curr, course) => curr + course.data.units, 0);
 
     return totalGrade / totalUnits;
   }, [sortedCourses]);

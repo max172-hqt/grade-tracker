@@ -2,7 +2,7 @@ import { createSelector, createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
 import type { Course, Grade } from '../types';
 import { RootState } from './store';
-import { getCurrentGradeProgress, calculateLetterGrade } from '../utils/gradesCalculation';
+import { getCurrentGradeProgress } from '../utils/gradesCalculation';
 
 export interface CourseState {
   courses: Course[];

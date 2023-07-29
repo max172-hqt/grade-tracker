@@ -84,6 +84,7 @@ export default function AddCourse({ navigation }) {
       code.length === 0 ||
       units.length === 0 ||
       parseInt(units) > 5 ||
+      parseInt(units) < 1 ||
       parseInt(units) < 0
     ) {
       return;
@@ -100,7 +101,14 @@ export default function AddCourse({ navigation }) {
   const validateUnits = (units: string) => {
     console.log('unit validation start');
     console.log('units:', parseInt(units));
-    if (parseInt(units) <= 0 || parseInt(units) > 6) return true;
+    if (
+      parseInt(units) <= 0 ||
+      parseInt(units) > 5 ||
+      parseInt(units) < 1 ||
+      parseInt(units) === 0 ||
+      !/^\d+$/.test(units)
+    )
+      return true;
     console.log('unit validation end');
     return false;
   };
@@ -311,7 +319,7 @@ export default function AddCourse({ navigation }) {
               onChangeText={handleUnitsChange}
             />
             <FormControl.ErrorMessage leftIcon={<WarningOutlineIcon size="xs" />}>
-              Equivalent unit cannot be empty, 0, or more than 6
+              Equivalent unit cannot be empty, 0, or more than 5
             </FormControl.ErrorMessage>
           </FormControl>
           <VStack flex="1">

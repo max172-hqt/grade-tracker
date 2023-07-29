@@ -23,7 +23,7 @@ export default function CourseList({ navigation }) {
     return sortedCourses;
   }, [sortedCourses]);
 
-  // Calculate 4.0-based GPA by the current letter grade of all courses
+  // Calculate 4.2-based GPA by the current letter grade of all courses
   const gpa = useMemo(() => {
     if (sortedCourses.length === 0) return 0;
 

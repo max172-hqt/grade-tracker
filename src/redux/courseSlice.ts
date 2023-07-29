@@ -79,7 +79,6 @@ const selectGradesForCourseWithId = (state: RootState, courseId: number) =>
 export const selectGradesForCourseWithIdMemoized = createSelector(
   [selectGradesForCourseWithId],
   (course) => course,
-  // (letterGrade) => letterGrade,
 );
 
 const selectCourseWithId = (state: RootState, courseId: number) =>

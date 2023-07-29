@@ -22,8 +22,6 @@ export default function CourseSummary({ grades, course }: { grades: Grade[]; cou
 
   const nextLetterGrade = getNextLetterGrade(currentLetterGrade);
 
-  console.log(getCurrentGradeProgress(grades));
-
   const averageNextLetter =
     nextLetterGrade && estimateAverageGrade[nextLetterGrade] !== -1
       ? estimateAverageGrade[nextLetterGrade].toFixed(2) + '%'

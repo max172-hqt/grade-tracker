@@ -29,7 +29,6 @@ export default function CourseDetail({ route }: Props) {
   const handleToggleShowWeighted = () => {
     setShowWeighted(!showWeighted);
   };
-  console.log('CourseDetail coursdeID:', courseId);
 
   if (!course) {
     return null;

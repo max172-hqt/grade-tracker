@@ -13,9 +13,6 @@ export default function CourseList({ navigation }) {
     navigation.navigate('Course Detail', { courseId: id });
   };
 
-  console.log('sortedCourses');
-  console.log(sortedCourses);
-
   const formattedCourses = useMemo(() => {
     if (sortedCourses.length === 0) return sortedCourses;
 
@@ -34,22 +31,12 @@ export default function CourseList({ navigation }) {
     if (course?.id !== null) {
       courseCtr += 1;
       unitCtr += course?.data.units;
-      console.log('counter:', courseCtr);
-      console.log('CourseList course ID:', course?.id);
-      console.log('CourseList course Units:', course?.data.units);
-      console.log('CourseList letter grades', course?.currLetGrade);
 
       const letterValue = getLetterValue(course?.currLetGrade);
       courseValue += letterValue * course?.data.units;
-      console.log('getLetterValue', getLetterValue(course?.currLetGrade));
-      console.log('course Grade:', courseValue);
     }
     Finalgrade = courseValue / unitCtr;
-    console.log('units ctr', unitCtr);
   });
-
-  console.log('formattedCourses');
-  console.log(formattedCourses);
 
   if (formattedCourses.length === 0) {
     return (

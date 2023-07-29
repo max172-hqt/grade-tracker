@@ -99,8 +99,6 @@ export default function AddCourse({ navigation }) {
   }, [name, code, units, gradeData]);
 
   const validateUnits = (units: string) => {
-    console.log('unit validation start');
-    console.log('units:', parseInt(units));
     if (
       parseInt(units) <= 0 ||
       parseInt(units) > 5 ||

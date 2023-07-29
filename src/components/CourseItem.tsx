@@ -14,9 +14,6 @@ export default function CourseItem({ course, handleGoToCourseDetail }: CourseIte
   if (course === null) {
     return <Box p="4" flex="1" m={1}></Box>;
   }
-  console.log('Course item: course in Course Item');
-  console.log(course);
-  console.log(course.currLetGrade);
 
   return (
     <Box

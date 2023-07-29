@@ -103,9 +103,6 @@ export const selectSortedCourses = createSelector(
       };
     });
 
-    console.log(' Course Slice courses With GpA');
-    console.log(coursesWithGPA);
-
     if (sortOrder === 'ALPHABETICAL') {
       return [...coursesWithGPA].sort((a, b) => a.data.name.localeCompare(b.data.name));
     } else if (sortOrder === 'GPA_HIGH_TO_LOW') {

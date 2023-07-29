@@ -7,9 +7,6 @@ export interface CourseData {
 }
 
 export interface Course {
-  // [x: string]: ReactNode;
-  // grades(grades: any): { currentLetterGrade: any };
-  // grades(grades: Grade): { currentLetterGrade: string };
   id: number;
   data: CourseData;
   currLetGrade: string;

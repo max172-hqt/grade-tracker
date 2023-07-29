@@ -114,14 +114,10 @@ export const getCurrentGradeProgress = (grades: Grade[]) => {
   let totalWeightCompleted = 0;
   let totalWeightAchieved = 0;
   let allGradesCompleted = true;
-  console.log('grades');
-  console.log(grades);
 
   // grades.forEach((grade) => {});
 
   grades.forEach((grade) => {
-    console.log('gradesCalculation: grade.courseID:', grade.courseId);
-
     if (grade.data.actualScore !== null && grade.data.weight !== null) {
       totalWeightAchieved += (grade.data.actualScore / grade.data.maxScore) * grade.data.weight;
       totalWeightCompleted += grade.data.weight;
@@ -222,9 +218,6 @@ export const calculateLetterGrade = (courseId: number, grades: Grade[]) => {
   }, 0);
 
   const courseLetGrade = getLetterGrade(totalWeightedScore * 100, true);
-  console.log('gradesComputation totalWeightedScore:', totalWeightedScore);
 
-  console.log('gradesComputation courseLetGrade:', courseLetGrade);
-  // const totalWeightedScorePercentage = (totalWeightedScore / gradesForCourse.length) * 100;
   return courseLetGrade;
 };

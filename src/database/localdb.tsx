@@ -23,8 +23,6 @@ export async function initDatabase() {
     (tx) => {
       tx.executeSql(CREATE_COURSES_TABLE_QUERY, []);
       tx.executeSql(CREATE_GRADES_TABLE_QUERY, []);
-      // console.log('select courses');
-      tx.executeSql(SELECT_COURSES, []);
     },
     (error) => console.log('Error creating tables: ', error),
     () => console.log('Create tables successfully'),
@@ -100,12 +98,7 @@ export async function createGradesForCourse(
   courseData: CourseData,
   gradesData: GradeData[],
 ): Promise<{ course: Course; grades: Grade[] } | undefined> {
-  const courseId = await createCourse(
-    courseData.name,
-    courseData.courseCode,
-    courseData.units,
-    courseData.letterGrade,
-  );
+  const courseId = await createCourse(courseData.name, courseData.courseCode, courseData.units);
   if (!courseId) {
     throw new Error('Cannot create course');
   }
@@ -194,112 +187,18 @@ export function deleteAllCourses() {
  * @param letterGrade Letter Grade record
  * @returns Newly created course id
  */
-function createCourse(
-  name: string,
-  code: string,
-  units: number,
-  letter_Grade: string,
-): Promise<number | undefined> {
+function createCourse(name: string, code: string, units: number): Promise<number | undefined> {
   return new Promise((resolve, reject) => {
     db.transaction((tx) => {
       tx.executeSql(
         CREATE_COURSE,
-        [name, code, units, letter_Grade],
+        [name, code, units],
         (_, resultSet) => {
           resolve(resultSet.insertId);
         },
         (_, error) => {
           reject(error);
           return false;
-        },
-      );
-    });
-  });
-}
-
-export function updateCourse(letterGrade: string, code: number): Promise<number | undefined> {
-  return new Promise((resolve, reject) => {
-    db.transaction((tx) => {
-      tx.executeSql(
-        // UPDATE_COURSE,
-        'UPDATE courses SET letter_Grade = ? WHERE id = ?',
-        [letterGrade, code],
-        (_, resultSet) => {
-          resolve(resultSet.rowsAffected);
-          console.log('course letter grade updated in DB');
-          console.log('letterGrade is:', letterGrade);
-          console.log('courseID is:', code);
-        },
-        (_, error) => {
-          reject(error);
-          console.log(error);
-          console.log('update eror here');
-          return false;
-        },
-      );
-      tx.executeSql(
-        // UPDATE_COURSE,
-        'SELECT * FROM courses WHERE letter_Grade = ?',
-        [letterGrade],
-        (_, resultSet) => {
-          resolve(resultSet.rowsAffected);
-          console.log('displayed');
-          console.log('SELECT * FROM courses WHERE letter_Grade =', letterGrade);
-          console.log(resultSet);
-        },
-        (_, error) => {
-          reject(error);
-          console.log(error);
-          console.log('select eror here');
-          return false;
-        },
-      );
-    });
-    console.log('updated here ', letterGrade);
-  });
-}
-
-export const updateCourse2 = (letterGrade: string, code: number) => {
-  return new Promise<void>((resolve, reject) => {
-    db.transaction((tx) => {
-      tx.executeSql(
-        'UPDATE courses SET letter_Grade = ? WHERE id = ?',
-        [letterGrade, code],
-        (_, resultSet) => {
-          if (resultSet.rowsAffected > 0) {
-            console.log(resultSet);
-            console.log('update version 2');
-            resolve();
-          }
-        },
-        (_, error) => {
-          console.error(error);
-          reject(error);
-          return true;
-        },
-      );
-    });
-  });
-};
-
-export function updateCourse3(letterGrade: string, code: number): Promise<number> {
-  return new Promise((resolve, reject) => {
-    db.transaction((tx) => {
-      tx.executeSql(
-        'UPDATE courses SET letter_Grade = ? WHERE id = ?',
-        // UPDATE_COURSE,
-        [letterGrade, code],
-        (_, resultSet) => {
-          console.log('course letter grade updated');
-          console.log(resultSet);
-          console.log('grade is', letterGrade);
-          console.log('code is', code);
-          resolve(resultSet.rowsAffected);
-        },
-        (_, error) => {
-          console.log(error);
-          console.log('update error here');
-          reject(error);
         },
       );
     });

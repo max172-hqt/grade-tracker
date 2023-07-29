@@ -3,9 +3,7 @@ export const CREATE_COURSES_TABLE_QUERY = `
     id INTEGER PRIMARY KEY NOT NULL,
     name TEXT,
     course_code TEXT,
-    letter_Grade TEXT,
     units INTEGER
-    
   )
 `;
 
@@ -31,7 +29,7 @@ export const SELECT_GRADES = `
 `;
 
 export const CREATE_COURSE = `
-  INSERT INTO COURSES (name, course_code, units, letter_Grade) values (?, ?, ?, ?)
+  INSERT INTO COURSES (name, course_code, units) values (?, ?, ?)
 `;
 
 export const CREATE_GRADE = `
@@ -39,7 +37,3 @@ export const CREATE_GRADE = `
 `;
 
 export const DELETE_COURSE = 'DELETE FROM COURSES';
-
-export const UPDATE_COURSE = `
-  UPDATE COURSES SET letter_Grade = ? WHERE id = ? 
-`;

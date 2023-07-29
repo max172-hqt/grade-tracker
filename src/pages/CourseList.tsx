@@ -1,11 +1,12 @@
-import { Box, Button, Divider, FlatList, Heading, VStack, HStack } from 'native-base';
-import Icon from 'react-native-vector-icons/FontAwesome';
-
+import { Button, Heading, VStack, Text, HStack } from 'native-base';
 import { useSelector } from 'react-redux';
 import { useMemo } from 'react';
 import CourseItem from '../components/CourseItem';
 import { selectSortedCourses } from '../redux/courseSlice';
 import { getLetterValue } from '../utils/gradesCalculation';
+import { ScrollView } from 'react-native-gesture-handler';
+import { getGPAColors, getGPAColorsHex } from '../utils/colors';
+import Icon from 'react-native-vector-icons/FontAwesome';
 
 export default function CourseList({ navigation }) {
   const sortedCourses = useSelector(selectSortedCourses);
@@ -22,21 +23,19 @@ export default function CourseList({ navigation }) {
     return sortedCourses;
   }, [sortedCourses]);
 
-  let courseCtr = 0;
-  let unitCtr = 0;
-  let courseValue = 0;
-  let Finalgrade = 0;
+  // Calculate 4.0-based GPA by the current letter grade of all courses
+  const gpa = useMemo(() => {
+    if (sortedCourses.length === 0) return 0;
 
-  sortedCourses.forEach((course) => {
-    if (course?.id !== null) {
-      courseCtr += 1;
-      unitCtr += course?.data.units;
+    const totalGrade = sortedCourses.reduce(
+      (curr, course) => curr + getLetterValue(course.currentLetterGrade) * course.data.units,
+      0,
+    );
 
-      const letterValue = getLetterValue(course?.currLetGrade);
-      courseValue += letterValue * course?.data.units;
-    }
-    Finalgrade = courseValue / unitCtr;
-  });
+    const totalUnits = sortedCourses.reduceRight((curr, course) => curr + course.data.units, 0);
+
+    return totalGrade / totalUnits;
+  }, [sortedCourses]);
 
   if (formattedCourses.length === 0) {
     return (
@@ -58,103 +57,98 @@ export default function CourseList({ navigation }) {
   }
 
   return (
-    <Box
+    <VStack
       p="4"
       flex="1"
       _dark={{
         bg: 'coolGray.900',
       }}
     >
-      <HStack>
-        <VStack alignItems={'center'} marginTop={1}>
-          <Box
-            paddingTop={5}
-            paddingLeft={15}
-            paddingRight={15}
-            paddingBottom={1}
-            marginLeft={1}
-            marginRight={1}
-            marginBottom={2}
-            borderRadius={8}
-            _light={{
-              bg: 'white',
-            }}
-            _dark={{
-              bg: 'coolGray.800',
-            }}
-          >
-            <Icon
-              name="line-chart"
-              size={50}
-              color="green"
-              marginTop={1}
-              marginBottom={1}
-              marginRight={1}
-            />
-            <HStack marginTop={5}>
-              <Icon name="star" size={10} color="green" marginLeft={5} />
-              <Icon name="star" size={10} color="green" marginLeft={5} />
-              <Icon name="star" size={10} color="green" marginLeft={5} />
+      <ScrollView>
+        <VStack space={6}>
+          <VStack space={2}>
+            <Text fontSize="xl" fontWeight="bold">
+              Program Overview
+            </Text>
+            <HStack
+              p="4"
+              borderRadius="2xl"
+              _dark={{
+                bg: 'coolGray.800',
+              }}
+              _light={{
+                bg: 'white',
+              }}
+              alignItems="center"
+              space={4}
+            >
+              <VStack flex={1}>
+                <HStack space="2">
+                  <Heading fontSize="6xl" fontWeight="bold" color={getGPAColors(gpa)}>
+                    {gpa.toFixed(2)}
+                  </Heading>
+                  <Text
+                    color="coolGray.600"
+                    _dark={{
+                      color: 'coolGray.400',
+                    }}
+                    alignSelf="flex-end"
+                    position="relative"
+                    bottom={4}
+                    fontWeight="medium"
+                  >
+                    / 4.2
+                  </Text>
+                </HStack>
+                <Text
+                  color="coolGray.400"
+                  _dark={{
+                    color: 'coolGray.300',
+                  }}
+                  fontWeight="medium"
+                >
+                  Grade Point Average
+                </Text>
+              </VStack>
+              <VStack>
+                <Icon
+                  name="line-chart"
+                  size={50}
+                  color={getGPAColorsHex(gpa)}
+                  marginTop={1}
+                  marginBottom={1}
+                  marginRight={1}
+                />
+                <HStack marginTop={5}>
+                  {[...Array(Math.floor(gpa))].map((e, i) => (
+                    <Icon
+                      name="star"
+                      size={10}
+                      color={getGPAColorsHex(gpa)}
+                      marginLeft={5}
+                      key={i}
+                    />
+                  ))}
+                </HStack>
+              </VStack>
             </HStack>
-            <Heading
-              marginBottom={'1'}
-              size="sm"
-              fontWeight="bold"
-              _dark={{ color: 'coolGray.200' }}
-            >
-              Overall
-            </Heading>
-            <Heading
-              marginBottom={'5'}
-              size="sm"
-              fontWeight="bold"
-              _dark={{ color: 'coolGray.200' }}
-            >
-              Progress
-            </Heading>
-            {/* </HStack> */}
-          </Box>
+          </VStack>
+          <VStack space={2} flex="1">
+            <Text fontSize="xl" fontWeight="bold">
+              Courses
+            </Text>
+            <VStack space={4}>
+              {formattedCourses.map((item) => (
+                <CourseItem
+                  key={item?.id ?? 'visual-item'}
+                  course={item}
+                  handleGoToCourseDetail={handleGoToCourseDetail}
+                />
+              ))}
+            </VStack>
+          </VStack>
         </VStack>
-        <VStack alignItems={'center'} marginTop={1}>
-          <Box
-            paddingTop={5}
-            paddingLeft={15}
-            paddingRight={5}
-            paddingBottom={1}
-            marginLeft={1}
-            marginRight={1}
-            marginBottom={2}
-            marginTop={5}
-            borderRadius={8}
-            _light={{
-              bg: 'white',
-            }}
-            _dark={{
-              bg: 'coolGray.800',
-            }}
-          >
-            <Heading marginBottom={'2'} size="4xl" justifyContent="center">
-              {Finalgrade.toFixed(2)}
-            </Heading>
-            <Heading marginBottom={'1'} size="sm">
-              Grade Point Average
-            </Heading>
-          </Box>
-        </VStack>
-      </HStack>
-
-      <Divider />
-      <FlatList
-        columnWrapperStyle={{
-          flex: 1,
-        }}
-        numColumns={2}
-        data={formattedCourses}
-        renderItem={({ item }) => (
-          <CourseItem course={item} handleGoToCourseDetail={handleGoToCourseDetail} />
-        )}
-        keyExtractor={(item) => (item ? `${item.id}` : 'visual-item')}
-      />
-    </Box>
+      </ScrollView>
+    </VStack>
   );
 }

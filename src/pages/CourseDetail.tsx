@@ -41,25 +41,6 @@ export default function CourseDetail({ route }: Props) {
         bg: 'coolGray.900',
       }}
     >
-      <VStack space="2" p="4">
-        <Heading size="lg" fontWeight="bold" _dark={{ color: 'coolGray.200' }}>
-          {course.data.name}
-        </Heading>
-
-        <Text _dark={{ color: 'coolGray.200' }} fontSize="md" fontWeight="medium">
-          Course Code: {course.data.courseCode}
-        </Text>
-        <Text
-          _dark={{ color: 'coolGray.200' }}
-          justifyContent="flex-end"
-          textAlign={'right'}
-          flexDirection="row"
-          fontSize="md"
-          fontWeight="medium"
-        >
-          Credit Units: {course.data.units}
-        </Text>
-      </VStack>
       <ScrollView>
         <VStack p={4} space={2}>
           <HStack>
@@ -67,7 +48,7 @@ export default function CourseDetail({ route }: Props) {
               Summary
             </Text>
           </HStack>
-          <CourseSummary key={courseId} course={course} grades={grades} courseId={courseId} />
+          <CourseSummary key={courseId} course={course} grades={grades} />
         </VStack>
         <VStack p={4} space={2} flex="1">
           <HStack>

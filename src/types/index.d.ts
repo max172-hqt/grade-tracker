@@ -3,13 +3,11 @@ export interface CourseData {
   name: string;
   courseCode: string;
   units: number;
-  letterGrade: string;
 }
 
 export interface Course {
   id: number;
   data: CourseData;
-  currLetGrade: string;
 }
 
 export interface GradeData {
@@ -31,7 +29,6 @@ export interface Grade {
 // ========== PROPS ==========
 export interface CourseItemProps {
   course: Course | null;
-  courseid: number;
   handleGoToCourseDetail: (courseId: number) => void;
 }
 

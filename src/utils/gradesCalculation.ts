@@ -57,7 +57,7 @@ export const getLetterValue = (letGrade: string) => {
     case 'D+':
       letGradeVal = 1.5;
       break;
-    case '5':
+    case 'D':
       letGradeVal = 1;
       break;
     default:
@@ -114,8 +114,6 @@ export const getCurrentGradeProgress = (grades: Grade[]) => {
   let totalWeightCompleted = 0;
   let totalWeightAchieved = 0;
   let allGradesCompleted = true;
-
-  // grades.forEach((grade) => {});
 
   grades.forEach((grade) => {
     if (grade.data.actualScore !== null && grade.data.weight !== null) {
@@ -199,25 +197,4 @@ export const getEstimateAverageGrade = (grades: Grade[]) => {
   });
 
   return result;
-};
-
-// Function to calculate LetterGrade for a course based on its grades
-export const calculateLetterGrade = (courseId: number, grades: Grade[]) => {
-  const gradesForCourse = grades.filter((grade) => grade.courseId === courseId);
-  if (gradesForCourse.length === 0) {
-    return 'NA';
-  }
-
-  const totalWeightedScore = gradesForCourse.reduce((acc, grade) => {
-    if (grade.data.actualScore !== null) {
-      const gradePercentage =
-        (grade.data.actualScore / grade.data.maxScore) * (grade.data.weight / 100);
-      return acc + gradePercentage;
-    }
-    return acc;
-  }, 0);
-
-  const courseLetGrade = getLetterGrade(totalWeightedScore * 100, true);
-
-  return courseLetGrade;
 };

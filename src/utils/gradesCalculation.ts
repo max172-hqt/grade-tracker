@@ -1,3 +1,5 @@
+/* eslint-disable prettier/prettier */
+/* eslint-disable indent */
 import type { Grade, GradeData } from '../types';
 
 export const getLetterGrade = (percentage: number, roundUp = false) => {
@@ -29,6 +31,40 @@ export const getLetterGrade = (percentage: number, roundUp = false) => {
   }
 
   return ret;
+};
+
+export const getLetterValue = (letGrade: string) => {
+  let letGradeVal: number;
+  switch (letGrade) {
+    case 'A+':
+      letGradeVal = 4.2;
+      break;
+    case 'A':
+      letGradeVal = 4.0;
+      break;
+    case 'B+':
+      letGradeVal = 3.5;
+      break;
+    case 'B':
+      letGradeVal = 3;
+      break;
+    case 'C+':
+      letGradeVal = 2.5;
+      break;
+    case 'C':
+      letGradeVal = 2.0;
+      break;
+    case 'D+':
+      letGradeVal = 1.5;
+      break;
+    case 'D':
+      letGradeVal = 1;
+      break;
+    default:
+      letGradeVal = 0;
+  }
+
+  return letGradeVal;
 };
 
 export const getWeightedPercentage = (grade: number, maxGrade: number) => {
@@ -78,6 +114,7 @@ export const getCurrentGradeProgress = (grades: Grade[]) => {
   let totalWeightCompleted = 0;
   let totalWeightAchieved = 0;
   let allGradesCompleted = true;
+
   grades.forEach((grade) => {
     if (grade.data.actualScore !== null && grade.data.weight !== null) {
       totalWeightAchieved += (grade.data.actualScore / grade.data.maxScore) * grade.data.weight;

@@ -15,6 +15,7 @@ type CourseDetailRouteProp = RouteProp<Record<string, { courseId: number }>, 'Co
 
 type Props = {
   route: CourseDetailRouteProp;
+  courseId: number;
 };
 
 export default function CourseDetail({ route }: Props) {
@@ -47,7 +48,7 @@ export default function CourseDetail({ route }: Props) {
               Summary
             </Text>
           </HStack>
-          <CourseSummary course={course} grades={grades} />
+          <CourseSummary key={courseId} course={course} grades={grades} />
         </VStack>
         <VStack p={4} space={2} flex="1">
           <HStack>

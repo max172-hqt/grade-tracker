@@ -94,10 +94,11 @@ export const selectSortedCourses = createSelector(
   (courses, grades, sortOrder) => {
     const coursesWithGPA = courses.map((course) => {
       const courseGrades = grades.filter((grade) => grade.courseId === course.id);
-      const { percentage } = getCurrentGradeProgress(courseGrades);
+      const { percentage, currentLetterGrade } = getCurrentGradeProgress(courseGrades);
       return {
         ...course,
         percentage,
+        currentLetterGrade,
       };
     });
 

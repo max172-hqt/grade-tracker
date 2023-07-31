@@ -64,9 +64,20 @@ const SAVE_DIALOG = 'SAVE';
 const CANCEL_DIALOG = 'CANCEL';
 const ADD_GRADE_DIALOG = 'ADD_GRADE';
 
+const isUnitsValid = (units: string) => {
+  const isInteger = /^\+?(0|[1-9]\d*)$/.test(units);
+  if (!isInteger) {
+    return false;
+  }
+
+  const unitNumber = parseInt(units);
+  return !isNaN(unitNumber) && unitNumber <= 5 && unitNumber >= 1;
+};
+
 export default function AddCourse({ navigation }) {
   const [name, setName] = useState('');
   const [code, setCode] = useState('');
+  const [units, setUnits] = useState('');
   const [gradeData, setGradeData] = useState<GradeData[]>(sampleGradeData);
   const [dialog, setDialog] = useState<'SAVE' | 'CANCEL' | 'ADD_GRADE' | null>();
   const [clickedSave, setClickedSave] = useState(false);
@@ -77,7 +88,7 @@ export default function AddCourse({ navigation }) {
   const handleOpenSaveDialog = useCallback(() => {
     setClickedSave(true);
 
-    if (name.length === 0 || code.length === 0) {
+    if (name.length === 0 || code.length === 0 || units.length === 0 || !isUnitsValid(units)) {
       return;
     }
 
@@ -87,7 +98,7 @@ export default function AddCourse({ navigation }) {
     }
 
     setDialog(SAVE_DIALOG);
-  }, [name, code, gradeData]);
+  }, [name, code, units, gradeData]);
 
   const handleOpenCancelDialog = () => {
     setDialog(CANCEL_DIALOG);
@@ -122,11 +133,15 @@ export default function AddCourse({ navigation }) {
   };
 
   const handleNameChange = (text: string) => {
-    setName(text);
+    setName(text.trim());
   };
 
   const handleCodeChange = (text: string) => {
-    setCode(text);
+    setCode(text.trim());
+  };
+
+  const handleUnitsChange = (text: string) => {
+    setUnits(text.trim());
   };
 
   const handleDialogClose = () => setDialog(null);
@@ -140,7 +155,9 @@ export default function AddCourse({ navigation }) {
     const courseData: CourseData = {
       name,
       courseCode: code,
+      units: parseInt(units),
     };
+
     const data = await createGradesForCourse(courseData, gradeData);
     if (!data) {
       console.log('Error creating course');
@@ -277,7 +294,19 @@ export default function AddCourse({ navigation }) {
               Course code cannot be empty
             </FormControl.ErrorMessage>
           </FormControl>
-
+          <FormControl isInvalid={clickedSave && !isUnitsValid(units)}>
+            <Input
+              keyboardType="numeric"
+              fontSize="sm"
+              placeholder="Enter the course number of units"
+              w="100%"
+              value={units}
+              onChangeText={handleUnitsChange}
+            />
+            <FormControl.ErrorMessage leftIcon={<WarningOutlineIcon size="xs" />}>
+              Number of units must be an integer from 1 to 5
+            </FormControl.ErrorMessage>
+          </FormControl>
           <VStack flex="1">
             <HStack justifyContent="space-between" alignItems="center">
               <Heading fontSize="xl">Grade Components</Heading>

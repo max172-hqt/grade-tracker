@@ -47,6 +47,7 @@ export async function getAllCourses(): Promise<Course[]> {
               data: {
                 name: data.name,
                 courseCode: data.course_code,
+                units: data.units,
               },
             });
           });
@@ -97,7 +98,7 @@ export async function createGradesForCourse(
   courseData: CourseData,
   gradesData: GradeData[],
 ): Promise<{ course: Course; grades: Grade[] } | undefined> {
-  const courseId = await createCourse(courseData.name, courseData.courseCode);
+  const courseId = await createCourse(courseData.name, courseData.courseCode, courseData.units);
   if (!courseId) {
     throw new Error('Cannot create course');
   }
@@ -182,14 +183,16 @@ export function deleteAllCourses() {
 /**
  * @param name Course name
  * @param code Course code
+ * @param units Course equivalent units
+ * @param letterGrade Letter Grade record
  * @returns Newly created course id
  */
-function createCourse(name: string, code: string): Promise<number | undefined> {
+function createCourse(name: string, code: string, units: number): Promise<number | undefined> {
   return new Promise((resolve, reject) => {
     db.transaction((tx) => {
       tx.executeSql(
         CREATE_COURSE,
-        [name, code],
+        [name, code, units],
         (_, resultSet) => {
           resolve(resultSet.insertId);
         },

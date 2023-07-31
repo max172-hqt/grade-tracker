@@ -42,7 +42,7 @@ export default function HomeScreen() {
       }}
     >
       <Stack.Screen
-        name="Courses"
+        name="Grades Tracker App"
         component={CourseList}
         options={({ navigation }) => ({
           headerLeft: () => (

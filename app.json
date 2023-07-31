@@ -4,10 +4,10 @@
     "slug": "grade-tracker",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./assets/GradesTracker_splash.png",
     "userInterfaceStyle": "light",
     "splash": {
-      "image": "./assets/splash.png",
+      "image": "./assets/GradesTracker_splash.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },

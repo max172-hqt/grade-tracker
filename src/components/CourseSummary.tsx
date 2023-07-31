@@ -54,7 +54,7 @@ export default function CourseSummary({ grades, course }: { grades: Grade[]; cou
           }}
           fontWeight="medium"
         >
-          {course.data.courseCode}
+          {course.data.courseCode} - Units: {course.data.units}
         </Text>
       </VStack>
       <HStack alignItems="center" mb={4}>

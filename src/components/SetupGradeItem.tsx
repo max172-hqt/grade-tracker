@@ -43,7 +43,7 @@ export default function SetupGradeItem({
                 color: 'coolGray.400',
               }}
             >
-              Weight: {grade.weight}%
+              Weight: {grade.weight.toFixed(2)}%
             </Text>
             <Text
               color="coolGray.600"

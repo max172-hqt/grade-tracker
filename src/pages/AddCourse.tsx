@@ -337,7 +337,7 @@ export default function AddCourse({ navigation }) {
                 color: 'coolGray.400',
               }}
             >
-              Total Weight: {getTotalCourseWeightGradeData(gradeData)}%
+              Total Weight: {getTotalCourseWeightGradeData(gradeData).toFixed(2)}%
             </Text>
           </VStack>
         </VStack>

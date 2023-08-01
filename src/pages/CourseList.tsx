@@ -137,7 +137,7 @@ export default function CourseList({ navigation }) {
             <Text fontSize="xl" fontWeight="bold">
               Courses
             </Text>
-            <VStack space={4}>
+            <VStack space={4} flex="1">
               {formattedCourses.map((item) => (
                 <CourseItem
                   key={item?.id ?? 'visual-item'}

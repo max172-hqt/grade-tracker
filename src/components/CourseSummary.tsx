@@ -44,7 +44,7 @@ export default function CourseSummary({ grades, course }: { grades: Grade[]; cou
       }}
     >
       <VStack mb={2}>
-        <Text fontWeight="bold" fontSize="lg">
+        <Text fontWeight="bold" fontSize="lg" isTruncated>
           {course.data.name}
         </Text>
         <Text
@@ -53,8 +53,18 @@ export default function CourseSummary({ grades, course }: { grades: Grade[]; cou
             color: 'coolGray.300',
           }}
           fontWeight="medium"
+          isTruncated
         >
-          {course.data.courseCode} - Units: {course.data.units}
+          Code: {course.data.courseCode}
+        </Text>
+        <Text
+          color="coolGray.400"
+          _dark={{
+            color: 'coolGray.300',
+          }}
+          fontWeight="medium"
+        >
+          Units: {course.data.units}
         </Text>
       </VStack>
       <HStack alignItems="center" mb={4}>
@@ -92,7 +102,7 @@ export default function CourseSummary({ grades, course }: { grades: Grade[]; cou
             <CircularProgress
               value={totalWeightCompleted}
               showProgressValue={false}
-              title={`${totalWeightCompleted}%`}
+              title={`${totalWeightCompleted.toFixed(2)}`}
               titleStyle={{ fontSize: 16 }}
               maxValue={getTotalCourseWeight(grades)}
               radius={30}
@@ -107,7 +117,7 @@ export default function CourseSummary({ grades, course }: { grades: Grade[]; cou
             }}
             fontWeight="medium"
           >
-            Completion
+            % Completion
           </Text>
         </VStack>
       </HStack>

@@ -78,11 +78,11 @@ function DetailGradeItem({ grade, showWeighted }: DetailGradeItemProps) {
         >
           <HStack>
             <VStack flex="1" space="2">
-              <Text fontWeight="bold" fontSize="md">
+              <Text fontWeight="bold" fontSize="md" isTruncated maxW="5/6">
                 {grade.data.name}:
               </Text>
               <Text color="coolGray.400" fontWeight="medium">
-                Weight: {grade.data.weight.toString()}%
+                Weight: {grade.data.weight.toFixed(2)}%
               </Text>
             </VStack>
             <VStack space="2" justifyContent="center">
@@ -130,6 +130,7 @@ function DetailGradeItem({ grade, showWeighted }: DetailGradeItemProps) {
               placeholder="Enter Grade"
               value={actualScore?.toString() ?? ''}
               onChangeText={(text) => setActualScore(text)}
+              keyboardType="numeric"
             />
           </Modal.Body>
           <Modal.Footer>

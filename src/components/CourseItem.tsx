@@ -26,19 +26,19 @@ export default function CourseItem({ course, handleGoToCourseDetail }: CourseIte
   const progressColor = useColorModeValue('#e7e5e4', themeColors.dark.text);
 
   return (
-    <Box
-      p="4"
-      borderRadius="2xl"
-      _light={{
-        bg: 'white',
-      }}
-      _dark={{
-        bg: 'coolGray.800',
-      }}
-    >
-      <TouchableOpacity onPress={handleOnPressCourse}>
-        <HStack space={[2, 3]}>
-          <VStack flexGrow="1">
+    <TouchableOpacity onPress={handleOnPressCourse}>
+      <Box
+        p="4"
+        borderRadius="2xl"
+        _light={{
+          bg: 'white',
+        }}
+        _dark={{
+          bg: 'coolGray.800',
+        }}
+      >
+        <HStack>
+          <VStack flex="1">
             <Text
               _dark={{
                 color: 'warmGray.50',
@@ -46,6 +46,8 @@ export default function CourseItem({ course, handleGoToCourseDetail }: CourseIte
               color="gray.800"
               bold
               fontSize="lg"
+              maxW="5/6"
+              isTruncated
             >
               {course.data.name}
             </Text>
@@ -57,6 +59,8 @@ export default function CourseItem({ course, handleGoToCourseDetail }: CourseIte
                     color: 'coolGray.300',
                   }}
                   fontWeight="medium"
+                  maxW="5/6"
+                  isTruncated
                 >
                   Code: {course.data.courseCode}
                 </Text>
@@ -89,7 +93,7 @@ export default function CourseItem({ course, handleGoToCourseDetail }: CourseIte
             </Box>
           </VStack>
         </HStack>
-      </TouchableOpacity>
-    </Box>
+      </Box>
+    </TouchableOpacity>
   );
 }

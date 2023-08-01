@@ -39,6 +39,7 @@ export default function HomeScreen() {
         headerTitleStyle: {
           color: text,
         },
+        headerTintColor: iconColor,
       }}
     >
       <Stack.Screen

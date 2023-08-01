@@ -54,7 +54,7 @@ export default function HomeScreen() {
                 trigger={(triggerProps) => (
                   <IconButton
                     variant="ghost"
-                    borderRadius="50%"
+                    borderRadius="full"
                     icon={<Ionicons name="md-options" size={22} color={iconColor} />}
                     {...triggerProps}
                   />
@@ -68,7 +68,7 @@ export default function HomeScreen() {
           headerRight: () => (
             <IconButton
               variant="ghost"
-              borderRadius="50%"
+              borderRadius="full"
               icon={<Ionicons name="add" size={22} color={iconColor} />}
               onPress={() => navigation.navigate('Add Course')}
             />

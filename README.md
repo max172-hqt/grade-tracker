@@ -1,8 +1,6 @@
 # Grade Tracker
 
-A mobile application that displays a student grade status in the middle and at the end of the semester. With this utility, the student may be prompted if there is a need to study hard towards the end of the semester, or be notified of it’s current good standing.
-
-This mobile application is designed to track student progress in every courses they take in their program. With simple initial setup at the start of the semester, the user will be able to input the marks as they are released every after evaluations. This app will then calculcate the progress of the user, and displays it in different format ( computed grades and letter equivalent).
+A mobile application to keep track of the grades and provide insights on the current performance. React Native; Native Base; SQLite; TypeScript
 
 To cater to a wider range of users using Android and iOS, this cross-platform applicaton was developed with React Native.
 

@@ -4,7 +4,7 @@ A mobile application to keep track of the grades and provide insights on the cur
 
 To cater to a wider range of users using Android and iOS, this cross-platform applicaton was developed with React Native.
 
-![Screenshot 2023-06-23 at 12 21 03 AM](https://github.com/max172-hqt/grade-tracker/assets/55776151/64f558ab-1774-4c94-935e-7daa330c5088)
+<img width="539" alt="Screenshot 2023-08-17 at 6 26 49 PM" src="https://github.com/max172-hqt/grade-tracker/assets/55776151/dc071da0-9f29-47d0-aa03-075e4934e6e0">
 
 ## Group 8 Members
 
